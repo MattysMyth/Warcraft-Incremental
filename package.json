@@ -7,6 +7,8 @@
   "scripts": {
     "test": "node --test \"test/*.test.js\"",
     "build": "node build.js",
+    "build:pages": "node build.js --pages",
+    "serve": "node build.js --pages && npx --yes http-server docs -p 8080",
     "sim": "node sim/pacing.js",
     "tune": "node sim/tune-townhall.js",
     "play": "node sim/play.js"

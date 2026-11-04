@@ -454,3 +454,9 @@ Tests: 36 passing (`npm test`). A browser smoke test (Playwright) also passed 21
 checks: buy, tribute, income breakdown, reload persistence, export and import, erase,
 offline welcome card, number formats, corrupt-save quarantine, no sideways scroll at
 390 px and 1100 px in light and dark.
+
+## Hosting (after Checkpoint 10)
+
+- `npm run build:pages` writes `docs/index.html` (standalone: doctype, viewport with `viewport-fit=cover`, iOS home-screen meta tags, inline favicon) and `docs/.nojekyll`. `npm run build` still writes the fragment form in `dist/` for the Artifact host.
+- `.github/workflows/pages.yml` tests, builds and deploys `docs/` on push to `main` (Settings > Pages > Source: GitHub Actions). README.md has both hosting routes.
+- iOS: `touch-action: manipulation` on everything (no double-tap zoom, pinch zoom kept), `user-select: none` and no tap callout on buttons, 16 px fields on touch screens (stops focus zoom). Verified in Chromium touch emulation only, not on a real iPhone.

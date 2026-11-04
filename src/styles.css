@@ -474,3 +474,19 @@ html[data-text="large"] body { zoom: 1.14; }
 .glow { animation: level-glow 1.2s ease-out; }
 :root[data-motion="reduce"] .glow, :root[data-effects="off"] .glow { animation: none; }
 .sc-sky { fill: var(--panel-2); } .sc-far { fill: var(--line); opacity: 0.8; } .sc-ground { fill: var(--line-soft); }
+
+/* ---- Hosting on a phone (iOS Safari, home-screen app) ---- */
+
+/* Rapid taps, such as on the tribute button, must never double-tap zoom or select text.
+   `manipulation` keeps scrolling and pinch zoom but removes double-tap zoom (iOS 13+). */
+html, body, * { touch-action: manipulation; }
+button, .btn, .btn-small, .seg-btn, .tab, summary, label, .file {
+  -webkit-user-select: none; user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+/* iOS zooms the page when a field under 16 px is focused. */
+@media (pointer: coarse) {
+  select, textarea, input:not([type="checkbox"]):not([type="radio"]) { font-size: 16px; }
+}
+html { overscroll-behavior-y: none; }
