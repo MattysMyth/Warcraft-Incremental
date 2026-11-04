@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Unofficial, non-commercial Warcraft-universe incremental game. See the design doc.",
   "scripts": {
-    "test": "node --test \"test/*.test.js\"",
+    "test": "node scripts/test.mjs",
     "build": "node build.js",
     "build:pages": "node build.js --pages",
     "serve": "node build.js --pages && npx --yes http-server docs -p 8080",
