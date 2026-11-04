@@ -1,0 +1,56 @@
+[
+  {
+    "id": "gold",
+    "name": "Gold",
+    "tier": 1,
+    "capped": false
+  },
+  {
+    "id": "lumber",
+    "name": "Lumber",
+    "tier": 1,
+    "capped": true
+  },
+  {
+    "id": "stone",
+    "name": "Stone",
+    "tier": 1,
+    "capped": true
+  },
+  {
+    "id": "food",
+    "name": "Food",
+    "tier": 1,
+    "capped": true
+  },
+  {
+    "id": "iron_ore",
+    "name": "Iron Ore",
+    "tier": 2,
+    "capped": false
+  },
+  {
+    "id": "iron_bars",
+    "name": "Iron Bars",
+    "tier": 2,
+    "capped": false
+  },
+  {
+    "id": "herbs",
+    "name": "Herbs",
+    "tier": 2,
+    "capped": false
+  },
+  {
+    "id": "leather",
+    "name": "Leather",
+    "tier": 2,
+    "capped": false
+  },
+  {
+    "id": "arcane_dust",
+    "name": "Arcane Dust",
+    "tier": 3,
+    "capped": false
+  }
+]

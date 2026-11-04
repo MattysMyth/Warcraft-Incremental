@@ -1,0 +1,153 @@
+{
+  "gain": {
+    "divisor": 10000,
+    "exp": 0.5,
+    "archivesPerLevel": 0.02
+  },
+  "multiplier": {
+    "per": 0.02,
+    "exp": 0.9
+  },
+  "rebuild": {
+    "minGain": 1,
+    "adviceFloor": 15,
+    "adviceFactor": 1
+  },
+  "foundations": {
+    "buildings": ["market", "lumber_camp", "farm", "house", "quarry", "warehouse"]
+  },
+  "scouts": {
+    "gates": ["fargodeep_mine", "the_deadmines"]
+  },
+  "branches": [
+    { "id": "economy", "name": "Economy", "blurb": "A richer town on day one." },
+    { "id": "heroes", "name": "Heroes", "blurb": "Better and cheaper adventurers." },
+    { "id": "quests", "name": "Quests", "blurb": "More from every notice on the board." },
+    { "id": "town", "name": "Town", "blurb": "Skip the early building and the early waiting." }
+  ],
+  "upgrades": [
+    {
+      "id": "purse", "branch": "economy", "name": "Seed Purse", "key": "startGold",
+      "blurb": "Each new run starts with gold in the strongbox.",
+      "format": "gold", "cost": { "base": 3, "growth": 1.9 },
+      "values": [100, 400, 1600, 6400, 25000, 100000]
+    },
+    {
+      "id": "ledgers", "branch": "economy", "name": "Merchant Ledgers", "key": "goldBoost",
+      "blurb": "More gold from every Market and from the Warden's stipend.",
+      "format": "percent", "cost": { "base": 4, "growth": 1.8 },
+      "values": [0.1, 0.2, 0.35, 0.5, 0.75, 1]
+    },
+    {
+      "id": "hands", "branch": "economy", "name": "Many Hands", "key": "rawBoost",
+      "blurb": "More lumber, stone and food from the camps, quarries and farms.",
+      "format": "percent", "cost": { "base": 4, "growth": 1.8 },
+      "values": [0.1, 0.2, 0.35, 0.5, 0.75, 1]
+    },
+    {
+      "id": "cellars", "branch": "economy", "name": "Deep Cellars", "key": "storageBoost",
+      "blurb": "Warehouses hold more lumber, stone and food.",
+      "format": "percent", "cost": { "base": 3, "growth": 1.7 },
+      "values": [0.15, 0.3, 0.5, 0.75, 1]
+    },
+    {
+      "id": "foundations", "branch": "economy", "name": "Old Foundations", "key": "foundations",
+      "blurb": "Market, Lumber Camp, Farm, House, Quarry and Warehouse begin each run already built to this level.",
+      "format": "level", "cost": { "base": 5, "growth": 2 },
+      "values": [2, 4, 6, 8, 10]
+    },
+
+    {
+      "id": "lessons", "branch": "heroes", "name": "Hard-won Lessons", "key": "xp",
+      "blurb": "Heroes earn more experience from drilling and quests.",
+      "format": "percent", "cost": { "base": 4, "growth": 1.8 },
+      "values": [0.1, 0.2, 0.35, 0.5, 0.75, 1]
+    },
+    {
+      "id": "reputation", "branch": "heroes", "name": "A Name That Travels", "key": "recruitDiscount",
+      "blurb": "Adventurers ask for less to join, sworn recruits included.",
+      "format": "percent", "cost": { "base": 3, "growth": 1.8 },
+      "values": [0.1, 0.2, 0.3, 0.4, 0.5]
+    },
+    {
+      "id": "bedrest", "branch": "heroes", "name": "Hot Broth and Clean Linen", "key": "recovery",
+      "blurb": "Injured heroes recover faster.",
+      "format": "percent", "cost": { "base": 3, "growth": 1.7 },
+      "values": [0.2, 0.4, 0.7, 1, 1.5]
+    },
+    {
+      "id": "bunks", "branch": "heroes", "name": "Extra Bunks", "key": "rosterSlots",
+      "blurb": "Room for more heroes on the roster.",
+      "format": "count", "cost": { "base": 12, "growth": 2.5 },
+      "values": [1, 2, 3]
+    },
+    {
+      "id": "forgelore", "branch": "heroes", "name": "Forge-lore", "key": "forgeDiscount",
+      "blurb": "Gear costs less to forge.",
+      "format": "percent", "cost": { "base": 4, "growth": 1.8 },
+      "values": [0.1, 0.2, 0.3, 0.4, 0.5]
+    },
+
+    {
+      "id": "bounties", "branch": "quests", "name": "Generous Patrons", "key": "questGold",
+      "blurb": "Quests pay more gold.",
+      "format": "percent", "cost": { "base": 4, "growth": 1.8 },
+      "values": [0.1, 0.2, 0.35, 0.5, 0.75, 1]
+    },
+    {
+      "id": "roads", "branch": "quests", "name": "Marked Roads", "key": "questSpeed",
+      "blurb": "Parties travel and fight faster, so quests finish sooner.",
+      "format": "percent", "cost": { "base": 5, "growth": 1.9 },
+      "values": [0.1, 0.2, 0.3, 0.4, 0.5]
+    },
+    {
+      "id": "notices", "branch": "quests", "name": "Busy Noticeboard", "key": "boardRefresh",
+      "blurb": "New notices reach the board sooner.",
+      "format": "percent", "cost": { "base": 3, "growth": 1.8 },
+      "values": [0.1, 0.2, 0.3, 0.4, 0.5]
+    },
+    {
+      "id": "standing", "branch": "quests", "name": "Friends in Every Inn", "key": "repGain",
+      "blurb": "Zone reputation grows faster.",
+      "format": "percent", "cost": { "base": 4, "growth": 1.8 },
+      "values": [0.1, 0.2, 0.35, 0.5, 0.75]
+    },
+    {
+      "id": "scouts", "branch": "quests", "name": "Scouts' Maps", "key": "scouts",
+      "blurb": "Each run starts with the gate dungeons already cleared: Fargodeep Mine first, then the Deadmines.",
+      "format": "count", "cost": { "base": 12, "growth": 3 },
+      "values": [1, 2]
+    },
+
+    {
+      "id": "headstart", "branch": "town", "name": "Head Start", "key": "townHall",
+      "blurb": "Each run begins with the Town Hall already raised to this level.",
+      "format": "level", "cost": { "base": 8, "growth": 2 },
+      "values": [2, 3, 4, 5, 6, 7]
+    },
+    {
+      "id": "masons", "branch": "town", "name": "Guild Masons", "key": "buildingDiscount",
+      "blurb": "Buildings cost less gold and materials.",
+      "format": "percent", "cost": { "base": 4, "growth": 1.8 },
+      "values": [0.05, 0.1, 0.15, 0.2, 0.25, 0.3]
+    },
+    {
+      "id": "charter", "branch": "town", "name": "Royal Charter", "key": "townHallDiscount",
+      "blurb": "Town Hall upgrades cost less.",
+      "format": "percent", "cost": { "base": 5, "growth": 1.8 },
+      "values": [0.05, 0.1, 0.15, 0.2, 0.25, 0.3]
+    },
+    {
+      "id": "cottages", "branch": "town", "name": "Spare Cottages", "key": "housing",
+      "blurb": "Housing for extra residents before any House is built.",
+      "format": "count", "cost": { "base": 3, "growth": 1.8 },
+      "values": [2, 4, 6, 8, 10]
+    },
+    {
+      "id": "larders", "branch": "town", "name": "Thrifty Larders", "key": "foodSaver",
+      "blurb": "Residents eat less.",
+      "format": "percent", "cost": { "base": 3, "growth": 1.7 },
+      "values": [0.1, 0.2, 0.3, 0.4, 0.5]
+    }
+  ]
+}

@@ -1,0 +1,410 @@
+{
+  "gain": {
+    "fromLevel": 30,
+    "exp": 1.5,
+    "divisor": 10,
+    "minLevel": 40
+  },
+  "multiplier": {
+    "per": 0.005,
+    "exp": 0.9
+  },
+  "raidPoints": {
+    "zul_gurub": 30,
+    "ragnaros": 150
+  },
+  "descendants": {
+    "max": 3,
+    "startShare": 0.5,
+    "base": 0.05,
+    "perLegacy": 0.0004,
+    "cap": 0.2,
+    "discount": 0.7
+  },
+  "groups": [
+    {
+      "id": "warrior",
+      "name": "Warriors"
+    },
+    {
+      "id": "paladin",
+      "name": "Paladins"
+    },
+    {
+      "id": "priest",
+      "name": "Priests"
+    },
+    {
+      "id": "mage",
+      "name": "Mages"
+    },
+    {
+      "id": "rogue",
+      "name": "Rogues"
+    },
+    {
+      "id": "hunter",
+      "name": "Hunters"
+    },
+    {
+      "id": "town",
+      "name": "Town auras"
+    }
+  ],
+  "upgrades": [
+    {
+      "id": "warrior_1",
+      "group": "warrior",
+      "name": "Unbroken",
+      "key": "class",
+      "effect": "hp",
+      "blurb": "Every Warrior has more health.",
+      "format": "percent",
+      "cost": {
+        "base": 14,
+        "growth": 1.8
+      },
+      "values": [
+        0.04,
+        0.08,
+        0.12,
+        0.17,
+        0.22
+      ]
+    },
+    {
+      "id": "warrior_2",
+      "group": "warrior",
+      "name": "Warlord's Wrath",
+      "key": "class",
+      "effect": "power",
+      "blurb": "Every Warrior hits harder.",
+      "format": "percent",
+      "cost": {
+        "base": 18,
+        "growth": 1.8
+      },
+      "values": [
+        0.03,
+        0.06,
+        0.09,
+        0.13,
+        0.17
+      ]
+    },
+    {
+      "id": "paladin_1",
+      "group": "paladin",
+      "name": "Aegis Eternal",
+      "key": "class",
+      "effect": "armour",
+      "blurb": "Every Paladin takes less from every blow.",
+      "format": "percent",
+      "cost": {
+        "base": 14,
+        "growth": 1.8
+      },
+      "values": [
+        0.05,
+        0.1,
+        0.15,
+        0.2,
+        0.26
+      ]
+    },
+    {
+      "id": "paladin_2",
+      "group": "paladin",
+      "name": "Light's Mending",
+      "key": "class",
+      "effect": "healing",
+      "blurb": "Every Paladin heals more.",
+      "format": "percent",
+      "cost": {
+        "base": 18,
+        "growth": 1.8
+      },
+      "values": [
+        0.04,
+        0.08,
+        0.12,
+        0.17,
+        0.22
+      ]
+    },
+    {
+      "id": "priest_1",
+      "group": "priest",
+      "name": "Prayer of Ages",
+      "key": "class",
+      "effect": "healing",
+      "blurb": "Every Priest heals more.",
+      "format": "percent",
+      "cost": {
+        "base": 14,
+        "growth": 1.8
+      },
+      "values": [
+        0.04,
+        0.08,
+        0.12,
+        0.17,
+        0.22
+      ]
+    },
+    {
+      "id": "priest_2",
+      "group": "priest",
+      "name": "Quiet Grace",
+      "key": "class",
+      "effect": "regen",
+      "blurb": "Every Priest recovers health between blows.",
+      "format": "percent",
+      "cost": {
+        "base": 18,
+        "growth": 1.8
+      },
+      "values": [
+        0.1,
+        0.2,
+        0.3,
+        0.42,
+        0.55
+      ]
+    },
+    {
+      "id": "mage_1",
+      "group": "mage",
+      "name": "Archmage's Spark",
+      "key": "class",
+      "effect": "power",
+      "blurb": "Every Mage hits harder.",
+      "format": "percent",
+      "cost": {
+        "base": 14,
+        "growth": 1.8
+      },
+      "values": [
+        0.03,
+        0.06,
+        0.09,
+        0.13,
+        0.17
+      ]
+    },
+    {
+      "id": "mage_2",
+      "group": "mage",
+      "name": "Swift Incantation",
+      "key": "class",
+      "effect": "haste",
+      "blurb": "Every Mage acts faster.",
+      "format": "percent",
+      "cost": {
+        "base": 18,
+        "growth": 1.8
+      },
+      "values": [
+        0.02,
+        0.04,
+        0.06,
+        0.08,
+        0.11
+      ]
+    },
+    {
+      "id": "rogue_1",
+      "group": "rogue",
+      "name": "Knife in the Dark",
+      "key": "class",
+      "effect": "crit",
+      "blurb": "Every Rogue crits more often.",
+      "format": "points",
+      "cost": {
+        "base": 14,
+        "growth": 1.8
+      },
+      "values": [
+        2,
+        4,
+        6,
+        8,
+        10
+      ]
+    },
+    {
+      "id": "rogue_2",
+      "group": "rogue",
+      "name": "Fleet Hands",
+      "key": "class",
+      "effect": "haste",
+      "blurb": "Every Rogue acts faster.",
+      "format": "percent",
+      "cost": {
+        "base": 18,
+        "growth": 1.8
+      },
+      "values": [
+        0.02,
+        0.04,
+        0.06,
+        0.08,
+        0.11
+      ]
+    },
+    {
+      "id": "hunter_1",
+      "group": "hunter",
+      "name": "Eagle Eye",
+      "key": "class",
+      "effect": "power",
+      "blurb": "Every Hunter hits harder.",
+      "format": "percent",
+      "cost": {
+        "base": 14,
+        "growth": 1.8
+      },
+      "values": [
+        0.03,
+        0.06,
+        0.09,
+        0.13,
+        0.17
+      ]
+    },
+    {
+      "id": "hunter_2",
+      "group": "hunter",
+      "name": "Tracker's Luck",
+      "key": "class",
+      "effect": "crit",
+      "blurb": "Every Hunter crits more often.",
+      "format": "points",
+      "cost": {
+        "base": 18,
+        "growth": 1.8
+      },
+      "values": [
+        2,
+        4,
+        6,
+        8,
+        10
+      ]
+    },
+    {
+      "id": "a_gold",
+      "group": "town",
+      "name": "Merchant's Memory",
+      "key": "goldBoost",
+      "blurb": "The town remembers what sold well: more gold everywhere.",
+      "format": "percent",
+      "cost": {
+        "base": 20,
+        "growth": 1.8
+      },
+      "values": [
+        0.1,
+        0.2,
+        0.3,
+        0.45,
+        0.6
+      ]
+    },
+    {
+      "id": "a_raw",
+      "group": "town",
+      "name": "Old Roads",
+      "key": "rawBoost",
+      "blurb": "Lumber, stone and food come in faster.",
+      "format": "percent",
+      "cost": {
+        "base": 20,
+        "growth": 1.8
+      },
+      "values": [
+        0.1,
+        0.2,
+        0.3,
+        0.45,
+        0.6
+      ]
+    },
+    {
+      "id": "a_xp",
+      "group": "town",
+      "name": "Stories of the Fallen",
+      "key": "xp",
+      "blurb": "Heroes learn faster from tales of those who came before.",
+      "format": "percent",
+      "cost": {
+        "base": 24,
+        "growth": 1.8
+      },
+      "values": [
+        0.05,
+        0.1,
+        0.15,
+        0.22,
+        0.3
+      ]
+    },
+    {
+      "id": "a_speed",
+      "group": "town",
+      "name": "Worn Paths",
+      "key": "questSpeed",
+      "blurb": "Quest parties travel faster.",
+      "format": "percent",
+      "cost": {
+        "base": 30,
+        "growth": 1.9
+      },
+      "values": [
+        0.03,
+        0.06,
+        0.09,
+        0.12,
+        0.15
+      ]
+    },
+    {
+      "id": "a_rest",
+      "group": "town",
+      "name": "Hall of Rest",
+      "key": "recovery",
+      "blurb": "Wounded heroes heal faster.",
+      "format": "percent",
+      "cost": {
+        "base": 24,
+        "growth": 1.8
+      },
+      "values": [
+        0.1,
+        0.2,
+        0.3,
+        0.45,
+        0.6
+      ]
+    },
+    {
+      "id": "a_build",
+      "group": "town",
+      "name": "Master Builders",
+      "key": "buildingDiscount",
+      "blurb": "Every building costs less.",
+      "format": "percent",
+      "cost": {
+        "base": 36,
+        "growth": 2
+      },
+      "values": [
+        0.03,
+        0.06,
+        0.09,
+        0.12,
+        0.15
+      ]
+    }
+  ]
+}

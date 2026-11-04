@@ -1,0 +1,12 @@
+{
+  "interval": [1200, 2400],
+  "startTier": 2,
+  "threat": { "base": 150, "growth": 2.0 },
+  "guard": { "share": 0.35 },
+  "wall": { "perLevel": 28, "exp": 1.6 },
+  "steal": {
+    "share": 0.06,
+    "resources": ["lumber", "stone", "food", "iron_ore", "herbs", "leather", "arcane_dust"]
+  },
+  "history": 12
+}

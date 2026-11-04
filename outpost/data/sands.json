@@ -1,0 +1,110 @@
+{
+  "maxEra": 2,
+  "gain": {
+    "perEra": 10,
+    "legacyExp": 0.5
+  },
+  "multiplier": {
+    "per": 0.05,
+    "exp": 0.8
+  },
+  "journalKeep": 20,
+  "upgrades": [
+    {
+      "id": "second_board",
+      "name": "A Second Quest Board",
+      "key": "boardSlots",
+      "blurb": "A second board hangs beside the first: more notices stay up at once.",
+      "format": "count",
+      "cost": {
+        "base": 6,
+        "growth": 3
+      },
+      "values": [
+        4,
+        8
+      ]
+    },
+    {
+      "id": "journal",
+      "name": "Warden's Journal",
+      "key": "journal",
+      "blurb": "Keeps a record of every long absence, across Eras.",
+      "format": "count",
+      "cost": {
+        "base": 8,
+        "growth": 3
+      },
+      "values": [
+        1
+      ]
+    },
+    {
+      "id": "hourglass",
+      "name": "Hourglass of Patience",
+      "key": "offlineRate",
+      "blurb": "Time away counts for more.",
+      "format": "percent",
+      "cost": {
+        "base": 8,
+        "growth": 2.4
+      },
+      "values": [
+        0.1,
+        0.2,
+        0.3
+      ]
+    },
+    {
+      "id": "keepsake",
+      "name": "Era Keepsake",
+      "key": "townHall",
+      "blurb": "Each Epoch begins with a higher Town Hall.",
+      "format": "level",
+      "cost": {
+        "base": 10,
+        "growth": 2.5
+      },
+      "values": [
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "legacy_ledger",
+      "name": "Legacy Ledger",
+      "key": "legacyBoost",
+      "blurb": "Retiring a hero earns more Legacy.",
+      "format": "percent",
+      "cost": {
+        "base": 12,
+        "growth": 2.2
+      },
+      "values": [
+        0.1,
+        0.2,
+        0.35,
+        0.5
+      ]
+    },
+    {
+      "id": "renown_ledger",
+      "name": "Renown Ledger",
+      "key": "renownBoost",
+      "blurb": "Every Rebuild earns more Renown.",
+      "format": "percent",
+      "cost": {
+        "base": 12,
+        "growth": 2.2
+      },
+      "values": [
+        0.1,
+        0.2,
+        0.35,
+        0.5
+      ]
+    }
+  ]
+}

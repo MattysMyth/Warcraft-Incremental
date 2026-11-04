@@ -1,0 +1,134 @@
+{
+  "maxLevel": 15,
+  "levels": [
+    {
+      "level": 2,
+      "cost": {
+        "gold": 378,
+        "lumber": 174
+      }
+    },
+    {
+      "level": 3,
+      "cost": {
+        "gold": 22300,
+        "lumber": 900,
+        "stone": 866
+      }
+    },
+    {
+      "level": 4,
+      "cost": {
+        "gold": 155000,
+        "lumber": 900,
+        "stone": 900
+      }
+    },
+    {
+      "level": 5,
+      "cost": {
+        "gold": 319000,
+        "lumber": 6940,
+        "stone": 5210
+      }
+    },
+    {
+      "level": 6,
+      "cost": {
+        "gold": 837000,
+        "lumber": 14100,
+        "stone": 11300
+      }
+    },
+    {
+      "level": 7,
+      "cost": {
+        "gold": 2510000,
+        "lumber": 24000,
+        "stone": 21000,
+        "iron_bars": 300
+      }
+    },
+    {
+      "level": 8,
+      "cost": {
+        "gold": 4130000,
+        "lumber": 35100,
+        "stone": 28100,
+        "iron_bars": 703
+      }
+    },
+    {
+      "level": 9,
+      "cost": {
+        "gold": 5910000,
+        "lumber": 50300,
+        "stone": 40200,
+        "iron_bars": 1340
+      }
+    },
+    {
+      "level": 10,
+      "cost": {
+        "gold": 9200000,
+        "lumber": 77600,
+        "stone": 62100,
+        "iron_bars": 2580,
+        "herbs": 258
+      }
+    },
+    {
+      "level": 11,
+      "cost": {
+        "gold": 13100000,
+        "lumber": 116000,
+        "stone": 96300,
+        "iron_bars": 4810,
+        "herbs": 578
+      }
+    },
+    {
+      "level": 12,
+      "cost": {
+        "gold": 20300000,
+        "lumber": 190000,
+        "stone": 159000,
+        "iron_bars": 9500,
+        "herbs": 1190
+      }
+    },
+    {
+      "level": 13,
+      "cost": {
+        "gold": 25000000,
+        "lumber": 283000,
+        "stone": 236000,
+        "iron_bars": 14800,
+        "herbs": 2360,
+        "arcane_dust": 59
+      }
+    },
+    {
+      "level": 14,
+      "cost": {
+        "gold": 36800000,
+        "lumber": 492000,
+        "stone": 394000,
+        "iron_bars": 29600,
+        "herbs": 4920,
+        "arcane_dust": 197
+      }
+    },
+    {
+      "level": 15,
+      "cost": {
+        "gold": 47800000,
+        "lumber": 760000,
+        "stone": 608000,
+        "iron_bars": 57000,
+        "herbs": 9510,
+        "arcane_dust": 570
+      }
+    }
+  ]
+}

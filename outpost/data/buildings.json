@@ -1,0 +1,211 @@
+[
+  {
+    "id": "lumber_camp",
+    "name": "Lumber Camp",
+    "kind": "producer",
+    "unlockTownHall": 1,
+    "blurb": "Axe crews and ox-teams working the Elwynn tree line.",
+    "produces": "lumber",
+    "rate": 0.4,
+    "cost": {
+      "gold": 8
+    }
+  },
+  {
+    "id": "farm",
+    "name": "Farm",
+    "kind": "producer",
+    "unlockTownHall": 1,
+    "blurb": "Fields of wheat and turnips. Every resident eats, and newcomers only settle where there is food in store.",
+    "produces": "food",
+    "rate": 0.3,
+    "cost": {
+      "gold": 90,
+      "lumber": 45
+    }
+  },
+  {
+    "id": "house",
+    "name": "House",
+    "kind": "house",
+    "unlockTownHall": 1,
+    "blurb": "Timber cottages for settlers. Each level shelters four more residents.",
+    "cost": {
+      "gold": 50,
+      "lumber": 30
+    }
+  },
+  {
+    "id": "market",
+    "name": "Market",
+    "kind": "producer",
+    "unlockTownHall": 1,
+    "blurb": "Stalls along the road where travellers trade coin for supplies.",
+    "produces": "gold",
+    "rate": 0.6,
+    "cost": {
+      "gold": 15,
+      "lumber": 6
+    }
+  },
+  {
+    "id": "quarry",
+    "name": "Quarry",
+    "kind": "producer",
+    "unlockTownHall": 2,
+    "blurb": "Cut stone from the hillside for walls and foundations.",
+    "produces": "stone",
+    "rate": 0.25,
+    "cost": {
+      "gold": 60,
+      "lumber": 30
+    }
+  },
+  {
+    "id": "warehouse",
+    "name": "Warehouse",
+    "kind": "warehouse",
+    "unlockTownHall": 4,
+    "blurb": "Dry storage. Lumber, stone and food stop piling up at the limit, so heavy purchases need more room.",
+    "cost": {
+      "gold": 600,
+      "lumber": 150,
+      "stone": 100
+    }
+  },
+  {
+    "id": "mine",
+    "name": "Mine",
+    "kind": "producer",
+    "unlockTownHall": 6,
+    "blurb": "Shafts into the hills, bringing up raw iron ore.",
+    "produces": "iron_ore",
+    "rate": 0.2,
+    "cost": {
+      "gold": 4000,
+      "lumber": 600,
+      "stone": 500
+    }
+  },
+  {
+    "id": "blacksmith",
+    "name": "Blacksmith",
+    "kind": "converter",
+    "unlockTownHall": 6,
+    "blurb": "Smelts iron ore into bars, two ore for each bar.",
+    "from": "iron_ore",
+    "ratio": 2,
+    "produces": "iron_bars",
+    "rate": 0.1,
+    "cost": {
+      "gold": 6000,
+      "lumber": 800,
+      "stone": 700
+    }
+  },
+  {
+    "id": "alchemy_lab",
+    "name": "Alchemy Lab",
+    "kind": "producer",
+    "unlockTownHall": 9,
+    "blurb": "A walled garden and still-room for healing herbs. Brews potions for parties on the road.",
+    "produces": "herbs",
+    "rate": 0.15,
+    "cost": {
+      "gold": 60000,
+      "stone": 4000,
+      "iron_bars": 200
+    }
+  },
+  {
+    "id": "mage_tower",
+    "name": "Mage Tower",
+    "kind": "producer",
+    "unlockTownHall": 12,
+    "blurb": "Scholars gather the arcane dust that settles around old ley lines.",
+    "produces": "arcane_dust",
+    "rate": 0.05,
+    "cost": {
+      "gold": 2000000,
+      "stone": 40000,
+      "iron_bars": 3000,
+      "herbs": 1000
+    }
+  },
+  {
+    "id": "tavern",
+    "name": "Tavern",
+    "kind": "tavern",
+    "unlockTownHall": 2,
+    "blurb": "Recruit adventurers and widen the roster. Each level makes the hall merrier.",
+    "cost": {
+      "gold": 2500,
+      "lumber": 250,
+      "stone": 150
+    }
+  },
+  {
+    "id": "barracks",
+    "name": "Barracks",
+    "kind": "barracks",
+    "unlockTownHall": 3,
+    "blurb": "Drill yards where heroes train and learn faster.",
+    "cost": {
+      "gold": 8000,
+      "lumber": 700,
+      "stone": 500
+    }
+  },
+  {
+    "id": "chapel",
+    "name": "Chapel",
+    "kind": "chapel",
+    "unlockTownHall": 3,
+    "blurb": "Heal the wounded and welcome priests.",
+    "cost": {
+      "gold": 6000,
+      "lumber": 400,
+      "stone": 400
+    }
+  },
+  {
+    "id": "stables",
+    "name": "Stables",
+    "kind": "stables",
+    "unlockTownHall": 10,
+    "blurb": "Faster mounts shorten every quest.",
+    "cost": {
+      "gold": 250000,
+      "lumber": 8000,
+      "stone": 8000,
+      "iron_bars": 300,
+      "leather": 60
+    }
+  },
+  {
+    "id": "wall_watchtower",
+    "name": "Wall and Watchtower",
+    "kind": "wall",
+    "unlockTownHall": 11,
+    "blurb": "Walls, a watchtower and a standing guard. Each level raises the town's Defence against raids.",
+    "cost": {
+      "gold": 900000,
+      "lumber": 30000,
+      "stone": 40000,
+      "iron_bars": 600
+    }
+  },
+  {
+    "id": "archives",
+    "name": "Archives",
+    "kind": "archives",
+    "unlockTownHall": 14,
+    "blurb": "Records of every clear. Scribes sharpen the outpost's legend, so each Rebuild earns more Renown.",
+    "cost": {
+      "gold": 60000000,
+      "stone": 60000,
+      "iron_bars": 6000,
+      "arcane_dust": 300
+    }
+  }
+]

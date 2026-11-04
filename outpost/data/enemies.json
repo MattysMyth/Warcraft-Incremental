@@ -1,0 +1,791 @@
+{
+  "families": [
+    {
+      "id": "beasts",
+      "name": "Beasts"
+    },
+    {
+      "id": "kobolds",
+      "name": "Kobolds"
+    },
+    {
+      "id": "brigands",
+      "name": "Brigands",
+      "rule": "Steals gold on hit"
+    },
+    {
+      "id": "murlocs",
+      "name": "Murlocs"
+    },
+    {
+      "id": "gnolls",
+      "name": "Gnolls"
+    },
+    {
+      "id": "golems",
+      "name": "Golems"
+    },
+    {
+      "id": "goblins",
+      "name": "Goblins"
+    },
+    {
+      "id": "ogres",
+      "name": "Ogres"
+    },
+    {
+      "id": "undead",
+      "name": "Undead"
+    },
+    {
+      "id": "worgen",
+      "name": "Worgen"
+    },
+    {
+      "id": "trolls",
+      "name": "Trolls"
+    },
+    {
+      "id": "dragonkin",
+      "name": "Dragonkin"
+    },
+    {
+      "id": "blackrock",
+      "name": "Blackrock"
+    },
+    {
+      "id": "elementals",
+      "name": "Elementals"
+    },
+    {
+      "id": "demons",
+      "name": "Demons"
+    }
+  ],
+  "steal": {
+    "perHit": 0.04,
+    "max": 0.4
+  },
+  "units": [
+    {
+      "id": "timber_wolf",
+      "name": "Timber wolf",
+      "family": "beasts",
+      "weight": 1,
+      "interval": 1.6,
+      "armour": 0.3
+    },
+    {
+      "id": "mangy_boar",
+      "name": "Mangy boar",
+      "family": "beasts",
+      "weight": 2.5,
+      "interval": 2.4,
+      "armour": 0.8
+    },
+    {
+      "id": "forest_spider",
+      "name": "Forest spider",
+      "family": "beasts",
+      "weight": 1,
+      "interval": 1.8,
+      "armour": 0.3
+    },
+    {
+      "id": "kobold_miner",
+      "name": "Kobold miner",
+      "family": "kobolds",
+      "weight": 1,
+      "interval": 2,
+      "armour": 0.5
+    },
+    {
+      "id": "kobold_digger",
+      "name": "Kobold digger",
+      "family": "kobolds",
+      "weight": 0.6,
+      "interval": 1.8,
+      "armour": 0.3
+    },
+    {
+      "id": "candle_bearer",
+      "name": "Candle-bearer",
+      "family": "kobolds",
+      "weight": 1,
+      "interval": 2.2,
+      "armour": 0.2
+    },
+    {
+      "id": "brigand",
+      "name": "Brigand",
+      "family": "brigands",
+      "weight": 1,
+      "interval": 2,
+      "armour": 0.6
+    },
+    {
+      "id": "brigand_leader",
+      "name": "Brigand leader",
+      "family": "brigands",
+      "weight": 2.5,
+      "interval": 2.2,
+      "armour": 1.0
+    },
+    {
+      "id": "murloc_tidehunter",
+      "name": "Murloc tidehunter",
+      "family": "murlocs",
+      "weight": 1,
+      "interval": 1.8,
+      "armour": 0.3
+    },
+    {
+      "id": "murloc_netter",
+      "name": "Murloc netter",
+      "family": "murlocs",
+      "weight": 1.2,
+      "interval": 2.2,
+      "armour": 0.4
+    },
+    {
+      "id": "gnoll_scout",
+      "name": "Gnoll scout",
+      "family": "gnolls",
+      "weight": 1,
+      "interval": 1.8,
+      "armour": 0.5
+    },
+    {
+      "id": "gnoll_brute",
+      "name": "Gnoll brute",
+      "family": "gnolls",
+      "weight": 2.2,
+      "interval": 2.6,
+      "armour": 0.9
+    },
+    {
+      "id": "rock_warden",
+      "name": "Rock-warden",
+      "family": "golems",
+      "weight": 2,
+      "interval": 2.6,
+      "armour": 1.4
+    },
+    {
+      "id": "gravel_foreman",
+      "name": "Gravel Foreman",
+      "family": "kobolds",
+      "weight": 4,
+      "interval": 2.4,
+      "armour": 0.9
+    },
+    {
+      "id": "candlewick",
+      "name": "Candlewick, Tunnel-Lord",
+      "family": "kobolds",
+      "weight": 6,
+      "interval": 2.4,
+      "armour": 0.9
+    },
+    {
+      "id": "prairie_wolf",
+      "name": "Prairie wolf",
+      "family": "beasts",
+      "weight": 1,
+      "interval": 1.6,
+      "armour": 0.3
+    },
+    {
+      "id": "goretusk",
+      "name": "Goretusk",
+      "family": "beasts",
+      "weight": 2.5,
+      "interval": 2.4,
+      "armour": 0.8
+    },
+    {
+      "id": "defias_thief",
+      "name": "Defias thief",
+      "family": "brigands",
+      "weight": 1,
+      "interval": 1.4,
+      "armour": 0.3
+    },
+    {
+      "id": "defias_pillager",
+      "name": "Defias pillager",
+      "family": "brigands",
+      "weight": 1.4,
+      "interval": 1.8,
+      "armour": 0.6
+    },
+    {
+      "id": "defias_enchanter",
+      "name": "Defias enchanter",
+      "family": "brigands",
+      "weight": 1,
+      "interval": 2.2,
+      "armour": 0.2
+    },
+    {
+      "id": "harvest_golem",
+      "name": "Harvest golem",
+      "family": "golems",
+      "weight": 3,
+      "interval": 2.4,
+      "armour": 0.8
+    },
+    {
+      "id": "harvest_reaper",
+      "name": "Harvest reaper",
+      "family": "golems",
+      "weight": 2,
+      "interval": 2.0,
+      "armour": 0.7
+    },
+    {
+      "id": "riverpaw_gnoll",
+      "name": "Riverpaw gnoll",
+      "family": "gnolls",
+      "weight": 1.2,
+      "interval": 1.8,
+      "armour": 0.4
+    },
+    {
+      "id": "riverpaw_mystic",
+      "name": "Riverpaw mystic",
+      "family": "gnolls",
+      "weight": 1,
+      "interval": 2.2,
+      "armour": 0.2
+    },
+    {
+      "id": "defias_miner",
+      "name": "Defias miner",
+      "family": "brigands",
+      "weight": 1,
+      "interval": 1.8,
+      "armour": 0.4
+    },
+    {
+      "id": "defias_overseer",
+      "name": "Defias overseer",
+      "family": "brigands",
+      "weight": 1.6,
+      "interval": 2.0,
+      "armour": 0.5
+    },
+    {
+      "id": "goblin_engineer",
+      "name": "Goblin engineer",
+      "family": "goblins",
+      "weight": 1.2,
+      "interval": 2.0,
+      "armour": 0.3
+    },
+    {
+      "id": "goblin_shredder",
+      "name": "Goblin shredder",
+      "family": "goblins",
+      "weight": 3,
+      "interval": 2.4,
+      "armour": 0.9
+    },
+    {
+      "id": "rhahkzor",
+      "name": "Rhahk'Zor, the Ogre Smith",
+      "family": "ogres",
+      "weight": 5,
+      "interval": 2.6,
+      "armour": 0.9
+    },
+    {
+      "id": "vancleef",
+      "name": "Edwin VanCleef",
+      "family": "brigands",
+      "weight": 6,
+      "interval": 2.0,
+      "armour": 0.6
+    },
+    {
+      "id": "defias_bodyguard",
+      "name": "Defias bodyguard",
+      "family": "brigands",
+      "weight": 1.8,
+      "interval": 1.8,
+      "armour": 0.7
+    },
+    {
+      "id": "rotting_ghoul",
+      "name": "Rotting ghoul",
+      "family": "undead",
+      "weight": 1.2,
+      "interval": 1.8,
+      "armour": 0.3
+    },
+    {
+      "id": "skeletal_warder",
+      "name": "Skeletal warder",
+      "family": "undead",
+      "weight": 1.4,
+      "interval": 2.0,
+      "armour": 0.7
+    },
+    {
+      "id": "night_web_spider",
+      "name": "Night web spider",
+      "family": "beasts",
+      "weight": 1,
+      "interval": 1.6,
+      "armour": 0.3
+    },
+    {
+      "id": "worgen_stalker",
+      "name": "Worgen stalker",
+      "family": "worgen",
+      "weight": 1.3,
+      "interval": 1.6,
+      "armour": 0.4
+    },
+    {
+      "id": "worgen_alpha",
+      "name": "Worgen alpha",
+      "family": "worgen",
+      "weight": 3,
+      "interval": 2.2,
+      "armour": 0.6
+    },
+    {
+      "id": "patchwork_hulk",
+      "name": "Patchwork hulk",
+      "family": "undead",
+      "weight": 3,
+      "interval": 2.6,
+      "armour": 0.8
+    },
+    {
+      "id": "bone_collector",
+      "name": "Bone collector",
+      "family": "undead",
+      "weight": 1,
+      "interval": 2.0,
+      "armour": 0.4
+    },
+    {
+      "id": "stitches",
+      "name": "Stitches, the Patchwork Terror",
+      "family": "undead",
+      "weight": 7,
+      "interval": 2.8,
+      "armour": 0.9
+    },
+    {
+      "id": "jungle_panther",
+      "name": "Jungle panther",
+      "family": "beasts",
+      "weight": 1.2,
+      "interval": 1.5,
+      "armour": 0.3
+    },
+    {
+      "id": "sv_raptor",
+      "name": "Stranglethorn raptor",
+      "family": "beasts",
+      "weight": 1.0,
+      "interval": 1.6,
+      "armour": 0.3
+    },
+    {
+      "id": "sv_gorilla",
+      "name": "Stranglethorn gorilla",
+      "family": "beasts",
+      "weight": 2.5,
+      "interval": 2.4,
+      "armour": 0.7
+    },
+    {
+      "id": "bloodscalp_warrior",
+      "name": "Bloodscalp warrior",
+      "family": "trolls",
+      "weight": 1.5,
+      "interval": 2.0,
+      "armour": 0.6
+    },
+    {
+      "id": "bloodscalp_witch_doctor",
+      "name": "Bloodscalp witch doctor",
+      "family": "trolls",
+      "weight": 1.0,
+      "interval": 2.2,
+      "armour": 0.2
+    },
+    {
+      "id": "bay_buccaneer",
+      "name": "Bay buccaneer",
+      "family": "brigands",
+      "weight": 1.3,
+      "interval": 1.8,
+      "armour": 0.5
+    },
+    {
+      "id": "gurubashi_berserker",
+      "name": "Gurubashi berserker",
+      "family": "trolls",
+      "weight": 1.8,
+      "interval": 1.8,
+      "armour": 0.5
+    },
+    {
+      "id": "gurubashi_priest",
+      "name": "Gurubashi priest",
+      "family": "trolls",
+      "weight": 1.0,
+      "interval": 2.4,
+      "armour": 0.2
+    },
+    {
+      "id": "hakkari_blood_priest",
+      "name": "Hakkari blood priest",
+      "family": "trolls",
+      "weight": 1.5,
+      "interval": 2.2,
+      "armour": 0.4
+    },
+    {
+      "id": "high_priestess_jeklik",
+      "name": "High Priestess Jeklik",
+      "family": "trolls",
+      "weight": 6,
+      "interval": 2.4,
+      "armour": 0.6
+    },
+    {
+      "id": "bloodlord_mandokir",
+      "name": "Bloodlord Mandokir",
+      "family": "trolls",
+      "weight": 7,
+      "interval": 2.6,
+      "armour": 0.8
+    },
+    {
+      "id": "hakkar",
+      "name": "Hakkar, the Soulflayer",
+      "family": "trolls",
+      "weight": 9,
+      "interval": 3.0,
+      "armour": 0.9
+    },
+    {
+      "id": "sorrows_crocolisk",
+      "name": "Sorrows crocolisk",
+      "family": "beasts",
+      "weight": 1.5,
+      "interval": 2.0,
+      "armour": 0.7
+    },
+    {
+      "id": "bog_ogre",
+      "name": "Bog ogre",
+      "family": "ogres",
+      "weight": 3,
+      "interval": 2.6,
+      "armour": 0.8
+    },
+    {
+      "id": "mire_wraith",
+      "name": "Mire wraith",
+      "family": "undead",
+      "weight": 1.2,
+      "interval": 1.8,
+      "armour": 0.2
+    },
+    {
+      "id": "atalai_priest",
+      "name": "Atal'ai priest",
+      "family": "trolls",
+      "weight": 1.0,
+      "interval": 2.4,
+      "armour": 0.2
+    },
+    {
+      "id": "atalai_warrior",
+      "name": "Atal'ai warrior",
+      "family": "trolls",
+      "weight": 1.5,
+      "interval": 2.0,
+      "armour": 0.7
+    },
+    {
+      "id": "emerald_whelp",
+      "name": "Emerald whelp",
+      "family": "dragonkin",
+      "weight": 1.3,
+      "interval": 1.8,
+      "armour": 0.4
+    },
+    {
+      "id": "emerald_drake",
+      "name": "Emerald drake",
+      "family": "dragonkin",
+      "weight": 3,
+      "interval": 2.4,
+      "armour": 0.6
+    },
+    {
+      "id": "atalai_defender",
+      "name": "Atal'ai defender",
+      "family": "trolls",
+      "weight": 1.6,
+      "interval": 2.2,
+      "armour": 0.9
+    },
+    {
+      "id": "jammalan",
+      "name": "Jammal'an the Prophet",
+      "family": "trolls",
+      "weight": 6,
+      "interval": 2.4,
+      "armour": 0.7
+    },
+    {
+      "id": "avatar_of_hakkar",
+      "name": "Avatar of Hakkar",
+      "family": "trolls",
+      "weight": 8,
+      "interval": 2.8,
+      "armour": 0.9
+    },
+    {
+      "id": "shade_of_eranikus",
+      "name": "Shade of Eranikus",
+      "family": "dragonkin",
+      "weight": 9,
+      "interval": 3.0,
+      "armour": 0.9
+    },
+    {
+      "id": "steppes_scorpid",
+      "name": "Steppes scorpid",
+      "family": "beasts",
+      "weight": 1.2,
+      "interval": 1.7,
+      "armour": 0.6
+    },
+    {
+      "id": "searing_hound",
+      "name": "Searing hound",
+      "family": "beasts",
+      "weight": 1.3,
+      "interval": 1.5,
+      "armour": 0.3
+    },
+    {
+      "id": "blackrock_outrunner",
+      "name": "Blackrock outrunner",
+      "family": "blackrock",
+      "weight": 1.3,
+      "interval": 1.6,
+      "armour": 0.5
+    },
+    {
+      "id": "blackrock_warlock",
+      "name": "Blackrock warlock",
+      "family": "blackrock",
+      "weight": 1.0,
+      "interval": 2.4,
+      "armour": 0.2
+    },
+    {
+      "id": "dark_iron_sentry",
+      "name": "Dark Iron sentry",
+      "family": "blackrock",
+      "weight": 1.5,
+      "interval": 2.0,
+      "armour": 0.8
+    },
+    {
+      "id": "dark_iron_golem",
+      "name": "Dark Iron golem",
+      "family": "golems",
+      "weight": 3,
+      "interval": 2.6,
+      "armour": 0.9
+    },
+    {
+      "id": "black_drake",
+      "name": "Black drake",
+      "family": "dragonkin",
+      "weight": 3,
+      "interval": 2.4,
+      "armour": 0.6
+    },
+    {
+      "id": "ring_gladiator",
+      "name": "Ring of Law gladiator",
+      "family": "blackrock",
+      "weight": 1.6,
+      "interval": 1.8,
+      "armour": 0.6
+    },
+    {
+      "id": "general_angerforge",
+      "name": "General Angerforge",
+      "family": "blackrock",
+      "weight": 6.5,
+      "interval": 2.6,
+      "armour": 0.9
+    },
+    {
+      "id": "emperor_thaurissan",
+      "name": "Emperor Thaurissan",
+      "family": "blackrock",
+      "weight": 9,
+      "interval": 3.0,
+      "armour": 0.9
+    },
+    {
+      "id": "lava_spawn",
+      "name": "Lava spawn",
+      "family": "elementals",
+      "weight": 1.2,
+      "interval": 1.8,
+      "armour": 0.4
+    },
+    {
+      "id": "lava_surger",
+      "name": "Lava surger",
+      "family": "elementals",
+      "weight": 1.2,
+      "interval": 1.6,
+      "armour": 0.5
+    },
+    {
+      "id": "molten_destroyer",
+      "name": "Molten destroyer",
+      "family": "elementals",
+      "weight": 3,
+      "interval": 2.6,
+      "armour": 0.9
+    },
+    {
+      "id": "core_hound",
+      "name": "Core hound",
+      "family": "beasts",
+      "weight": 1.3,
+      "interval": 1.5,
+      "armour": 0.4
+    },
+    {
+      "id": "ancient_core_hound",
+      "name": "Ancient core hound",
+      "family": "beasts",
+      "weight": 3,
+      "interval": 2.0,
+      "armour": 0.6
+    },
+    {
+      "id": "flamewaker",
+      "name": "Flamewaker priest",
+      "family": "blackrock",
+      "weight": 1.4,
+      "interval": 2.2,
+      "armour": 0.4
+    },
+    {
+      "id": "magmadar",
+      "name": "Magmadar",
+      "family": "beasts",
+      "weight": 7,
+      "interval": 2.4,
+      "armour": 0.8
+    },
+    {
+      "id": "garr",
+      "name": "Garr",
+      "family": "elementals",
+      "weight": 6,
+      "interval": 2.6,
+      "armour": 0.9
+    },
+    {
+      "id": "majordomo",
+      "name": "Majordomo Executus",
+      "family": "blackrock",
+      "weight": 7,
+      "interval": 2.6,
+      "armour": 0.7
+    },
+    {
+      "id": "ragnaros",
+      "name": "Ragnaros, the Firelord",
+      "family": "elementals",
+      "weight": 11,
+      "interval": 3.0,
+      "armour": 1.0
+    },
+    {
+      "id": "hellfire_imp",
+      "name": "Hellfire imp",
+      "family": "demons",
+      "weight": 1.0,
+      "interval": 1.6,
+      "armour": 0.3
+    },
+    {
+      "id": "fel_hound",
+      "name": "Fel hound",
+      "family": "demons",
+      "weight": 1.3,
+      "interval": 1.5,
+      "armour": 0.4
+    },
+    {
+      "id": "bleeding_hollow_orc",
+      "name": "Bleeding Hollow orc",
+      "family": "blackrock",
+      "weight": 1.5,
+      "interval": 2.0,
+      "armour": 0.6
+    },
+    {
+      "id": "felguard_sentry",
+      "name": "Felguard sentry",
+      "family": "demons",
+      "weight": 2.6,
+      "interval": 2.4,
+      "armour": 0.9
+    },
+    {
+      "id": "fel_reaver_sentry",
+      "name": "Fel reaver",
+      "family": "demons",
+      "weight": 3.2,
+      "interval": 2.8,
+      "armour": 1.0
+    },
+    {
+      "id": "watchkeeper_gargolmar",
+      "name": "Watchkeeper Gargolmar",
+      "family": "demons",
+      "weight": 5,
+      "interval": 2.4,
+      "armour": 0.8
+    },
+    {
+      "id": "omor_the_unscarred",
+      "name": "Omor the Unscarred",
+      "family": "demons",
+      "weight": 7,
+      "interval": 2.6,
+      "armour": 0.9
+    },
+    {
+      "id": "vazruden_the_herald",
+      "name": "Vazruden the Herald",
+      "family": "demons",
+      "weight": 10,
+      "interval": 3.0,
+      "armour": 1.0
+    }
+  ]
+}

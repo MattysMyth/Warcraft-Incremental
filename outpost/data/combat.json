@@ -1,0 +1,250 @@
+{
+  "tick": 0.5,
+  "attackSeconds": 2,
+  "maxFightSeconds": 240,
+  "critMult": 2,
+  "variance": 0.1,
+  "armour": {
+    "ref": 100,
+    "perLevel": 12,
+    "cap": 0.75
+  },
+  "threat": {
+    "healFactor": 0.5
+  },
+  "healScale": {
+    "base": 0.75,
+    "ref": 40,
+    "cap": 1.5
+  },
+  "basicHealMult": 1.2,
+  "between": {
+    "recoverHp": 0.35,
+    "reviveHp": 0.3
+  },
+  "enemy": {
+    "hpPerRec": 5.2,
+    "dpsPerRec": 0.44,
+    "armourBase": 20,
+    "armourPerLevel": 6
+  },
+  "odds": {
+    "samples": 24,
+    "dungeonSamples": 16,
+    "cache": 300
+  },
+  "log": {
+    "maxLines": 120,
+    "keepLines": 30,
+    "keepEntries": 6
+  },
+  "frameSeconds": 2,
+  "classes": {
+    "warrior": {
+      "basic": {
+        "type": "attack",
+        "mult": 1
+      },
+      "abilities": [
+        {
+          "id": "taunt",
+          "name": "Taunt",
+          "kind": "taunt",
+          "cd": 12,
+          "seconds": 6,
+          "text": "Draws enemy attacks for 6 s"
+        },
+        {
+          "id": "shield_wall",
+          "name": "Shield Wall",
+          "kind": "mitigate",
+          "cd": 25,
+          "reduce": 0.4,
+          "seconds": 6,
+          "hpBelow": 0.5,
+          "text": "Takes 40% less damage for 6 s when hurt"
+        },
+        {
+          "id": "cleave",
+          "name": "Cleave",
+          "kind": "multi",
+          "cd": 8,
+          "targets": 2,
+          "mult": 0.8,
+          "text": "Hits two enemies"
+        }
+      ]
+    },
+    "mage": {
+      "basic": {
+        "type": "attack",
+        "mult": 1
+      },
+      "abilities": [
+        {
+          "id": "fireball",
+          "name": "Fireball",
+          "kind": "burst",
+          "cd": 10,
+          "mult": 3.2,
+          "text": "Big single-target hit, long cooldown"
+        },
+        {
+          "id": "arcane_blast",
+          "name": "Arcane Blast",
+          "kind": "burst",
+          "cd": 5,
+          "mult": 1.8,
+          "text": "A quicker, smaller hit"
+        },
+        {
+          "id": "chill",
+          "name": "Chill",
+          "kind": "slow",
+          "cd": 16,
+          "factor": 1.4,
+          "seconds": 5,
+          "text": "Enemies attack 40% slower for 5 s"
+        }
+      ]
+    },
+    "rogue": {
+      "basic": {
+        "type": "attack",
+        "mult": 1
+      },
+      "abilities": [
+        {
+          "id": "backstab",
+          "name": "Backstab",
+          "kind": "opener",
+          "cd": 0,
+          "mult": 2,
+          "text": "Double damage on the first attack of a fight"
+        },
+        {
+          "id": "eviscerate",
+          "name": "Eviscerate",
+          "kind": "burst",
+          "cd": 9,
+          "mult": 2.4,
+          "text": "A heavy finishing strike"
+        },
+        {
+          "id": "evasion",
+          "name": "Evasion",
+          "kind": "mitigate",
+          "cd": 20,
+          "reduce": 0.5,
+          "seconds": 4,
+          "hpBelow": 0.45,
+          "text": "Takes half damage for 4 s when hurt"
+        }
+      ]
+    },
+    "priest": {
+      "basic": {
+        "type": "heal",
+        "mult": 0.6
+      },
+      "abilities": [
+        {
+          "id": "heal",
+          "name": "Heal",
+          "kind": "heal",
+          "cd": 6,
+          "pct": 0.3,
+          "allyBelow": 0.65,
+          "text": "Restores 30% of a chosen ally's health"
+        },
+        {
+          "id": "power_shield",
+          "name": "Power Shield",
+          "kind": "absorb",
+          "cd": 14,
+          "pct": 0.18,
+          "seconds": 8,
+          "allyBelow": 0.95,
+          "text": "Absorbs damage on an ally for 8 s"
+        },
+        {
+          "id": "smite",
+          "name": "Smite",
+          "kind": "burst",
+          "cd": 4,
+          "mult": 1.2,
+          "text": "A bolt of light at an enemy"
+        }
+      ]
+    },
+    "hunter": {
+      "basic": {
+        "type": "attack",
+        "mult": 1
+      },
+      "abilities": [
+        {
+          "id": "multi_shot",
+          "name": "Multi-Shot",
+          "kind": "multi",
+          "cd": 8,
+          "targets": 3,
+          "mult": 0.8,
+          "text": "Hits up to three enemies"
+        },
+        {
+          "id": "aimed_shot",
+          "name": "Aimed Shot",
+          "kind": "burst",
+          "cd": 12,
+          "mult": 2.5,
+          "text": "A long, careful shot"
+        },
+        {
+          "id": "freezing_trap",
+          "name": "Freezing Trap",
+          "kind": "stun",
+          "cd": 20,
+          "seconds": 3,
+          "text": "Holds one enemy still for 3 s"
+        }
+      ]
+    },
+    "paladin": {
+      "basic": {
+        "type": "attack",
+        "mult": 0.9
+      },
+      "abilities": [
+        {
+          "id": "holy_light",
+          "name": "Holy Light",
+          "kind": "shield_heal",
+          "cd": 8,
+          "pct": 0.1,
+          "shield": 0.12,
+          "seconds": 8,
+          "allyBelow": 0.8,
+          "text": "Small heal plus a damage shield"
+        },
+        {
+          "id": "hammer",
+          "name": "Hammer of Justice",
+          "kind": "stun",
+          "cd": 20,
+          "seconds": 3,
+          "text": "Stuns one enemy for 3 s"
+        },
+        {
+          "id": "judgement",
+          "name": "Judgement",
+          "kind": "burst",
+          "cd": 7,
+          "mult": 1.6,
+          "text": "A strike of righteous force"
+        }
+      ]
+    }
+  },
+  "jitter": 0.15
+}

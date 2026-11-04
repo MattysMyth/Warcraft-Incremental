@@ -1,0 +1,349 @@
+{
+  "slots": [
+    {
+      "id": "weapon",
+      "name": "Weapon",
+      "share": 1.5,
+      "craft": 1.5,
+      "leather": 0
+    },
+    {
+      "id": "head",
+      "name": "Head",
+      "share": 1.0,
+      "craft": 1.0,
+      "leather": 1
+    },
+    {
+      "id": "chest",
+      "name": "Chest",
+      "share": 1.2,
+      "craft": 1.2,
+      "leather": 1.5
+    },
+    {
+      "id": "legs",
+      "name": "Legs",
+      "share": 1.0,
+      "craft": 1.0,
+      "leather": 1.2
+    },
+    {
+      "id": "trinket",
+      "name": "Trinket",
+      "share": 0.8,
+      "craft": 0.8,
+      "leather": 0
+    },
+    {
+      "id": "utility",
+      "name": "Utility",
+      "share": 0.6,
+      "craft": 0.6,
+      "leather": 2
+    }
+  ],
+  "tiers": [
+    {
+      "tier": 1,
+      "zone": "Elwynn",
+      "budget": 4,
+      "reqLevel": 1,
+      "smithLevel": 1,
+      "craftMult": 1
+    },
+    {
+      "tier": 2,
+      "zone": "Westfall",
+      "budget": 9,
+      "reqLevel": 12,
+      "smithLevel": 10,
+      "craftMult": 4
+    },
+    {
+      "tier": 3,
+      "zone": "Duskwood",
+      "budget": 16,
+      "reqLevel": 24,
+      "smithLevel": 25,
+      "craftMult": 16
+    },
+    {
+      "tier": 4,
+      "zone": "Stranglethorn",
+      "budget": 27,
+      "reqLevel": 34,
+      "smithLevel": 36,
+      "craftMult": 64
+    },
+    {
+      "tier": 5,
+      "zone": "Swamp of Sorrows",
+      "budget": 44,
+      "reqLevel": 44,
+      "smithLevel": 46,
+      "craftMult": 250
+    },
+    {
+      "tier": 6,
+      "zone": "Burning Steppes",
+      "budget": 70,
+      "reqLevel": 54,
+      "smithLevel": 56,
+      "craftMult": 900
+    },
+    {
+      "tier": 7,
+      "zone": "Molten Core",
+      "budget": 110,
+      "reqLevel": 60,
+      "smithLevel": 62,
+      "craftMult": 3000
+    }
+  ],
+  "rarities": [
+    {
+      "id": "common",
+      "name": "Plain",
+      "mult": 1.0,
+      "lines": [
+        1,
+        1
+      ],
+      "above": 0
+    },
+    {
+      "id": "uncommon",
+      "name": "Fine",
+      "mult": 1.3,
+      "lines": [
+        1,
+        2
+      ],
+      "above": 0.7
+    },
+    {
+      "id": "rare",
+      "name": "Superior",
+      "mult": 1.7,
+      "lines": [
+        2,
+        2
+      ],
+      "above": 0.95
+    },
+    {
+      "id": "epic",
+      "name": "Heroic",
+      "mult": 2.2,
+      "lines": [
+        2,
+        2
+      ],
+      "above": 0.99
+    }
+  ],
+  "twoLineShare": 0.6,
+  "luckPerSmithLevel": 0.02,
+  "craft": {
+    "gold": 5000,
+    "iron_bars": 20
+  },
+  "sell": {
+    "goldPerPoint": 300,
+    "marketBonus": 0.02
+  },
+  "names": {
+    "weapon": [
+      [
+        "Oak Cudgel",
+        "Hunting Knife",
+        "Ash Staff"
+      ],
+      [
+        "Iron Longsword",
+        "Tempered Dagger",
+        "Birch Staff"
+      ],
+      [
+        "Steel Warblade",
+        "Duskwood Bow",
+        "Gnarled Staff"
+      ],
+      [
+        "Jungle Machete",
+        "Bloodscalp Knife",
+        "Vine-wrapped Staff"
+      ],
+      [
+        "Atal'ai Cleaver",
+        "Serpent Dirk",
+        "Swamp-oak Staff"
+      ],
+      [
+        "Dark Iron Hammer",
+        "Blackrock Stiletto",
+        "Cinder Staff"
+      ],
+      [
+        "Sulfuron Blade",
+        "Ember Fang",
+        "Firelord's Scepter"
+      ]
+    ],
+    "head": [
+      [
+        "Leather Cap",
+        "Wool Hood"
+      ],
+      [
+        "Iron Helm",
+        "Padded Coif"
+      ],
+      [
+        "Steel Greathelm",
+        "Silk Cowl"
+      ],
+      [
+        "Gurubashi Helm",
+        "Vine Hood"
+      ],
+      [
+        "Sunken Greathelm",
+        "Mire Cowl"
+      ],
+      [
+        "Obsidian Helm",
+        "Ash Hood"
+      ],
+      [
+        "Molten Crown",
+        "Cinder Cowl"
+      ]
+    ],
+    "chest": [
+      [
+        "Leather Jerkin",
+        "Wool Tunic"
+      ],
+      [
+        "Chain Hauberk",
+        "Padded Vest"
+      ],
+      [
+        "Plate Cuirass",
+        "Silk Robe"
+      ],
+      [
+        "Troll-hide Cuirass",
+        "Jungle Robe"
+      ],
+      [
+        "Sunken Hauberk",
+        "Marsh Vestments"
+      ],
+      [
+        "Obsidian Breastplate",
+        "Ash Robe"
+      ],
+      [
+        "Molten Plate",
+        "Flamewoven Robe"
+      ]
+    ],
+    "legs": [
+      [
+        "Leather Breeches",
+        "Wool Trousers"
+      ],
+      [
+        "Chain Leggings",
+        "Padded Greaves"
+      ],
+      [
+        "Plate Greaves",
+        "Silk Leggings"
+      ],
+      [
+        "Troll-hide Greaves",
+        "Jungle Leggings"
+      ],
+      [
+        "Sunken Greaves",
+        "Marsh Leggings"
+      ],
+      [
+        "Obsidian Greaves",
+        "Ash Leggings"
+      ],
+      [
+        "Molten Greaves",
+        "Flamewoven Leggings"
+      ]
+    ],
+    "trinket": [
+      [
+        "Lucky Acorn",
+        "Copper Charm"
+      ],
+      [
+        "Silver Locket",
+        "Harvest Totem"
+      ],
+      [
+        "Raven Fetish",
+        "Gilded Signet"
+      ],
+      [
+        "Zandalar Coin",
+        "Voodoo Charm"
+      ],
+      [
+        "Sunken Idol",
+        "Hakkari Fetish"
+      ],
+      [
+        "Dark Iron Rune",
+        "Black Dragon Scale"
+      ],
+      [
+        "Core Ember",
+        "Firelord's Sigil"
+      ]
+    ],
+    "utility": [
+      [
+        "Travel Satchel",
+        "Waxed Quiver"
+      ],
+      [
+        "Alchemist Pouch",
+        "Sturdy Satchel"
+      ],
+      [
+        "Warded Bandolier",
+        "Scholar's Satchel"
+      ],
+      [
+        "Hunter's Bandolier",
+        "Herbalist's Satchel"
+      ],
+      [
+        "Bog Satchel",
+        "Draconic Quiver"
+      ],
+      [
+        "Ember Bandolier",
+        "Runed Satchel"
+      ],
+      [
+        "Molten Satchel",
+        "Core Quiver"
+      ]
+    ]
+  },
+  "inventoryCap": 50,
+  "craftLeather": {
+    "leather": 12
+  }
+}

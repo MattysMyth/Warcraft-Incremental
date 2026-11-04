@@ -1,0 +1,4171 @@
+{
+  "board": {
+    "size": 8,
+    "refreshSeconds": 180,
+    "startOffers": 3
+  },
+  "rating": {
+    "healing": 0.25,
+    "hp": 0.05
+  },
+  "recommended": {
+    "base": 15,
+    "growth": 1.1,
+    "kneeLevel": 30,
+    "growthAfter": 1.06
+  },
+  "reward": {
+    "goldPerMinute": 600,
+    "goldGrowth": 1.2,
+    "xpDivisor": 4,
+    "overLevelStart": 2,
+    "overLevelStep": 0.15,
+    "overLevelFloor": 0.1
+  },
+  "gather": {
+    "share": 0.3,
+    "growth": 1.2,
+    "partyBonus": 0.5,
+    "base": {
+      "lumber": 20,
+      "stone": 12,
+      "food": 10,
+      "herbs": 4,
+      "iron_ore": 3,
+      "leather": 3
+    }
+  },
+  "stables": {
+    "perLevel": 0.03,
+    "max": 0.6
+  },
+  "levelSpread": [
+    -3,
+    2
+  ],
+  "history": 30,
+  "winsFull": 10,
+  "modifiers": [
+    {
+      "id": "standard",
+      "name": "",
+      "weight": 6,
+      "types": [
+        "bounty",
+        "gathering",
+        "slay",
+        "escort",
+        "dungeon",
+        "raid"
+      ],
+      "duration": 1,
+      "rec": 1,
+      "reward": 1
+    },
+    {
+      "id": "elite",
+      "name": "Elite",
+      "weight": 2,
+      "types": [
+        "bounty",
+        "slay"
+      ],
+      "duration": 1.2,
+      "rec": 1.4,
+      "reward": 1.7
+    },
+    {
+      "id": "swarm",
+      "name": "Swarm",
+      "weight": 2,
+      "types": [
+        "bounty",
+        "slay"
+      ],
+      "duration": 1,
+      "rec": 1.2,
+      "reward": 1.25
+    },
+    {
+      "id": "rush",
+      "name": "Rush",
+      "weight": 2,
+      "types": [
+        "bounty",
+        "gathering",
+        "escort"
+      ],
+      "duration": 0.6,
+      "rec": 1.1,
+      "reward": 0.9
+    },
+    {
+      "id": "bountiful",
+      "name": "Bountiful",
+      "weight": 2,
+      "types": [
+        "gathering"
+      ],
+      "duration": 1,
+      "rec": 1,
+      "reward": 1.5
+    },
+    {
+      "id": "remote",
+      "name": "Remote",
+      "weight": 2,
+      "types": [
+        "gathering"
+      ],
+      "duration": 1.5,
+      "rec": 1.2,
+      "reward": 1.4
+    }
+  ],
+  "types": {
+    "bounty": {
+      "name": "Bounty",
+      "party": [
+        1,
+        1
+      ],
+      "duration": [
+        45,
+        300
+      ],
+      "difficulty": 1,
+      "blurb": "A quick hunt for coin and experience.",
+      "xpMult": 1,
+      "goldMult": 1
+    },
+    "gathering": {
+      "name": "Gathering",
+      "party": [
+        1,
+        2
+      ],
+      "duration": [
+        120,
+        1200
+      ],
+      "difficulty": 0.6,
+      "blurb": "Bring supplies back to the outpost.",
+      "xpMult": 0.3,
+      "goldMult": 1
+    },
+    "dungeon": {
+      "name": "Dungeon",
+      "party": [
+        3,
+        5
+      ],
+      "duration": [
+        1500,
+        2700
+      ],
+      "difficulty": 7.5,
+      "xpMult": 0.15,
+      "rewardMult": 1.2,
+      "blurb": "A delve for the best gear. Bring a tank, a healer and damage.",
+      "hpMult": 1.92,
+      "dpsMult": 0.256,
+      "goldMult": 1
+    },
+    "slay": {
+      "name": "Slay",
+      "party": [
+        2,
+        3
+      ],
+      "duration": [
+        300,
+        2400
+      ],
+      "difficulty": 2.8,
+      "xpMult": 1.4,
+      "goldMult": 0.25,
+      "blurb": "Hunt a dangerous pack for experience and gear drops."
+    },
+    "escort": {
+      "name": "Escort",
+      "party": [
+        1,
+        2
+      ],
+      "duration": [
+        600,
+        3600
+      ],
+      "difficulty": 1.5,
+      "xpMult": 0.5,
+      "goldMult": 0.5,
+      "repMult": 1,
+      "blurb": "Walk a convoy down a hostile road for gold and standing."
+    },
+    "raid": {
+      "name": "Raid",
+      "party": [
+        6,
+        10
+      ],
+      "duration": [
+        3600,
+        21600
+      ],
+      "difficulty": 11,
+      "xpMult": 0.15,
+      "rewardMult": 1.6,
+      "blurb": "Two parties and a long road. Bring a roster of six to ten, with tanks, healers and damage.",
+      "hpMult": 1.92,
+      "dpsMult": 0.256,
+      "goldMult": 1
+    }
+  },
+  "templates": [
+    {
+      "id": "wolf_pack",
+      "type": "bounty",
+      "zone": "elwynn",
+      "title": "Cull the wolf pack",
+      "text": "Wolves have been dragging sheep from the northern pastures.",
+      "enemies": [
+        {
+          "id": "timber_wolf",
+          "n": 3
+        }
+      ]
+    },
+    {
+      "id": "kobold_tunnels",
+      "type": "bounty",
+      "zone": "elwynn",
+      "title": "Smoke out the kobold tunnels",
+      "text": "Candle-wielding kobolds keep stealing from the mine road.",
+      "enemies": [
+        {
+          "id": "kobold_miner",
+          "n": 2
+        },
+        {
+          "id": "candle_bearer",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "crossroads_bandits",
+      "type": "bounty",
+      "zone": "elwynn",
+      "title": "Chase off the crossroads bandits",
+      "text": "A gang is taxing every cart that passes the old crossroads.",
+      "enemies": [
+        {
+          "id": "brigand",
+          "n": 2
+        },
+        {
+          "id": "brigand_leader",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "murloc_shallows",
+      "type": "bounty",
+      "zone": "elwynn",
+      "title": "Clear the murloc shallows",
+      "text": "Gurgling raiders have taken over the fishing pier.",
+      "enemies": [
+        {
+          "id": "murloc_tidehunter",
+          "n": 2
+        },
+        {
+          "id": "murloc_netter",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "old_boar",
+      "type": "bounty",
+      "zone": "elwynn",
+      "title": "Hunt the old boar",
+      "text": "A tusked terror is rooting up the farmers' turnips.",
+      "enemies": [
+        {
+          "id": "mangy_boar",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "gnoll_scouts",
+      "type": "bounty",
+      "zone": "elwynn",
+      "title": "Drive off the gnoll scouts",
+      "text": "Scouts from the hills are watching the outpost walls.",
+      "enemies": [
+        {
+          "id": "gnoll_scout",
+          "n": 2
+        },
+        {
+          "id": "gnoll_brute",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "timber_run",
+      "type": "gathering",
+      "zone": "elwynn",
+      "title": "Cut timber in the north woods",
+      "text": "Straight oaks stand a short march from the outpost.",
+      "resource": "lumber",
+      "enemies": [
+        {
+          "id": "timber_wolf",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "stone_haul",
+      "type": "gathering",
+      "zone": "elwynn",
+      "title": "Haul stone from the hillside",
+      "text": "Loose rock lies below the old quarry cut.",
+      "resource": "stone",
+      "enemies": [
+        {
+          "id": "kobold_miner",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "orchard_forage",
+      "type": "gathering",
+      "zone": "elwynn",
+      "title": "Forage the orchard rows",
+      "text": "Windfalls and wild grain go to waste beyond the fences.",
+      "resource": "food",
+      "enemies": [
+        {
+          "id": "forest_spider",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "herb_walk",
+      "type": "gathering",
+      "zone": "elwynn",
+      "title": "Gather wild herbs",
+      "text": "Green leaf and bitter root grow along the streams.",
+      "resource": "herbs",
+      "enemies": [
+        {
+          "id": "forest_spider",
+          "n": 1
+        },
+        {
+          "id": "timber_wolf",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "ore_prospect",
+      "type": "gathering",
+      "zone": "elwynn",
+      "title": "Prospect for iron ore",
+      "text": "Rusty seams run through the ridge, if you know where to dig.",
+      "resource": "iron_ore",
+      "requires": {
+        "building": "mine",
+        "level": 1
+      },
+      "enemies": [
+        {
+          "id": "kobold_miner",
+          "n": 1
+        },
+        {
+          "id": "rock_warden",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "fargodeep_mine",
+      "type": "dungeon",
+      "zone": "elwynn",
+      "weight": 2,
+      "level": 6,
+      "duration": 900,
+      "requires": {
+        "heroes": 3
+      },
+      "title": "Fargodeep Mine",
+      "text": "Kobolds have dug too deep and something below is answering. Clear the tunnels and find who is leading them.",
+      "encounters": [
+        {
+          "name": "Kobold diggers",
+          "enemies": [
+            {
+              "id": "kobold_digger",
+              "n": 3
+            }
+          ],
+          "budget": 0.5
+        },
+        {
+          "name": "Candle-bearers",
+          "enemies": [
+            {
+              "id": "candle_bearer",
+              "n": 2
+            },
+            {
+              "id": "kobold_miner",
+              "n": 1
+            }
+          ],
+          "budget": 0.55
+        },
+        {
+          "name": "Tunnel guards",
+          "enemies": [
+            {
+              "id": "kobold_miner",
+              "n": 3
+            }
+          ],
+          "budget": 0.6
+        },
+        {
+          "name": "The Gravel Foreman",
+          "enemies": [
+            {
+              "id": "gravel_foreman",
+              "n": 1
+            }
+          ],
+          "budget": 0.8,
+          "boss": true,
+          "mechanics": [
+            {
+              "kind": "stack",
+              "every": 6,
+              "perStack": 0.08,
+              "max": 8,
+              "name": "Pick strike"
+            }
+          ]
+        },
+        {
+          "name": "Cave spiders",
+          "enemies": [
+            {
+              "id": "forest_spider",
+              "n": 3
+            }
+          ],
+          "budget": 0.6
+        },
+        {
+          "name": "Overseers",
+          "enemies": [
+            {
+              "id": "kobold_miner",
+              "n": 2
+            },
+            {
+              "id": "candle_bearer",
+              "n": 2
+            }
+          ],
+          "budget": 0.65
+        },
+        {
+          "name": "Rock-wardens",
+          "enemies": [
+            {
+              "id": "rock_warden",
+              "n": 2
+            }
+          ],
+          "budget": 0.7
+        },
+        {
+          "name": "Candlewick, Tunnel-Lord",
+          "enemies": [
+            {
+              "id": "candlewick",
+              "n": 1
+            }
+          ],
+          "budget": 1.0,
+          "boss": true,
+          "mechanics": [
+            {
+              "kind": "add_wave",
+              "first": 15,
+              "every": 25,
+              "enemy": "kobold_digger",
+              "n": 2,
+              "budget": 0.1,
+              "name": "Candlewick calls the diggers"
+            },
+            {
+              "kind": "enrage",
+              "at": 110,
+              "mult": 2,
+              "name": "Candlewick flies into a rage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hide_hunt",
+      "type": "gathering",
+      "zone": "elwynn",
+      "title": "Hunt for hides",
+      "text": "Tanners in Goldshire pay well for clean wolf and boar pelts.",
+      "resource": "leather",
+      "enemies": [
+        {
+          "id": "timber_wolf",
+          "n": 2
+        },
+        {
+          "id": "mangy_boar",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "stray_pack",
+      "type": "slay",
+      "zone": "elwynn",
+      "weight": 0.7,
+      "title": "Slay the stray pack",
+      "text": "A pack of wolves and spiders has grown bold along the north road.",
+      "enemies": [
+        {
+          "id": "timber_wolf",
+          "n": 3
+        },
+        {
+          "id": "forest_spider",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "kobold_warren",
+      "type": "slay",
+      "zone": "elwynn",
+      "weight": 0.7,
+      "title": "Break the kobold warren",
+      "text": "Candle-lit tunnels honeycomb the hill. Someone must go in and break them.",
+      "enemies": [
+        {
+          "id": "kobold_miner",
+          "n": 3
+        },
+        {
+          "id": "candle_bearer",
+          "n": 2
+        },
+        {
+          "id": "kobold_digger",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "milk_wagon",
+      "type": "escort",
+      "zone": "elwynn",
+      "weight": 0.6,
+      "title": "Guard the dairy wagon",
+      "text": "The dairy wagon must reach Goldshire before the cream turns.",
+      "enemies": [
+        {
+          "id": "brigand",
+          "n": 2
+        },
+        {
+          "id": "timber_wolf",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "mail_run",
+      "type": "escort",
+      "zone": "elwynn",
+      "weight": 0.6,
+      "title": "Carry the post to Stormwind road",
+      "text": "A satchel of letters waits for a steady pair of boots.",
+      "enemies": [
+        {
+          "id": "gnoll_scout",
+          "n": 2
+        },
+        {
+          "id": "brigand",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "wf_roadblock",
+      "type": "bounty",
+      "zone": "westfall",
+      "title": "Break the Defias roadblock",
+      "text": "A hooded crew is taxing every cart on the Sentinel Hill road.",
+      "enemies": [
+        {
+          "id": "defias_thief",
+          "n": 2
+        },
+        {
+          "id": "defias_pillager",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "wf_gnolls",
+      "type": "bounty",
+      "zone": "westfall",
+      "title": "Scatter the coast gnolls",
+      "text": "Riverpaw packs are raiding the fishermen at the shore.",
+      "enemies": [
+        {
+          "id": "riverpaw_gnoll",
+          "n": 2
+        },
+        {
+          "id": "riverpaw_mystic",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "wf_harvesters",
+      "type": "bounty",
+      "zone": "westfall",
+      "title": "Smash the runaway harvesters",
+      "text": "The old reaping machines walk the fields without a master.",
+      "enemies": [
+        {
+          "id": "harvest_golem",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "wf_wolves",
+      "type": "bounty",
+      "zone": "westfall",
+      "title": "Thin the prairie wolves",
+      "text": "Flocks are vanishing from the grazing lands.",
+      "enemies": [
+        {
+          "id": "prairie_wolf",
+          "n": 3
+        }
+      ]
+    },
+    {
+      "id": "wf_goretusk",
+      "type": "bounty",
+      "zone": "westfall",
+      "title": "Hunt the goretusk matriarch",
+      "text": "A tusked sow the size of a wagon guards the barley fields.",
+      "enemies": [
+        {
+          "id": "goretusk",
+          "n": 1
+        },
+        {
+          "id": "prairie_wolf",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "wf_enchanters",
+      "type": "bounty",
+      "zone": "westfall",
+      "title": "Silence the Defias enchanters",
+      "text": "Whispered spells have turned the scarecrows against the farms.",
+      "enemies": [
+        {
+          "id": "defias_enchanter",
+          "n": 2
+        },
+        {
+          "id": "defias_thief",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "wf_timber",
+      "type": "gathering",
+      "zone": "westfall",
+      "title": "Fell timber near Sentinel Hill",
+      "text": "Sturdy oaks line the hill road, if the road is clear.",
+      "resource": "lumber",
+      "enemies": [
+        {
+          "id": "prairie_wolf",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "wf_stone",
+      "type": "gathering",
+      "zone": "westfall",
+      "title": "Quarry stone from the ridge",
+      "text": "Pale stone sits close to the surface above the reaper fields.",
+      "resource": "stone",
+      "enemies": [
+        {
+          "id": "harvest_golem",
+          "n": 1
+        },
+        {
+          "id": "prairie_wolf",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "wf_grain",
+      "type": "gathering",
+      "zone": "westfall",
+      "title": "Reap the stray grain",
+      "text": "Whole fields stand unharvested. The reapers will not like it.",
+      "resource": "food",
+      "enemies": [
+        {
+          "id": "harvest_reaper",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "wf_herbs",
+      "type": "gathering",
+      "zone": "westfall",
+      "title": "Pick moonlit herbs",
+      "text": "Pale blossoms open by the river for an hour after dusk.",
+      "resource": "herbs",
+      "enemies": [
+        {
+          "id": "riverpaw_gnoll",
+          "n": 1
+        },
+        {
+          "id": "prairie_wolf",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "wf_hides",
+      "type": "gathering",
+      "zone": "westfall",
+      "title": "Skin the plains game",
+      "text": "Prairie hides are thick and fetch a fair price at the tannery.",
+      "resource": "leather",
+      "enemies": [
+        {
+          "id": "prairie_wolf",
+          "n": 2
+        },
+        {
+          "id": "goretusk",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "wf_ore",
+      "type": "gathering",
+      "zone": "westfall",
+      "title": "Dig the surface veins",
+      "text": "Iron shows in the cliffs where the rain has cut them open.",
+      "resource": "iron_ore",
+      "requires": {
+        "building": "mine",
+        "level": 1
+      },
+      "enemies": [
+        {
+          "id": "defias_miner",
+          "n": 1
+        },
+        {
+          "id": "harvest_golem",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "wf_camp",
+      "type": "slay",
+      "zone": "westfall",
+      "weight": 0.7,
+      "title": "Raze the Defias camp",
+      "text": "A hidden camp supplies the road raiders. Burn it out.",
+      "enemies": [
+        {
+          "id": "defias_thief",
+          "n": 3
+        },
+        {
+          "id": "defias_pillager",
+          "n": 2
+        },
+        {
+          "id": "defias_enchanter",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "wf_warband",
+      "type": "slay",
+      "zone": "westfall",
+      "weight": 0.7,
+      "title": "Crush the gnoll warband",
+      "text": "The Riverpaw warband is gathering for a march on the farms.",
+      "enemies": [
+        {
+          "id": "riverpaw_gnoll",
+          "n": 3
+        },
+        {
+          "id": "riverpaw_mystic",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "wf_engine",
+      "type": "slay",
+      "zone": "westfall",
+      "weight": 0.7,
+      "title": "Topple the harvest engine",
+      "text": "One great engine drives the reapers. Break it and they fall still.",
+      "enemies": [
+        {
+          "id": "harvest_golem",
+          "n": 2
+        },
+        {
+          "id": "harvest_reaper",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "wf_grain_wagon",
+      "type": "escort",
+      "zone": "westfall",
+      "weight": 0.6,
+      "title": "Escort the grain wagon",
+      "text": "The harvest must reach the granary at Sentinel Hill.",
+      "enemies": [
+        {
+          "id": "defias_thief",
+          "n": 2
+        },
+        {
+          "id": "prairie_wolf",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "wf_lamp_oil",
+      "type": "escort",
+      "zone": "westfall",
+      "weight": 0.6,
+      "title": "Deliver lamp oil to the lighthouse",
+      "text": "The coast light is running dry and bandits know it.",
+      "enemies": [
+        {
+          "id": "riverpaw_gnoll",
+          "n": 2
+        },
+        {
+          "id": "defias_pillager",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "dw_ghouls",
+      "type": "bounty",
+      "zone": "duskwood",
+      "title": "Lay the grave ghouls to rest",
+      "text": "Graves behind the old hill stand open and empty.",
+      "enemies": [
+        {
+          "id": "rotting_ghoul",
+          "n": 3
+        }
+      ]
+    },
+    {
+      "id": "dw_spiders",
+      "type": "bounty",
+      "zone": "duskwood",
+      "title": "Burn the web-choked trail",
+      "text": "Night web spiders have wrapped the south trail in silk.",
+      "enemies": [
+        {
+          "id": "night_web_spider",
+          "n": 3
+        }
+      ]
+    },
+    {
+      "id": "dw_worgen",
+      "type": "bounty",
+      "zone": "duskwood",
+      "title": "Drive back the worgen stalkers",
+      "text": "Howls circle the village walls each night.",
+      "enemies": [
+        {
+          "id": "worgen_stalker",
+          "n": 2
+        },
+        {
+          "id": "worgen_alpha",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "dw_warders",
+      "type": "bounty",
+      "zone": "duskwood",
+      "title": "Topple the skeletal warders",
+      "text": "Bone sentries march the ruined watch road.",
+      "enemies": [
+        {
+          "id": "skeletal_warder",
+          "n": 2
+        },
+        {
+          "id": "rotting_ghoul",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "dw_bones",
+      "type": "bounty",
+      "zone": "duskwood",
+      "title": "Scatter the bone collectors",
+      "text": "Something is stitching new bodies from old graves.",
+      "enemies": [
+        {
+          "id": "bone_collector",
+          "n": 3
+        },
+        {
+          "id": "skeletal_warder",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "dw_timber",
+      "type": "gathering",
+      "zone": "duskwood",
+      "title": "Cut timber from the Twilight Grove",
+      "text": "Dark pines grow tall and straight, and not alone.",
+      "resource": "lumber",
+      "enemies": [
+        {
+          "id": "night_web_spider",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "dw_stone",
+      "type": "gathering",
+      "zone": "duskwood",
+      "title": "Haul stone from the old ruins",
+      "text": "Fallen walls are free for the taking, if you can take them.",
+      "resource": "stone",
+      "enemies": [
+        {
+          "id": "skeletal_warder",
+          "n": 1
+        },
+        {
+          "id": "rotting_ghoul",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "dw_food",
+      "type": "gathering",
+      "zone": "duskwood",
+      "title": "Forage the mushroom hollows",
+      "text": "Pale fungus feeds a village if it is picked in time.",
+      "resource": "food",
+      "enemies": [
+        {
+          "id": "night_web_spider",
+          "n": 1
+        },
+        {
+          "id": "rotting_ghoul",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "dw_herbs",
+      "type": "gathering",
+      "zone": "duskwood",
+      "title": "Gather nightshade and graveleaf",
+      "text": "Strong herbs grow where the soil is oldest.",
+      "resource": "herbs",
+      "enemies": [
+        {
+          "id": "worgen_stalker",
+          "n": 1
+        },
+        {
+          "id": "rotting_ghoul",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "dw_hides",
+      "type": "gathering",
+      "zone": "duskwood",
+      "title": "Skin the woodland game",
+      "text": "Thick deer and boar hides come cheap to those who dare the dark.",
+      "resource": "leather",
+      "enemies": [
+        {
+          "id": "worgen_stalker",
+          "n": 1
+        },
+        {
+          "id": "night_web_spider",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "dw_ore",
+      "type": "gathering",
+      "zone": "duskwood",
+      "title": "Prospect the buried galleries",
+      "text": "Deep seams run under the cemetery hill.",
+      "resource": "iron_ore",
+      "requires": {
+        "building": "mine",
+        "level": 1
+      },
+      "enemies": [
+        {
+          "id": "skeletal_warder",
+          "n": 1
+        },
+        {
+          "id": "bone_collector",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "dw_crypt",
+      "type": "slay",
+      "zone": "duskwood",
+      "weight": 0.7,
+      "title": "Clear the crypt of the restless",
+      "text": "The crypt below the chapel will not stay quiet.",
+      "enemies": [
+        {
+          "id": "rotting_ghoul",
+          "n": 3
+        },
+        {
+          "id": "skeletal_warder",
+          "n": 2
+        },
+        {
+          "id": "bone_collector",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "dw_pack",
+      "type": "slay",
+      "zone": "duskwood",
+      "weight": 0.7,
+      "title": "Run down the worgen pack",
+      "text": "The pack has a den in the hollow. End it before the next moon.",
+      "enemies": [
+        {
+          "id": "worgen_stalker",
+          "n": 3
+        },
+        {
+          "id": "worgen_alpha",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "dw_hulks",
+      "type": "slay",
+      "zone": "duskwood",
+      "weight": 0.7,
+      "title": "Break the patchwork hulks",
+      "text": "Stitched giants lumber through the fog. Bring heavy hands.",
+      "enemies": [
+        {
+          "id": "patchwork_hulk",
+          "n": 2
+        },
+        {
+          "id": "bone_collector",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "dw_lantern",
+      "type": "escort",
+      "zone": "duskwood",
+      "weight": 0.6,
+      "title": "Guard the lamplighter",
+      "text": "Someone must light the road lanterns before the fog thickens.",
+      "enemies": [
+        {
+          "id": "worgen_stalker",
+          "n": 2
+        },
+        {
+          "id": "rotting_ghoul",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "dw_caravan",
+      "type": "escort",
+      "zone": "duskwood",
+      "weight": 0.6,
+      "title": "Escort the supply caravan to the village",
+      "text": "Darkshire is running low and the road is long.",
+      "enemies": [
+        {
+          "id": "skeletal_warder",
+          "n": 2
+        },
+        {
+          "id": "worgen_stalker",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "st_elwynn_1",
+      "type": "bounty",
+      "zone": "elwynn",
+      "level": 3,
+      "duration": 120,
+      "title": "The cart on the mine road",
+      "text": "A cart sits abandoned below the Fargodeep road, lantern still lit. The drover is nowhere to be seen.",
+      "story": {
+        "zone": "elwynn",
+        "step": 1,
+        "rep": 20
+      },
+      "enemies": [
+        {
+          "id": "kobold_miner",
+          "n": 2
+        },
+        {
+          "id": "brigand",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "st_elwynn_2",
+      "type": "slay",
+      "zone": "elwynn",
+      "level": 5,
+      "duration": 420,
+      "title": "The hollow hill",
+      "text": "The drover was taken by gnolls, who were paid in lantern oil. Somebody is feeding them from inside the settlement.",
+      "story": {
+        "zone": "elwynn",
+        "step": 2,
+        "rep": 30
+      },
+      "enemies": [
+        {
+          "id": "gnoll_scout",
+          "n": 2
+        },
+        {
+          "id": "gnoll_brute",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "st_elwynn_3",
+      "type": "escort",
+      "zone": "elwynn",
+      "level": 7,
+      "duration": 600,
+      "title": "Lantern in the dark",
+      "text": "The surveyor knows the mine and will not go down without an escort. Bring her to the Fargodeep entrance and keep her lantern lit.",
+      "story": {
+        "zone": "elwynn",
+        "step": 3,
+        "rep": 40,
+        "item": {
+          "slot": "trinket",
+          "name": "Surveyor's Lantern",
+          "rarity": "rare"
+        }
+      },
+      "enemies": [
+        {
+          "id": "kobold_digger",
+          "n": 2
+        },
+        {
+          "id": "candle_bearer",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "st_westfall_1",
+      "type": "bounty",
+      "zone": "westfall",
+      "level": 11,
+      "duration": 180,
+      "title": "The empty granary",
+      "text": "The Sentinel Hill granary was emptied overnight, and the doors were never forced.",
+      "story": {
+        "zone": "westfall",
+        "step": 1,
+        "rep": 25
+      },
+      "enemies": [
+        {
+          "id": "harvest_golem",
+          "n": 2
+        },
+        {
+          "id": "defias_thief",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "st_westfall_2",
+      "type": "slay",
+      "zone": "westfall",
+      "level": 13,
+      "duration": 600,
+      "title": "Names in the ledger",
+      "text": "A stolen ledger lists every farm the road gang will visit next. Take the camp that holds the other half.",
+      "story": {
+        "zone": "westfall",
+        "step": 2,
+        "rep": 35
+      },
+      "enemies": [
+        {
+          "id": "defias_thief",
+          "n": 3
+        },
+        {
+          "id": "defias_pillager",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "st_westfall_3",
+      "type": "escort",
+      "zone": "westfall",
+      "level": 15,
+      "duration": 900,
+      "title": "Lamps for the lighthouse",
+      "text": "The keeper swears the coast light was put out on purpose. See fresh oil safely to the tower.",
+      "story": {
+        "zone": "westfall",
+        "step": 3,
+        "rep": 45
+      },
+      "enemies": [
+        {
+          "id": "riverpaw_gnoll",
+          "n": 2
+        },
+        {
+          "id": "defias_enchanter",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "st_westfall_4",
+      "type": "bounty",
+      "zone": "westfall",
+      "level": 17,
+      "duration": 240,
+      "title": "What the miners left behind",
+      "text": "A foreman's tally scratched on a wall points down to the Deadmines. Find who is counting.",
+      "story": {
+        "zone": "westfall",
+        "step": 4,
+        "rep": 60,
+        "item": {
+          "slot": "head",
+          "name": "Sentinel's Cowl",
+          "rarity": "rare"
+        }
+      },
+      "enemies": [
+        {
+          "id": "defias_pillager",
+          "n": 2
+        },
+        {
+          "id": "defias_enchanter",
+          "n": 1
+        },
+        {
+          "id": "defias_bodyguard",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "st_duskwood_1",
+      "type": "bounty",
+      "zone": "duskwood",
+      "level": 21,
+      "duration": 200,
+      "title": "Candles in the windows",
+      "text": "Every house keeps a candle lit until dawn. Tonight the candles went out one by one.",
+      "story": {
+        "zone": "duskwood",
+        "step": 1,
+        "rep": 30
+      },
+      "enemies": [
+        {
+          "id": "rotting_ghoul",
+          "n": 3
+        },
+        {
+          "id": "night_web_spider",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "st_duskwood_2",
+      "type": "slay",
+      "zone": "duskwood",
+      "level": 23,
+      "duration": 800,
+      "title": "Bones on the Raven Hill road",
+      "text": "The dead walk the old road in neat lines, as if marching to a roll call.",
+      "story": {
+        "zone": "duskwood",
+        "step": 2,
+        "rep": 40
+      },
+      "enemies": [
+        {
+          "id": "skeletal_warder",
+          "n": 3
+        },
+        {
+          "id": "bone_collector",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "st_duskwood_3",
+      "type": "escort",
+      "zone": "duskwood",
+      "level": 25,
+      "duration": 1200,
+      "title": "The night watch",
+      "text": "The last watchman will hold the gate if someone brings him fresh oil and a steady companion.",
+      "story": {
+        "zone": "duskwood",
+        "step": 3,
+        "rep": 50
+      },
+      "enemies": [
+        {
+          "id": "worgen_stalker",
+          "n": 3
+        },
+        {
+          "id": "rotting_ghoul",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "st_duskwood_4",
+      "type": "slay",
+      "zone": "duskwood",
+      "level": 27,
+      "duration": 900,
+      "title": "Darkshire holds",
+      "text": "The pack has come down from the hills and will not stop at the walls. Hold the gate until morning.",
+      "story": {
+        "zone": "duskwood",
+        "step": 4,
+        "rep": 70,
+        "item": {
+          "slot": "chest",
+          "name": "Watchman's Greatcoat",
+          "rarity": "rare"
+        }
+      },
+      "enemies": [
+        {
+          "id": "worgen_alpha",
+          "n": 1
+        },
+        {
+          "id": "worgen_stalker",
+          "n": 3
+        },
+        {
+          "id": "rotting_ghoul",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "the_deadmines",
+      "type": "dungeon",
+      "zone": "westfall",
+      "weight": 2,
+      "level": 16,
+      "duration": 2400,
+      "requires": {
+        "heroes": 3
+      },
+      "title": "The Deadmines",
+      "text": "The Defias have dug a fortress under the old gold mine. Their leader keeps the ledger, the ogre smith and a goblin shredder.",
+      "encounters": [
+        {
+          "name": "Defias miners",
+          "enemies": [
+            {
+              "id": "defias_miner",
+              "n": 3
+            }
+          ],
+          "budget": 0.5
+        },
+        {
+          "name": "Goblin tinkers",
+          "enemies": [
+            {
+              "id": "goblin_engineer",
+              "n": 2
+            },
+            {
+              "id": "defias_miner",
+              "n": 1
+            }
+          ],
+          "budget": 0.55
+        },
+        {
+          "name": "Overseers",
+          "enemies": [
+            {
+              "id": "defias_overseer",
+              "n": 2
+            },
+            {
+              "id": "defias_miner",
+              "n": 1
+            }
+          ],
+          "budget": 0.6
+        },
+        {
+          "name": "Rhahk'Zor, the Ogre Smith",
+          "enemies": [
+            {
+              "id": "rhahkzor",
+              "n": 1
+            }
+          ],
+          "budget": 0.85,
+          "boss": true,
+          "mechanics": [
+            {
+              "kind": "stack",
+              "every": 6,
+              "perStack": 0.08,
+              "max": 8,
+              "name": "Hammer strike"
+            }
+          ]
+        },
+        {
+          "name": "The forge crew",
+          "enemies": [
+            {
+              "id": "goblin_engineer",
+              "n": 2
+            },
+            {
+              "id": "defias_overseer",
+              "n": 1
+            }
+          ],
+          "budget": 0.65
+        },
+        {
+          "name": "Shredder bay",
+          "enemies": [
+            {
+              "id": "goblin_shredder",
+              "n": 1
+            },
+            {
+              "id": "goblin_engineer",
+              "n": 2
+            }
+          ],
+          "budget": 0.7
+        },
+        {
+          "name": "Defias bodyguards",
+          "enemies": [
+            {
+              "id": "defias_bodyguard",
+              "n": 2
+            },
+            {
+              "id": "defias_pillager",
+              "n": 2
+            }
+          ],
+          "budget": 0.75
+        },
+        {
+          "name": "The Foundry guard",
+          "enemies": [
+            {
+              "id": "defias_bodyguard",
+              "n": 2
+            },
+            {
+              "id": "defias_enchanter",
+              "n": 2
+            }
+          ],
+          "budget": 0.8
+        },
+        {
+          "name": "Edwin VanCleef",
+          "enemies": [
+            {
+              "id": "vancleef",
+              "n": 1
+            }
+          ],
+          "budget": 1.0,
+          "boss": true,
+          "mechanics": [
+            {
+              "kind": "add_wave",
+              "first": 15,
+              "every": 25,
+              "enemy": "defias_bodyguard",
+              "n": 2,
+              "budget": 0.12,
+              "name": "VanCleef calls his guards"
+            },
+            {
+              "kind": "enrage",
+              "at": 120,
+              "mult": 2,
+              "name": "VanCleef is done talking"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stitches",
+      "type": "dungeon",
+      "zone": "duskwood",
+      "label": "World boss",
+      "weight": 2,
+      "level": 22,
+      "duration": 3000,
+      "requires": {
+        "heroes": 3
+      },
+      "title": "Stitches, the Patchwork Terror",
+      "text": "A stitched giant walks the Duskwood road each night. It will not stop until someone puts it down for good.",
+      "encounters": [
+        {
+          "name": "Restless dead",
+          "enemies": [
+            {
+              "id": "rotting_ghoul",
+              "n": 3
+            },
+            {
+              "id": "skeletal_warder",
+              "n": 1
+            }
+          ],
+          "budget": 0.55
+        },
+        {
+          "name": "The bone gatherers",
+          "enemies": [
+            {
+              "id": "bone_collector",
+              "n": 3
+            },
+            {
+              "id": "skeletal_warder",
+              "n": 2
+            }
+          ],
+          "budget": 0.65
+        },
+        {
+          "name": "Worgen at the gate",
+          "enemies": [
+            {
+              "id": "worgen_stalker",
+              "n": 3
+            },
+            {
+              "id": "worgen_alpha",
+              "n": 1
+            }
+          ],
+          "budget": 0.75
+        },
+        {
+          "name": "Stitched guards",
+          "enemies": [
+            {
+              "id": "patchwork_hulk",
+              "n": 1
+            },
+            {
+              "id": "bone_collector",
+              "n": 2
+            }
+          ],
+          "budget": 0.75
+        },
+        {
+          "name": "Stitches, the Patchwork Terror",
+          "enemies": [
+            {
+              "id": "stitches",
+              "n": 1
+            }
+          ],
+          "budget": 0.85,
+          "boss": true,
+          "mechanics": [
+            {
+              "kind": "stack",
+              "every": 5,
+              "perStack": 0.06,
+              "max": 8,
+              "name": "Rot touch"
+            },
+            {
+              "kind": "add_wave",
+              "first": 20,
+              "every": 30,
+              "enemy": "rotting_ghoul",
+              "n": 3,
+              "budget": 0.1,
+              "name": "Stitches sheds a limb that walks"
+            },
+            {
+              "kind": "enrage",
+              "at": 150,
+              "mult": 2,
+              "name": "Stitches goes wild"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sv_panthers",
+      "type": "bounty",
+      "zone": "stranglethorn",
+      "title": "Hunt the jungle panthers",
+      "text": "The panthers have found that carts are slow and drivers are tasty.",
+      "enemies": [
+        {
+          "id": "jungle_panther",
+          "n": 3
+        }
+      ]
+    },
+    {
+      "id": "sv_raptors",
+      "type": "bounty",
+      "zone": "stranglethorn",
+      "title": "Thin the raptor nests",
+      "text": "Eggs, claws and a great deal of noise beside the river.",
+      "enemies": [
+        {
+          "id": "sv_raptor",
+          "n": 4
+        }
+      ]
+    },
+    {
+      "id": "sv_gorillas",
+      "type": "bounty",
+      "zone": "stranglethorn",
+      "title": "Drive off the gorilla troop",
+      "text": "They have taken the lumber road as their own.",
+      "enemies": [
+        {
+          "id": "sv_gorilla",
+          "n": 1
+        },
+        {
+          "id": "sv_raptor",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "sv_scalps",
+      "type": "bounty",
+      "zone": "stranglethorn",
+      "title": "Break the Bloodscalp raiders",
+      "text": "A war party waits where the trail meets the water.",
+      "enemies": [
+        {
+          "id": "bloodscalp_warrior",
+          "n": 2
+        },
+        {
+          "id": "bloodscalp_witch_doctor",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "sv_buccaneers",
+      "type": "bounty",
+      "zone": "stranglethorn",
+      "title": "Chase off the buccaneers",
+      "text": "Pirates from the bay want a toll, paid in your purse.",
+      "enemies": [
+        {
+          "id": "bay_buccaneer",
+          "n": 3
+        }
+      ]
+    },
+    {
+      "id": "sv_lumber",
+      "type": "gathering",
+      "zone": "stranglethorn",
+      "title": "Fell ironwood in the Vale",
+      "text": "Ironwood is dense, dark and very much worth the trouble.",
+      "resource": "lumber",
+      "enemies": [
+        {
+          "id": "sv_raptor",
+          "n": 2
+        },
+        {
+          "id": "jungle_panther",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "sv_stone",
+      "type": "gathering",
+      "zone": "stranglethorn",
+      "title": "Quarry the ruin stones",
+      "text": "Old troll masonry makes fine foundations, if the ghosts agree.",
+      "resource": "stone",
+      "enemies": [
+        {
+          "id": "bloodscalp_warrior",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "sv_food",
+      "type": "gathering",
+      "zone": "stranglethorn",
+      "title": "Gather fruit along the river",
+      "text": "Mangoes the size of a fist, guarded by things the size of a cart.",
+      "resource": "food",
+      "enemies": [
+        {
+          "id": "sv_raptor",
+          "n": 3
+        }
+      ]
+    },
+    {
+      "id": "sv_herbs",
+      "type": "gathering",
+      "zone": "stranglethorn",
+      "title": "Pick herbs in the jungle canopy",
+      "text": "Rare blooms grow where the light is poor and the snakes are rich.",
+      "resource": "herbs",
+      "enemies": [
+        {
+          "id": "jungle_panther",
+          "n": 2
+        },
+        {
+          "id": "bloodscalp_witch_doctor",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "sv_leather",
+      "type": "gathering",
+      "zone": "stranglethorn",
+      "title": "Skin the great panthers",
+      "text": "Prime hides, if you can bring them back unbitten.",
+      "resource": "leather",
+      "enemies": [
+        {
+          "id": "jungle_panther",
+          "n": 3
+        }
+      ]
+    },
+    {
+      "id": "sv_iron_ore",
+      "type": "gathering",
+      "zone": "stranglethorn",
+      "title": "Prospect the Bloodscalp hills",
+      "text": "Iron lies in veins right beside the troll camps.",
+      "resource": "iron_ore",
+      "enemies": [
+        {
+          "id": "bloodscalp_warrior",
+          "n": 2
+        },
+        {
+          "id": "sv_gorilla",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "sv_camp",
+      "type": "slay",
+      "zone": "stranglethorn",
+      "weight": 0.7,
+      "title": "Storm a Bloodscalp camp",
+      "text": "The drums have not stopped for two days.",
+      "enemies": [
+        {
+          "id": "bloodscalp_warrior",
+          "n": 3
+        },
+        {
+          "id": "bloodscalp_witch_doctor",
+          "n": 2
+        },
+        {
+          "id": "sv_gorilla",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "sv_cove",
+      "type": "slay",
+      "zone": "stranglethorn",
+      "weight": 0.7,
+      "title": "Clear the buccaneer cove",
+      "text": "Smugglers hold a cove and everything in it, including the good rum.",
+      "enemies": [
+        {
+          "id": "bay_buccaneer",
+          "n": 4
+        },
+        {
+          "id": "sv_gorilla",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "sv_ruins",
+      "type": "slay",
+      "zone": "stranglethorn",
+      "weight": 0.7,
+      "title": "Purge the Gurubashi ruins",
+      "text": "The old stones are alive with berserkers who have never heard of peace.",
+      "enemies": [
+        {
+          "id": "gurubashi_berserker",
+          "n": 3
+        },
+        {
+          "id": "gurubashi_priest",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "sv_bay_road",
+      "type": "escort",
+      "zone": "stranglethorn",
+      "weight": 0.6,
+      "title": "Walk the Booty Bay road",
+      "text": "A merchant wants his goods at the bay before the tide turns.",
+      "enemies": [
+        {
+          "id": "bay_buccaneer",
+          "n": 2
+        },
+        {
+          "id": "jungle_panther",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "sv_expedition",
+      "type": "escort",
+      "zone": "stranglethorn",
+      "weight": 0.6,
+      "title": "Guard the Vale expedition",
+      "text": "Scholars with shovels are headed for the ruins. Somebody must make sure they come out.",
+      "enemies": [
+        {
+          "id": "bloodscalp_warrior",
+          "n": 2
+        },
+        {
+          "id": "sv_raptor",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "st_stranglethorn_1",
+      "type": "bounty",
+      "zone": "stranglethorn",
+      "level": 31,
+      "duration": 240,
+      "title": "Drums in the green",
+      "text": "Every night the jungle drums grow louder. The Vale holds its breath.",
+      "story": {
+        "zone": "stranglethorn",
+        "step": 1,
+        "rep": 40
+      },
+      "enemies": [
+        {
+          "id": "bloodscalp_warrior",
+          "n": 2
+        },
+        {
+          "id": "sv_raptor",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "st_stranglethorn_2",
+      "type": "slay",
+      "zone": "stranglethorn",
+      "level": 33,
+      "duration": 1000,
+      "title": "The blood priests",
+      "text": "Hakkari priests have been seen among the Gurubashi, painting signs on every stone.",
+      "story": {
+        "zone": "stranglethorn",
+        "step": 2,
+        "rep": 50
+      },
+      "enemies": [
+        {
+          "id": "gurubashi_priest",
+          "n": 3
+        },
+        {
+          "id": "hakkari_blood_priest",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "st_stranglethorn_3",
+      "type": "escort",
+      "zone": "stranglethorn",
+      "level": 35,
+      "duration": 1500,
+      "title": "The scholar of the Vale",
+      "text": "A map of the ruins is worth a great deal, and so is the woman who drew it.",
+      "story": {
+        "zone": "stranglethorn",
+        "step": 3,
+        "rep": 60
+      },
+      "enemies": [
+        {
+          "id": "gurubashi_berserker",
+          "n": 3
+        },
+        {
+          "id": "hakkari_blood_priest",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "st_stranglethorn_4",
+      "type": "slay",
+      "zone": "stranglethorn",
+      "level": 37,
+      "duration": 1200,
+      "title": "Before the gates of Zul'Gurub",
+      "text": "The troll city is waking. Cut down what stands between you and its gate.",
+      "story": {
+        "zone": "stranglethorn",
+        "step": 4,
+        "rep": 80,
+        "item": {
+          "slot": "trinket",
+          "name": "Zandalar Signet",
+          "rarity": "rare"
+        }
+      },
+      "enemies": [
+        {
+          "id": "gurubashi_berserker",
+          "n": 3
+        },
+        {
+          "id": "hakkari_blood_priest",
+          "n": 2
+        },
+        {
+          "id": "high_priestess_jeklik",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "zul_gurub",
+      "type": "raid",
+      "zone": "stranglethorn",
+      "weight": 2,
+      "level": 36,
+      "duration": 7200,
+      "requires": {
+        "heroes": 6
+      },
+      "title": "Zul'Gurub",
+      "text": "A lost city of trolls, and in it a god of blood that was not meant to wake. Bring a whole roster.",
+      "encounters": [
+        {
+          "name": "The ramparts",
+          "enemies": [
+            {
+              "id": "gurubashi_berserker",
+              "n": 4
+            },
+            {
+              "id": "gurubashi_priest",
+              "n": 2
+            }
+          ],
+          "budget": 0.5
+        },
+        {
+          "name": "High Priestess Jeklik",
+          "enemies": [
+            {
+              "id": "high_priestess_jeklik",
+              "n": 1
+            },
+            {
+              "id": "gurubashi_priest",
+              "n": 2
+            }
+          ],
+          "budget": 0.65,
+          "boss": true,
+          "mechanics": [
+            {
+              "kind": "stack",
+              "every": 6,
+              "perStack": 0.05,
+              "max": 8,
+              "name": "Bat swarm"
+            },
+            {
+              "kind": "add_wave",
+              "first": 25,
+              "every": 35,
+              "enemy": "gurubashi_priest",
+              "n": 2,
+              "budget": 0.1,
+              "name": "Bats carry priests"
+            }
+          ]
+        },
+        {
+          "name": "The Edge of Madness",
+          "enemies": [
+            {
+              "id": "hakkari_blood_priest",
+              "n": 3
+            },
+            {
+              "id": "gurubashi_berserker",
+              "n": 3
+            }
+          ],
+          "budget": 0.7
+        },
+        {
+          "name": "Bloodlord Mandokir",
+          "enemies": [
+            {
+              "id": "bloodlord_mandokir",
+              "n": 1
+            },
+            {
+              "id": "gurubashi_berserker",
+              "n": 2
+            }
+          ],
+          "budget": 0.8,
+          "boss": true,
+          "mechanics": [
+            {
+              "kind": "stack",
+              "every": 5,
+              "perStack": 0.06,
+              "max": 8,
+              "name": "Whirling slash"
+            },
+            {
+              "kind": "enrage",
+              "at": 160,
+              "mult": 2,
+              "name": "Mandokir howls"
+            }
+          ]
+        },
+        {
+          "name": "The Hakkari guard",
+          "enemies": [
+            {
+              "id": "hakkari_blood_priest",
+              "n": 3
+            },
+            {
+              "id": "gurubashi_priest",
+              "n": 3
+            }
+          ],
+          "budget": 0.85
+        },
+        {
+          "name": "Hakkar, the Soulflayer",
+          "enemies": [
+            {
+              "id": "hakkar",
+              "n": 1
+            }
+          ],
+          "budget": 0.95,
+          "boss": true,
+          "mechanics": [
+            {
+              "kind": "stack",
+              "every": 5,
+              "perStack": 0.06,
+              "max": 10,
+              "name": "Corrupted blood"
+            },
+            {
+              "kind": "add_wave",
+              "first": 20,
+              "every": 30,
+              "enemy": "hakkari_blood_priest",
+              "n": 2,
+              "budget": 0.1,
+              "name": "Hakkar calls his priests"
+            },
+            {
+              "kind": "enrage",
+              "at": 180,
+              "mult": 2.2,
+              "name": "Hakkar is enraged"
+            }
+          ]
+        }
+      ],
+      "label": "Raid"
+    },
+    {
+      "id": "sw_crocs",
+      "type": "bounty",
+      "zone": "swamp",
+      "title": "Hunt the crocolisks",
+      "text": "They have started to take cattle, then carts.",
+      "enemies": [
+        {
+          "id": "sorrows_crocolisk",
+          "n": 3
+        }
+      ]
+    },
+    {
+      "id": "sw_wraiths",
+      "type": "bounty",
+      "zone": "swamp",
+      "title": "Lay the mire wraiths to rest",
+      "text": "Pale lights over the water lead travellers to the deep mud.",
+      "enemies": [
+        {
+          "id": "mire_wraith",
+          "n": 4
+        }
+      ]
+    },
+    {
+      "id": "sw_ogres",
+      "type": "bounty",
+      "zone": "swamp",
+      "title": "Drive off the bog ogres",
+      "text": "They have claimed the only dry road for a toll of two bucklers.",
+      "enemies": [
+        {
+          "id": "bog_ogre",
+          "n": 1
+        },
+        {
+          "id": "mire_wraith",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "sw_whelps",
+      "type": "bounty",
+      "zone": "swamp",
+      "title": "Cull the emerald whelps",
+      "text": "A nest by the temple wall has grown very restless.",
+      "enemies": [
+        {
+          "id": "emerald_whelp",
+          "n": 4
+        }
+      ]
+    },
+    {
+      "id": "sw_atalai",
+      "type": "bounty",
+      "zone": "swamp",
+      "title": "Scatter the Atal'ai scouts",
+      "text": "They watch the marsh road and report to something below.",
+      "enemies": [
+        {
+          "id": "atalai_warrior",
+          "n": 2
+        },
+        {
+          "id": "atalai_priest",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "sw_lumber",
+      "type": "gathering",
+      "zone": "swamp",
+      "title": "Cut mangrove in the Sorrows",
+      "text": "Waterlogged but plentiful, and the crocolisks know it.",
+      "resource": "lumber",
+      "enemies": [
+        {
+          "id": "sorrows_crocolisk",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "sw_stone",
+      "type": "gathering",
+      "zone": "swamp",
+      "title": "Dredge stones from the shallows",
+      "text": "The sunken causeway is paved with good, heavy stone.",
+      "resource": "stone",
+      "enemies": [
+        {
+          "id": "mire_wraith",
+          "n": 2
+        },
+        {
+          "id": "sorrows_crocolisk",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "sw_food",
+      "type": "gathering",
+      "zone": "swamp",
+      "title": "Fish the Sorrows",
+      "text": "The fish are good. The things that eat them are not.",
+      "resource": "food",
+      "enemies": [
+        {
+          "id": "sorrows_crocolisk",
+          "n": 3
+        }
+      ]
+    },
+    {
+      "id": "sw_herbs",
+      "type": "gathering",
+      "zone": "swamp",
+      "title": "Gather swampbloom",
+      "text": "A grey herb that grows in the dark and heals in the light.",
+      "resource": "herbs",
+      "enemies": [
+        {
+          "id": "mire_wraith",
+          "n": 3
+        }
+      ]
+    },
+    {
+      "id": "sw_leather",
+      "type": "gathering",
+      "zone": "swamp",
+      "title": "Hunt for drake hide",
+      "text": "Scaled hides, tough as plate, from drakes that nest in the reeds.",
+      "resource": "leather",
+      "enemies": [
+        {
+          "id": "emerald_whelp",
+          "n": 3
+        },
+        {
+          "id": "emerald_drake",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "sw_iron_ore",
+      "type": "gathering",
+      "zone": "swamp",
+      "title": "Prospect the temple foothills",
+      "text": "The ore here is dark and heavy, and slightly damp.",
+      "resource": "iron_ore",
+      "enemies": [
+        {
+          "id": "atalai_warrior",
+          "n": 2
+        },
+        {
+          "id": "bog_ogre",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "sw_nest",
+      "type": "slay",
+      "zone": "swamp",
+      "weight": 0.7,
+      "title": "Burn out the drake nest",
+      "text": "Eggs, whelps and one very angry mother.",
+      "enemies": [
+        {
+          "id": "emerald_whelp",
+          "n": 3
+        },
+        {
+          "id": "emerald_drake",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "sw_camp",
+      "type": "slay",
+      "zone": "swamp",
+      "weight": 0.7,
+      "title": "Storm the Atal'ai camp",
+      "text": "Priests of a dead god, sharpening spears by torchlight.",
+      "enemies": [
+        {
+          "id": "atalai_warrior",
+          "n": 3
+        },
+        {
+          "id": "atalai_priest",
+          "n": 2
+        },
+        {
+          "id": "atalai_defender",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "sw_ogre_hold",
+      "type": "slay",
+      "zone": "swamp",
+      "weight": 0.7,
+      "title": "Break the ogre hold",
+      "text": "A mud fort with an unreasonable number of clubs.",
+      "enemies": [
+        {
+          "id": "bog_ogre",
+          "n": 2
+        },
+        {
+          "id": "mire_wraith",
+          "n": 3
+        }
+      ]
+    },
+    {
+      "id": "sw_causeway",
+      "type": "escort",
+      "zone": "swamp",
+      "weight": 0.6,
+      "title": "Lead the pilgrims along the causeway",
+      "text": "A hundred faithful want to see the temple. Please, let them see it from far away.",
+      "enemies": [
+        {
+          "id": "mire_wraith",
+          "n": 3
+        },
+        {
+          "id": "sorrows_crocolisk",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "sw_relic",
+      "type": "escort",
+      "zone": "swamp",
+      "weight": 0.6,
+      "title": "Carry the relics to the shore",
+      "text": "A scholar recovered something the swamp wanted back.",
+      "enemies": [
+        {
+          "id": "atalai_warrior",
+          "n": 2
+        },
+        {
+          "id": "emerald_whelp",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "st_swamp_1",
+      "type": "bounty",
+      "zone": "swamp",
+      "level": 41,
+      "duration": 300,
+      "title": "A temple sinks",
+      "text": "A great stone building has sunk to its eaves in the mud, and the water around it is warm.",
+      "story": {
+        "zone": "swamp",
+        "step": 1,
+        "rep": 40
+      },
+      "enemies": [
+        {
+          "id": "mire_wraith",
+          "n": 3
+        },
+        {
+          "id": "sorrows_crocolisk",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "st_swamp_2",
+      "type": "slay",
+      "zone": "swamp",
+      "level": 43,
+      "duration": 1100,
+      "title": "The dragon's children",
+      "text": "Green dragons are guarding something below the temple. They are not guarding it well.",
+      "story": {
+        "zone": "swamp",
+        "step": 2,
+        "rep": 50
+      },
+      "enemies": [
+        {
+          "id": "emerald_whelp",
+          "n": 3
+        },
+        {
+          "id": "emerald_drake",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "st_swamp_3",
+      "type": "escort",
+      "zone": "swamp",
+      "level": 45,
+      "duration": 1600,
+      "title": "Testimony of the last priest",
+      "text": "One of the Atal'ai wants to talk, and his brothers want him quiet.",
+      "story": {
+        "zone": "swamp",
+        "step": 3,
+        "rep": 60
+      },
+      "enemies": [
+        {
+          "id": "atalai_warrior",
+          "n": 3
+        },
+        {
+          "id": "atalai_priest",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "st_swamp_4",
+      "type": "slay",
+      "zone": "swamp",
+      "level": 47,
+      "duration": 1300,
+      "title": "The temple doors",
+      "text": "Broken stairs and sealed doors. Cut your way to the first hall.",
+      "story": {
+        "zone": "swamp",
+        "step": 4,
+        "rep": 80,
+        "item": {
+          "slot": "chest",
+          "name": "Marsh-wardens\u2019 Hauberk",
+          "rarity": "rare"
+        }
+      },
+      "enemies": [
+        {
+          "id": "atalai_defender",
+          "n": 3
+        },
+        {
+          "id": "atalai_priest",
+          "n": 2
+        },
+        {
+          "id": "emerald_drake",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "atalhakkar",
+      "type": "dungeon",
+      "zone": "swamp",
+      "weight": 2,
+      "level": 46,
+      "duration": 3600,
+      "requires": {
+        "heroes": 4
+      },
+      "title": "The Temple of Atal'Hakkar",
+      "text": "A sunken temple and the god of blood below it. The priests are still serving.",
+      "encounters": [
+        {
+          "name": "The flooded stair",
+          "enemies": [
+            {
+              "id": "mire_wraith",
+              "n": 3
+            },
+            {
+              "id": "atalai_warrior",
+              "n": 2
+            }
+          ],
+          "budget": 0.55
+        },
+        {
+          "name": "Atal'ai guard",
+          "enemies": [
+            {
+              "id": "atalai_warrior",
+              "n": 3
+            },
+            {
+              "id": "atalai_priest",
+              "n": 2
+            }
+          ],
+          "budget": 0.65
+        },
+        {
+          "name": "Drakes of the deep",
+          "enemies": [
+            {
+              "id": "emerald_whelp",
+              "n": 3
+            },
+            {
+              "id": "emerald_drake",
+              "n": 2
+            }
+          ],
+          "budget": 0.75
+        },
+        {
+          "name": "Jammal'an the Prophet",
+          "enemies": [
+            {
+              "id": "jammalan",
+              "n": 1
+            },
+            {
+              "id": "atalai_defender",
+              "n": 2
+            }
+          ],
+          "budget": 0.8,
+          "boss": true,
+          "mechanics": [
+            {
+              "kind": "stack",
+              "every": 5,
+              "perStack": 0.06,
+              "max": 8,
+              "name": "Prophet's curse"
+            },
+            {
+              "kind": "add_wave",
+              "first": 24,
+              "every": 30,
+              "enemy": "atalai_priest",
+              "n": 2,
+              "budget": 0.1,
+              "name": "Priests rise from the water"
+            }
+          ]
+        },
+        {
+          "name": "Avatar of Hakkar",
+          "enemies": [
+            {
+              "id": "avatar_of_hakkar",
+              "n": 1
+            },
+            {
+              "id": "atalai_defender",
+              "n": 2
+            }
+          ],
+          "budget": 0.9,
+          "boss": true,
+          "mechanics": [
+            {
+              "kind": "stack",
+              "every": 5,
+              "perStack": 0.06,
+              "max": 8,
+              "name": "Avatar's grasp"
+            },
+            {
+              "kind": "enrage",
+              "at": 150,
+              "mult": 2,
+              "name": "The avatar flares"
+            }
+          ]
+        },
+        {
+          "name": "Shade of Eranikus",
+          "enemies": [
+            {
+              "id": "shade_of_eranikus",
+              "n": 1
+            }
+          ],
+          "budget": 0.95,
+          "boss": true,
+          "mechanics": [
+            {
+              "kind": "stack",
+              "every": 5,
+              "perStack": 0.06,
+              "max": 10,
+              "name": "Nightmare"
+            },
+            {
+              "kind": "add_wave",
+              "first": 20,
+              "every": 30,
+              "enemy": "emerald_whelp",
+              "n": 3,
+              "budget": 0.1,
+              "name": "Nightmare whelps"
+            },
+            {
+              "kind": "enrage",
+              "at": 170,
+              "mult": 2.2,
+              "name": "The shade is enraged"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bs_scorpids",
+      "type": "bounty",
+      "zone": "steppes",
+      "title": "Clear the scorpid dunes",
+      "text": "Spines like swords, and they come out of the ash itself.",
+      "enemies": [
+        {
+          "id": "steppes_scorpid",
+          "n": 4
+        }
+      ]
+    },
+    {
+      "id": "bs_hounds",
+      "type": "bounty",
+      "zone": "steppes",
+      "title": "Hunt the searing hounds",
+      "text": "They follow the heat, and today that means you.",
+      "enemies": [
+        {
+          "id": "searing_hound",
+          "n": 4
+        }
+      ]
+    },
+    {
+      "id": "bs_outrunners",
+      "type": "bounty",
+      "zone": "steppes",
+      "title": "Scatter Blackrock outrunners",
+      "text": "Scouts for an army that has already begun to march.",
+      "enemies": [
+        {
+          "id": "blackrock_outrunner",
+          "n": 3
+        },
+        {
+          "id": "blackrock_warlock",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "bs_sentries",
+      "type": "bounty",
+      "zone": "steppes",
+      "title": "Break the Dark Iron sentries",
+      "text": "They guard a road with no one on it. That is the worrying part.",
+      "enemies": [
+        {
+          "id": "dark_iron_sentry",
+          "n": 3
+        }
+      ]
+    },
+    {
+      "id": "bs_drakes",
+      "type": "bounty",
+      "zone": "steppes",
+      "title": "Shoot down the black drakes",
+      "text": "They circle over the caravan road, patient as the grave.",
+      "enemies": [
+        {
+          "id": "black_drake",
+          "n": 1
+        },
+        {
+          "id": "blackrock_outrunner",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "bs_lumber",
+      "type": "gathering",
+      "zone": "steppes",
+      "title": "Cut cinderwood",
+      "text": "Black timber that burns slow and builds hard.",
+      "resource": "lumber",
+      "enemies": [
+        {
+          "id": "searing_hound",
+          "n": 2
+        },
+        {
+          "id": "blackrock_outrunner",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "bs_stone",
+      "type": "gathering",
+      "zone": "steppes",
+      "title": "Carry out obsidian",
+      "text": "Obsidian blocks, and a long way to carry them.",
+      "resource": "stone",
+      "enemies": [
+        {
+          "id": "dark_iron_sentry",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "bs_food",
+      "type": "gathering",
+      "zone": "steppes",
+      "title": "Hunt for ash-fed game",
+      "text": "Lean but plentiful, and fiercely competed for.",
+      "resource": "food",
+      "enemies": [
+        {
+          "id": "steppes_scorpid",
+          "n": 3
+        },
+        {
+          "id": "searing_hound",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "bs_herbs",
+      "type": "gathering",
+      "zone": "steppes",
+      "title": "Gather firebloom",
+      "text": "A red herb that sits in the cinder like a spark.",
+      "resource": "herbs",
+      "enemies": [
+        {
+          "id": "searing_hound",
+          "n": 3
+        }
+      ]
+    },
+    {
+      "id": "bs_leather",
+      "type": "gathering",
+      "zone": "steppes",
+      "title": "Skin the steppes scorpids",
+      "text": "Chitin and leather, hard as plate and half as friendly.",
+      "resource": "leather",
+      "enemies": [
+        {
+          "id": "steppes_scorpid",
+          "n": 3
+        },
+        {
+          "id": "black_drake",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "bs_iron_ore",
+      "type": "gathering",
+      "zone": "steppes",
+      "title": "Dig dark iron seams",
+      "text": "The best ore under the sun, and the last of it is still guarded.",
+      "resource": "iron_ore",
+      "enemies": [
+        {
+          "id": "dark_iron_sentry",
+          "n": 3
+        },
+        {
+          "id": "blackrock_warlock",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "bs_war_camp",
+      "type": "slay",
+      "zone": "steppes",
+      "weight": 0.7,
+      "title": "Raid a Blackrock war camp",
+      "text": "Orcs in good armour, with a far better plan than yours.",
+      "enemies": [
+        {
+          "id": "blackrock_outrunner",
+          "n": 3
+        },
+        {
+          "id": "blackrock_warlock",
+          "n": 2
+        },
+        {
+          "id": "dark_iron_sentry",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "bs_forge",
+      "type": "slay",
+      "zone": "steppes",
+      "weight": 0.7,
+      "title": "Silence the forges",
+      "text": "A hundred hammers, a hundred guards, one very long night.",
+      "enemies": [
+        {
+          "id": "dark_iron_sentry",
+          "n": 3
+        },
+        {
+          "id": "dark_iron_golem",
+          "n": 1
+        },
+        {
+          "id": "blackrock_warlock",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "bs_arena",
+      "type": "slay",
+      "zone": "steppes",
+      "weight": 0.7,
+      "title": "Fight in the Ring",
+      "text": "Gladiators who like an audience and have never lost one.",
+      "enemies": [
+        {
+          "id": "ring_gladiator",
+          "n": 3
+        },
+        {
+          "id": "dark_iron_sentry",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "bs_caravan",
+      "type": "escort",
+      "zone": "steppes",
+      "weight": 0.6,
+      "title": "Cross the steppes with a caravan",
+      "text": "The only road runs between two forges. Choose which to be afraid of.",
+      "enemies": [
+        {
+          "id": "black_drake",
+          "n": 1
+        },
+        {
+          "id": "blackrock_outrunner",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "bs_deserters",
+      "type": "escort",
+      "zone": "steppes",
+      "weight": 0.6,
+      "title": "Lead the deserters out",
+      "text": "Dark Iron deserters want to get home. Their own side wants them back.",
+      "enemies": [
+        {
+          "id": "dark_iron_sentry",
+          "n": 3
+        },
+        {
+          "id": "blackrock_warlock",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "st_steppes_1",
+      "type": "bounty",
+      "zone": "steppes",
+      "level": 51,
+      "duration": 320,
+      "title": "Smoke on the horizon",
+      "text": "The sky above the steppes has been black for three days, and the wind smells like iron.",
+      "story": {
+        "zone": "steppes",
+        "step": 1,
+        "rep": 40
+      },
+      "enemies": [
+        {
+          "id": "steppes_scorpid",
+          "n": 3
+        },
+        {
+          "id": "searing_hound",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "st_steppes_2",
+      "type": "slay",
+      "zone": "steppes",
+      "level": 53,
+      "duration": 1200,
+      "title": "The war camp",
+      "text": "Blackrock banners stand in a long, orderly line, as if a parade had been turned into a siege.",
+      "story": {
+        "zone": "steppes",
+        "step": 2,
+        "rep": 50
+      },
+      "enemies": [
+        {
+          "id": "blackrock_outrunner",
+          "n": 3
+        },
+        {
+          "id": "blackrock_warlock",
+          "n": 2
+        },
+        {
+          "id": "dark_iron_sentry",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "st_steppes_3",
+      "type": "escort",
+      "zone": "steppes",
+      "level": 55,
+      "duration": 1700,
+      "title": "The pass to the mountain",
+      "text": "There is one pass left to the Depths, and one friendly guide.",
+      "story": {
+        "zone": "steppes",
+        "step": 3,
+        "rep": 60
+      },
+      "enemies": [
+        {
+          "id": "dark_iron_sentry",
+          "n": 3
+        },
+        {
+          "id": "black_drake",
+          "n": 1
+        },
+        {
+          "id": "blackrock_warlock",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "st_steppes_4",
+      "type": "slay",
+      "zone": "steppes",
+      "level": 57,
+      "duration": 1400,
+      "title": "Gates of the mountain",
+      "text": "The great doors are shut and the guards are hot with anger. Go through them.",
+      "story": {
+        "zone": "steppes",
+        "step": 4,
+        "rep": 80,
+        "item": {
+          "slot": "legs",
+          "name": "Dark Iron Greaves",
+          "rarity": "rare"
+        }
+      },
+      "enemies": [
+        {
+          "id": "dark_iron_sentry",
+          "n": 3
+        },
+        {
+          "id": "dark_iron_golem",
+          "n": 2
+        },
+        {
+          "id": "ring_gladiator",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "blackrock_depths",
+      "type": "dungeon",
+      "zone": "steppes",
+      "weight": 2,
+      "level": 53,
+      "duration": 4200,
+      "requires": {
+        "heroes": 5
+      },
+      "title": "Blackrock Depths",
+      "text": "A city under a mountain, and a throne of fire at the end. Do not dawdle.",
+      "encounters": [
+        {
+          "name": "The gatehouse",
+          "enemies": [
+            {
+              "id": "dark_iron_sentry",
+              "n": 3
+            },
+            {
+              "id": "blackrock_warlock",
+              "n": 2
+            }
+          ],
+          "budget": 0.55
+        },
+        {
+          "name": "The Ring of Law",
+          "enemies": [
+            {
+              "id": "ring_gladiator",
+              "n": 3
+            },
+            {
+              "id": "dark_iron_sentry",
+              "n": 2
+            }
+          ],
+          "budget": 0.65
+        },
+        {
+          "name": "General Angerforge",
+          "enemies": [
+            {
+              "id": "general_angerforge",
+              "n": 1
+            },
+            {
+              "id": "dark_iron_sentry",
+              "n": 2
+            }
+          ],
+          "budget": 0.8,
+          "boss": true,
+          "mechanics": [
+            {
+              "kind": "stack",
+              "every": 5,
+              "perStack": 0.06,
+              "max": 8,
+              "name": "Mighty blow"
+            },
+            {
+              "kind": "add_wave",
+              "first": 22,
+              "every": 30,
+              "enemy": "dark_iron_sentry",
+              "n": 2,
+              "budget": 0.1,
+              "name": "The general calls reinforcements"
+            }
+          ]
+        },
+        {
+          "name": "The Dark Iron forges",
+          "enemies": [
+            {
+              "id": "dark_iron_golem",
+              "n": 2
+            },
+            {
+              "id": "blackrock_warlock",
+              "n": 3
+            }
+          ],
+          "budget": 0.8
+        },
+        {
+          "name": "The throne guard",
+          "enemies": [
+            {
+              "id": "black_drake",
+              "n": 2
+            },
+            {
+              "id": "ring_gladiator",
+              "n": 3
+            }
+          ],
+          "budget": 0.85
+        },
+        {
+          "name": "Emperor Thaurissan",
+          "enemies": [
+            {
+              "id": "emperor_thaurissan",
+              "n": 1
+            },
+            {
+              "id": "dark_iron_sentry",
+              "n": 2
+            }
+          ],
+          "budget": 0.95,
+          "boss": true,
+          "mechanics": [
+            {
+              "kind": "stack",
+              "every": 5,
+              "perStack": 0.06,
+              "max": 10,
+              "name": "Dark flame"
+            },
+            {
+              "kind": "add_wave",
+              "first": 20,
+              "every": 30,
+              "enemy": "blackrock_warlock",
+              "n": 2,
+              "budget": 0.1,
+              "name": "The emperor summons mages"
+            },
+            {
+              "kind": "enrage",
+              "at": 180,
+              "mult": 2.2,
+              "name": "The emperor is enraged"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mc_spawn",
+      "type": "bounty",
+      "zone": "molten",
+      "title": "Smother the lava spawn",
+      "text": "They split when struck. Do not strike them badly.",
+      "enemies": [
+        {
+          "id": "lava_spawn",
+          "n": 4
+        }
+      ]
+    },
+    {
+      "id": "mc_hounds",
+      "type": "bounty",
+      "zone": "molten",
+      "title": "Hunt the core hounds",
+      "text": "Packs of molten dogs, loyal to a fire.",
+      "enemies": [
+        {
+          "id": "core_hound",
+          "n": 4
+        }
+      ]
+    },
+    {
+      "id": "mc_ore",
+      "type": "gathering",
+      "zone": "molten",
+      "title": "Mine the molten seams",
+      "text": "The hottest ore in the world, if you can carry it.",
+      "resource": "iron_ore",
+      "enemies": [
+        {
+          "id": "lava_surger",
+          "n": 2
+        },
+        {
+          "id": "core_hound",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "mc_stone",
+      "type": "gathering",
+      "zone": "molten",
+      "title": "Cut cooled basalt",
+      "text": "Black basalt from beside the firelands. Quick, before it warms.",
+      "resource": "stone",
+      "enemies": [
+        {
+          "id": "lava_spawn",
+          "n": 3
+        }
+      ]
+    },
+    {
+      "id": "mc_herbs",
+      "type": "gathering",
+      "zone": "molten",
+      "title": "Gather ember herbs",
+      "text": "A flower that blooms in the heat of the deep, and wilts in the sun.",
+      "resource": "herbs",
+      "enemies": [
+        {
+          "id": "core_hound",
+          "n": 3
+        }
+      ]
+    },
+    {
+      "id": "mc_lair",
+      "type": "slay",
+      "zone": "molten",
+      "weight": 0.7,
+      "title": "Storm the core hound lair",
+      "text": "Every hound in the mountain, and one very large one.",
+      "enemies": [
+        {
+          "id": "core_hound",
+          "n": 4
+        },
+        {
+          "id": "ancient_core_hound",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "mc_pilgrims",
+      "type": "escort",
+      "zone": "molten",
+      "weight": 0.6,
+      "title": "Guide the fire pilgrims",
+      "text": "They seek an audience with a lord who will not be gracious.",
+      "enemies": [
+        {
+          "id": "lava_surger",
+          "n": 2
+        },
+        {
+          "id": "flamewaker",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "st_molten_1",
+      "type": "bounty",
+      "zone": "molten",
+      "level": 60,
+      "duration": 300,
+      "title": "The firelands stir",
+      "text": "Rivers of orange cross the black stone. Something large is rising beneath them.",
+      "story": {
+        "zone": "molten",
+        "step": 1,
+        "rep": 60
+      },
+      "enemies": [
+        {
+          "id": "lava_spawn",
+          "n": 3
+        },
+        {
+          "id": "core_hound",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "st_molten_2",
+      "type": "slay",
+      "zone": "molten",
+      "level": 60,
+      "duration": 1500,
+      "title": "The flamewakers",
+      "text": "Priests in red robes tend the heart of the mountain and sing to it.",
+      "story": {
+        "zone": "molten",
+        "step": 2,
+        "rep": 80
+      },
+      "enemies": [
+        {
+          "id": "flamewaker",
+          "n": 3
+        },
+        {
+          "id": "lava_surger",
+          "n": 2
+        },
+        {
+          "id": "ancient_core_hound",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "st_molten_3",
+      "type": "escort",
+      "zone": "molten",
+      "level": 60,
+      "duration": 1800,
+      "title": "A message for the Firelord",
+      "text": "There is a path through the lower halls. One of them has agreed to walk it with you.",
+      "story": {
+        "zone": "molten",
+        "step": 3,
+        "rep": 100,
+        "item": {
+          "slot": "trinket",
+          "name": "Core Ember",
+          "rarity": "epic"
+        }
+      },
+      "enemies": [
+        {
+          "id": "molten_destroyer",
+          "n": 1
+        },
+        {
+          "id": "flamewaker",
+          "n": 2
+        },
+        {
+          "id": "lava_surger",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "ragnaros",
+      "type": "raid",
+      "zone": "molten",
+      "weight": 2,
+      "level": 60,
+      "duration": 10800,
+      "requires": {
+        "heroes": 8
+      },
+      "title": "Ragnaros, the Firelord",
+      "text": "The master of the Molten Core, and the end of Era 1. Take the best you have.",
+      "encounters": [
+        {
+          "name": "The lava gate",
+          "enemies": [
+            {
+              "id": "lava_surger",
+              "n": 3
+            },
+            {
+              "id": "core_hound",
+              "n": 3
+            }
+          ],
+          "budget": 0.6
+        },
+        {
+          "name": "Magmadar",
+          "enemies": [
+            {
+              "id": "magmadar",
+              "n": 1
+            },
+            {
+              "id": "core_hound",
+              "n": 3
+            }
+          ],
+          "budget": 0.75,
+          "boss": true,
+          "mechanics": [
+            {
+              "kind": "stack",
+              "every": 5,
+              "perStack": 0.06,
+              "max": 8,
+              "name": "Lava breath"
+            },
+            {
+              "kind": "add_wave",
+              "first": 22,
+              "every": 30,
+              "enemy": "core_hound",
+              "n": 3,
+              "budget": 0.1,
+              "name": "Hounds pour from the walls"
+            }
+          ]
+        },
+        {
+          "name": "Garr",
+          "enemies": [
+            {
+              "id": "garr",
+              "n": 1
+            },
+            {
+              "id": "lava_spawn",
+              "n": 3
+            }
+          ],
+          "budget": 0.8,
+          "boss": true,
+          "mechanics": [
+            {
+              "kind": "stack",
+              "every": 5,
+              "perStack": 0.06,
+              "max": 8,
+              "name": "Magma shackles"
+            },
+            {
+              "kind": "add_wave",
+              "first": 20,
+              "every": 28,
+              "enemy": "lava_spawn",
+              "n": 3,
+              "budget": 0.1,
+              "name": "Firesworn emerge"
+            }
+          ]
+        },
+        {
+          "name": "The flamewaker conclave",
+          "enemies": [
+            {
+              "id": "flamewaker",
+              "n": 4
+            },
+            {
+              "id": "lava_surger",
+              "n": 3
+            }
+          ],
+          "budget": 0.85
+        },
+        {
+          "name": "Majordomo Executus",
+          "enemies": [
+            {
+              "id": "majordomo",
+              "n": 1
+            },
+            {
+              "id": "flamewaker",
+              "n": 3
+            }
+          ],
+          "budget": 0.9,
+          "boss": true,
+          "mechanics": [
+            {
+              "kind": "stack",
+              "every": 5,
+              "perStack": 0.06,
+              "max": 8,
+              "name": "Magic reflection"
+            },
+            {
+              "kind": "enrage",
+              "at": 150,
+              "mult": 2,
+              "name": "The majordomo grows tired of you"
+            }
+          ]
+        },
+        {
+          "name": "The heart of the mountain",
+          "enemies": [
+            {
+              "id": "molten_destroyer",
+              "n": 2
+            },
+            {
+              "id": "ancient_core_hound",
+              "n": 2
+            }
+          ],
+          "budget": 0.95
+        },
+        {
+          "name": "Ragnaros, the Firelord",
+          "enemies": [
+            {
+              "id": "ragnaros",
+              "n": 1
+            }
+          ],
+          "budget": 1.05,
+          "boss": true,
+          "mechanics": [
+            {
+              "kind": "stack",
+              "every": 5,
+              "perStack": 0.07,
+              "max": 10,
+              "name": "Hammer of the Firelord"
+            },
+            {
+              "kind": "add_wave",
+              "first": 20,
+              "every": 28,
+              "enemy": "lava_spawn",
+              "n": 3,
+              "budget": 0.12,
+              "name": "Sons of Flame"
+            },
+            {
+              "kind": "enrage",
+              "at": 200,
+              "mult": 2.4,
+              "name": "Ragnaros is enraged"
+            }
+          ]
+        }
+      ],
+      "label": "Era boss",
+      "eraBoss": 1
+    },
+    {
+      "id": "hf_imps",
+      "type": "bounty",
+      "zone": "hellfire",
+      "title": "Snuff the hellfire imps",
+      "text": "They are small, they are many, and they are on fire.",
+      "enemies": [
+        {
+          "id": "hellfire_imp",
+          "n": 5
+        }
+      ]
+    },
+    {
+      "id": "hf_hounds",
+      "type": "bounty",
+      "zone": "hellfire",
+      "title": "Hunt the fel hounds",
+      "text": "Red-eyed and hungry, and they follow the road.",
+      "enemies": [
+        {
+          "id": "fel_hound",
+          "n": 4
+        }
+      ]
+    },
+    {
+      "id": "hf_orcs",
+      "type": "bounty",
+      "zone": "hellfire",
+      "title": "Break the Bleeding Hollow patrol",
+      "text": "Orcs who drank deep, and do not remember why.",
+      "enemies": [
+        {
+          "id": "bleeding_hollow_orc",
+          "n": 3
+        },
+        {
+          "id": "hellfire_imp",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "hf_iron_ore",
+      "type": "gathering",
+      "zone": "hellfire",
+      "title": "Mine the Fel-touched seams",
+      "text": "Dark ore that hums when the wind is wrong.",
+      "resource": "iron_ore",
+      "enemies": [
+        {
+          "id": "felguard_sentry",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "hf_herbs",
+      "type": "gathering",
+      "zone": "hellfire",
+      "title": "Gather felweed",
+      "text": "A glowing green weed that grows where nothing else will.",
+      "resource": "herbs",
+      "enemies": [
+        {
+          "id": "hellfire_imp",
+          "n": 3
+        }
+      ]
+    },
+    {
+      "id": "hf_stone",
+      "type": "gathering",
+      "zone": "hellfire",
+      "title": "Quarry the broken ramparts",
+      "text": "Ancient stone, scorched and strangely warm.",
+      "resource": "stone",
+      "enemies": [
+        {
+          "id": "bleeding_hollow_orc",
+          "n": 2
+        },
+        {
+          "id": "fel_hound",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "hf_leather",
+      "type": "gathering",
+      "zone": "hellfire",
+      "title": "Skin the fel hounds",
+      "text": "Tough hide, and it keeps a faint green glow.",
+      "resource": "leather",
+      "enemies": [
+        {
+          "id": "fel_hound",
+          "n": 3
+        }
+      ]
+    },
+    {
+      "id": "hf_outpost",
+      "type": "slay",
+      "zone": "hellfire",
+      "weight": 0.7,
+      "title": "Storm a Legion outpost",
+      "text": "A watchtower and a lot of very angry guards.",
+      "enemies": [
+        {
+          "id": "felguard_sentry",
+          "n": 3
+        },
+        {
+          "id": "hellfire_imp",
+          "n": 3
+        }
+      ]
+    },
+    {
+      "id": "hf_pit",
+      "type": "slay",
+      "zone": "hellfire",
+      "weight": 0.7,
+      "title": "Clear the Bleeding Hollow pit",
+      "text": "Gladiators at the bottom of a hole, and a crowd that wants a show.",
+      "enemies": [
+        {
+          "id": "bleeding_hollow_orc",
+          "n": 4
+        },
+        {
+          "id": "felguard_sentry",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "hf_pilgrims",
+      "type": "escort",
+      "zone": "hellfire",
+      "weight": 0.6,
+      "title": "Guide the Honor Hold supply cart",
+      "text": "The road from the Hold is long and the cart is slow.",
+      "enemies": [
+        {
+          "id": "fel_hound",
+          "n": 2
+        },
+        {
+          "id": "bleeding_hollow_orc",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "hf_scholars",
+      "type": "escort",
+      "zone": "hellfire",
+      "weight": 0.6,
+      "title": "Walk the scholars to the Dark Portal",
+      "text": "They want to see it. You want them back.",
+      "enemies": [
+        {
+          "id": "felguard_sentry",
+          "n": 2
+        },
+        {
+          "id": "hellfire_imp",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "st_hellfire_1",
+      "type": "bounty",
+      "zone": "hellfire",
+      "level": 62,
+      "duration": 300,
+      "title": "Red sky over the Peninsula",
+      "text": "The portal is open and the sky above it is the colour of an old wound.",
+      "story": {
+        "zone": "hellfire",
+        "step": 1,
+        "rep": 50
+      },
+      "enemies": [
+        {
+          "id": "hellfire_imp",
+          "n": 3
+        },
+        {
+          "id": "fel_hound",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "st_hellfire_2",
+      "type": "slay",
+      "zone": "hellfire",
+      "level": 64,
+      "duration": 1300,
+      "title": "The siege of Honor Hold",
+      "text": "The Hold has stood for weeks. Help it stand for a few more.",
+      "story": {
+        "zone": "hellfire",
+        "step": 2,
+        "rep": 70
+      },
+      "enemies": [
+        {
+          "id": "bleeding_hollow_orc",
+          "n": 3
+        },
+        {
+          "id": "felguard_sentry",
+          "n": 3
+        }
+      ]
+    },
+    {
+      "id": "st_hellfire_3",
+      "type": "escort",
+      "zone": "hellfire",
+      "level": 66,
+      "duration": 1800,
+      "title": "The road to the Ramparts",
+      "text": "There is a fortress at the end of the road, and the only guide is a wounded scout.",
+      "story": {
+        "zone": "hellfire",
+        "step": 3,
+        "rep": 90
+      },
+      "enemies": [
+        {
+          "id": "felguard_sentry",
+          "n": 3
+        },
+        {
+          "id": "fel_hound",
+          "n": 2
+        },
+        {
+          "id": "bleeding_hollow_orc",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "hellfire_ramparts",
+      "type": "dungeon",
+      "zone": "hellfire",
+      "weight": 2,
+      "level": 64,
+      "duration": 6000,
+      "requires": {
+        "heroes": 5
+      },
+      "eraBoss": 2,
+      "label": "Era boss",
+      "title": "Hellfire Ramparts",
+      "text": "The fortress gate of the Legion in Outland, and the end of Era 2. The chronicle stops here for now.",
+      "encounters": [
+        {
+          "name": "The gatehouse",
+          "enemies": [
+            {
+              "id": "felguard_sentry",
+              "n": 3
+            },
+            {
+              "id": "hellfire_imp",
+              "n": 3
+            }
+          ],
+          "budget": 0.6
+        },
+        {
+          "name": "Watchkeeper Gargolmar",
+          "enemies": [
+            {
+              "id": "watchkeeper_gargolmar",
+              "n": 1
+            },
+            {
+              "id": "felguard_sentry",
+              "n": 2
+            }
+          ],
+          "budget": 0.8,
+          "boss": true,
+          "mechanics": [
+            {
+              "kind": "stack",
+              "every": 5,
+              "perStack": 0.06,
+              "max": 8,
+              "name": "Cleave"
+            },
+            {
+              "kind": "add_wave",
+              "first": 22,
+              "every": 30,
+              "enemy": "hellfire_imp",
+              "n": 3,
+              "budget": 0.1,
+              "name": "Reinforcements arrive"
+            }
+          ]
+        },
+        {
+          "name": "The inner rampart",
+          "enemies": [
+            {
+              "id": "fel_reaver_sentry",
+              "n": 2
+            },
+            {
+              "id": "bleeding_hollow_orc",
+              "n": 3
+            }
+          ],
+          "budget": 0.85
+        },
+        {
+          "name": "Omor the Unscarred",
+          "enemies": [
+            {
+              "id": "omor_the_unscarred",
+              "n": 1
+            },
+            {
+              "id": "fel_hound",
+              "n": 3
+            }
+          ],
+          "budget": 0.9,
+          "boss": true,
+          "mechanics": [
+            {
+              "kind": "stack",
+              "every": 5,
+              "perStack": 0.06,
+              "max": 8,
+              "name": "Shadow bolt"
+            },
+            {
+              "kind": "add_wave",
+              "first": 20,
+              "every": 28,
+              "enemy": "fel_hound",
+              "n": 3,
+              "budget": 0.1,
+              "name": "Hounds on the wall"
+            }
+          ]
+        },
+        {
+          "name": "The herald's court",
+          "enemies": [
+            {
+              "id": "felguard_sentry",
+              "n": 3
+            },
+            {
+              "id": "fel_reaver_sentry",
+              "n": 2
+            }
+          ],
+          "budget": 0.95
+        },
+        {
+          "name": "Vazruden the Herald",
+          "enemies": [
+            {
+              "id": "vazruden_the_herald",
+              "n": 1
+            },
+            {
+              "id": "felguard_sentry",
+              "n": 2
+            }
+          ],
+          "budget": 1.05,
+          "boss": true,
+          "mechanics": [
+            {
+              "kind": "stack",
+              "every": 5,
+              "perStack": 0.07,
+              "max": 10,
+              "name": "Fire breath"
+            },
+            {
+              "kind": "add_wave",
+              "first": 20,
+              "every": 28,
+              "enemy": "hellfire_imp",
+              "n": 4,
+              "budget": 0.1,
+              "name": "Imps pour in"
+            },
+            {
+              "kind": "enrage",
+              "at": 200,
+              "mult": 2.4,
+              "name": "The herald is enraged"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "loot": {
+    "bounty": {
+      "chance": 0.12,
+      "luck": 0
+    },
+    "gathering": {
+      "chance": 0,
+      "luck": 0
+    },
+    "dungeon": {
+      "rolls": 2,
+      "bossRolls": 1,
+      "bossMinRarity": "rare",
+      "luck": 0.5,
+      "firstClearGoldMult": 3,
+      "firstClearRarity": "epic"
+    },
+    "autoSellFull": true,
+    "slay": {
+      "chance": 0.6,
+      "luck": 0.3
+    },
+    "escort": {
+      "chance": 0.05,
+      "luck": 0
+    },
+    "raid": {
+      "rolls": 4,
+      "bossRolls": 2,
+      "bossMinRarity": "epic",
+      "luck": 0.7
+    }
+  },
+  "orders": {
+    "barracks": 1,
+    "smartBarracks": 3,
+    "levelsPerSlot": 3,
+    "maxSlots": 4,
+    "minOdds": [
+      0,
+      0.5,
+      0.7,
+      0.9
+    ],
+    "defaultMinOdds": 0.5,
+    "retrySeconds": 15
+  },
+  "story": {
+    "pinned": true
+  }
+}

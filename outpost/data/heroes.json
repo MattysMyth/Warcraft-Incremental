@@ -1,0 +1,640 @@
+{
+  "maxLevel": 60,
+  "xp": {
+    "base": 100,
+    "exp": 1.8
+  },
+  "hp": {
+    "base": 60,
+    "perLevel": 12,
+    "staminaRef": 10,
+    "staminaStep": 100,
+    "floor": 0.5
+  },
+  "crit": {
+    "base": 5,
+    "perAgility": 0.05,
+    "cap": 40
+  },
+  "haste": {
+    "perAgility": 0.0025
+  },
+  "regen": {
+    "perSpirit": 0.02
+  },
+  "armour": {
+    "perStamina": 0.5,
+    "perStrength": 0.25
+  },
+  "healing": {
+    "perSpirit": 1,
+    "perIntellect": 0.5
+  },
+  "talentEvery": 10,
+  "roster": {
+    "base": 2,
+    "levelsPerSlot": 3
+  },
+  "recruit": {
+    "cost": 1000,
+    "growth": 2.0,
+    "perStartLevel": 0.5
+  },
+  "pool": {
+    "base": 3,
+    "levelsPerExtra": 5,
+    "max": 6,
+    "seconds": 600,
+    "refreshCost": {
+      "base": 1000,
+      "perTavernLevel": 0.1
+    },
+    "startLevelEvery": 10
+  },
+  "drill": {
+    "maxLevel": 15,
+    "seconds": 30,
+    "levelExp": 1.2,
+    "barracksBonus": 0.05
+  },
+  "injury": {
+    "restSeconds": 120,
+    "restRateBase": 0.25,
+    "restRatePerChapel": 0.05,
+    "restRateMax": 2
+  },
+  "morale": {
+    "base": 0.9,
+    "fed": 0.05,
+    "tavernMax": 0.05,
+    "tavernLevels": 30,
+    "winsMax": 0.1
+  },
+  "stats": [
+    {
+      "id": "strength",
+      "name": "Strength",
+      "short": "Str",
+      "blurb": "Melee power"
+    },
+    {
+      "id": "agility",
+      "name": "Agility",
+      "short": "Agi",
+      "blurb": "Speed and crit"
+    },
+    {
+      "id": "intellect",
+      "name": "Intellect",
+      "short": "Int",
+      "blurb": "Spell power"
+    },
+    {
+      "id": "stamina",
+      "name": "Stamina",
+      "short": "Sta",
+      "blurb": "Health"
+    },
+    {
+      "id": "spirit",
+      "name": "Spirit",
+      "short": "Spi",
+      "blurb": "Healing and regeneration"
+    }
+  ],
+  "races": [
+    {
+      "id": "human",
+      "name": "Human",
+      "passive": "Versatile: 5% more experience",
+      "effect": {
+        "xp": 0.05
+      },
+      "names": {
+        "first": [
+          "Edric",
+          "Marlow",
+          "Corwin",
+          "Halric",
+          "Rowan",
+          "Tamsin",
+          "Elspeth",
+          "Orla",
+          "Brenna",
+          "Garrick",
+          "Wystan",
+          "Maren"
+        ],
+        "last": [
+          "Ashgrove",
+          "Millbrook",
+          "Harrowgate",
+          "Thornfield",
+          "Wickham",
+          "Dunmere",
+          "Cressy",
+          "Fairweather"
+        ]
+      }
+    },
+    {
+      "id": "dwarf",
+      "name": "Dwarf",
+      "passive": "Stoneborn: 10% more health",
+      "effect": {
+        "hp": 0.1
+      },
+      "names": {
+        "first": [
+          "Brokk",
+          "Haldra",
+          "Thrum",
+          "Borrin",
+          "Ydra",
+          "Korsk",
+          "Magda",
+          "Dolgan",
+          "Hilda",
+          "Rurik",
+          "Torvi",
+          "Gorm"
+        ],
+        "last": [
+          "Ironvein",
+          "Deepdelve",
+          "Stonehelm",
+          "Coalbeard",
+          "Granitefist",
+          "Anvilborn",
+          "Hearthstone",
+          "Rockwhistle"
+        ]
+      }
+    },
+    {
+      "id": "gnome",
+      "name": "Gnome",
+      "passive": "Tinkerer: 5% more intellect and 10% faster brewing at the Alchemy Lab",
+      "effect": {
+        "craft": 0.1
+      },
+      "statMult": {
+        "intellect": 1.05
+      },
+      "names": {
+        "first": [
+          "Fizzwick",
+          "Tobble",
+          "Nimbra",
+          "Cogsworth",
+          "Pip",
+          "Zinnia",
+          "Whistlebolt",
+          "Marla",
+          "Gizmo",
+          "Tansy",
+          "Quillon",
+          "Brindle"
+        ],
+        "last": [
+          "Sprocketwhirl",
+          "Gearloose",
+          "Tinkerton",
+          "Boltspinner",
+          "Copperwick",
+          "Fuseblossom",
+          "Rivetsnap",
+          "Clockbottom"
+        ]
+      }
+    },
+    {
+      "id": "night_elf",
+      "name": "Night Elf",
+      "passive": "Fleet: 5% more agility",
+      "effect": {},
+      "statMult": {
+        "agility": 1.05
+      },
+      "names": {
+        "first": [
+          "Ilvenar",
+          "Sylmae",
+          "Thalen",
+          "Elarra",
+          "Naevis",
+          "Taryn",
+          "Aelwyn",
+          "Veyra",
+          "Lorien",
+          "Maelis",
+          "Sorrel",
+          "Ashenne"
+        ],
+        "last": [
+          "Moonwhisper",
+          "Dawnleaf",
+          "Starbough",
+          "Silverbrook",
+          "Nightdew",
+          "Swiftthorn",
+          "Greenglade",
+          "Duskweave"
+        ]
+      }
+    }
+  ],
+  "traits": [
+    {
+      "id": "quick_learner",
+      "name": "Quick learner",
+      "text": "10% more experience",
+      "effect": {
+        "xp": 0.1
+      }
+    },
+    {
+      "id": "sturdy",
+      "name": "Sturdy",
+      "text": "5% more health",
+      "effect": {
+        "hp": 0.05
+      }
+    },
+    {
+      "id": "keen_eyed",
+      "name": "Keen eyed",
+      "text": "+2 crit chance",
+      "effect": {
+        "crit": 2
+      }
+    },
+    {
+      "id": "steady_hands",
+      "name": "Steady hands",
+      "text": "8% more healing",
+      "effect": {
+        "healing": 0.08
+      }
+    },
+    {
+      "id": "fierce",
+      "name": "Fierce",
+      "text": "4% more power",
+      "effect": {
+        "power": 0.04
+      }
+    },
+    {
+      "id": "stalwart",
+      "name": "Stalwart",
+      "text": "10% more threat",
+      "effect": {
+        "threat": 0.1
+      }
+    },
+    {
+      "id": "hardy",
+      "name": "Hardy",
+      "text": "Recovers from injury 20% faster",
+      "effect": {
+        "recovery": 0.2
+      }
+    },
+    {
+      "id": "cheerful",
+      "name": "Cheerful",
+      "text": "Morale is 0.02 higher",
+      "effect": {
+        "morale": 0.02
+      }
+    }
+  ],
+  "classes": [
+    {
+      "id": "warrior",
+      "name": "Warrior",
+      "role": "Tank",
+      "unlock": null,
+      "primary": "strength",
+      "threat": 3,
+      "base": {
+        "strength": 12,
+        "agility": 8,
+        "intellect": 4,
+        "stamina": 14,
+        "spirit": 5
+      },
+      "growth": {
+        "strength": 1.6,
+        "agility": 0.8,
+        "intellect": 0.2,
+        "stamina": 2.0,
+        "spirit": 0.4
+      },
+      "weights": {
+        "strength": 1,
+        "agility": 0.4,
+        "intellect": 0,
+        "stamina": 1.2,
+        "spirit": 0.1
+      },
+      "ability": {
+        "name": "Taunt",
+        "text": "Draws enemy attacks for 6 s"
+      },
+      "perks": [
+        {
+          "id": "bulwark",
+          "name": "Bulwark",
+          "text": "15% more threat",
+          "effect": {
+            "threat": 0.15
+          }
+        },
+        {
+          "id": "plate_training",
+          "name": "Plate training",
+          "text": "10% more armour",
+          "effect": {
+            "armour": 0.1
+          }
+        }
+      ]
+    },
+    {
+      "id": "mage",
+      "name": "Mage",
+      "role": "Ranged damage",
+      "unlock": {
+        "building": "mage_tower",
+        "level": 1
+      },
+      "primary": "intellect",
+      "threat": 1,
+      "base": {
+        "strength": 4,
+        "agility": 6,
+        "intellect": 14,
+        "stamina": 6,
+        "spirit": 10
+      },
+      "growth": {
+        "strength": 0.2,
+        "agility": 0.6,
+        "intellect": 2.0,
+        "stamina": 0.7,
+        "spirit": 1.0
+      },
+      "weights": {
+        "strength": 0,
+        "agility": 0.2,
+        "intellect": 1,
+        "stamina": 0.4,
+        "spirit": 0.3
+      },
+      "ability": {
+        "name": "Fireball",
+        "text": "Big single-target hit, long cooldown"
+      },
+      "perks": [
+        {
+          "id": "arcane_focus",
+          "name": "Arcane focus",
+          "text": "10% more power",
+          "effect": {
+            "power": 0.1
+          }
+        },
+        {
+          "id": "ward",
+          "name": "Ward",
+          "text": "10% more health",
+          "effect": {
+            "hp": 0.1
+          }
+        }
+      ]
+    },
+    {
+      "id": "rogue",
+      "name": "Rogue",
+      "role": "Burst damage",
+      "unlock": {
+        "building": "tavern",
+        "level": 3
+      },
+      "primary": "agility",
+      "threat": 1,
+      "base": {
+        "strength": 9,
+        "agility": 14,
+        "intellect": 4,
+        "stamina": 8,
+        "spirit": 5
+      },
+      "growth": {
+        "strength": 1.0,
+        "agility": 1.8,
+        "intellect": 0.2,
+        "stamina": 0.9,
+        "spirit": 0.3
+      },
+      "weights": {
+        "strength": 0.3,
+        "agility": 1,
+        "intellect": 0,
+        "stamina": 0.5,
+        "spirit": 0
+      },
+      "ability": {
+        "name": "Backstab",
+        "text": "Double damage on the first attack of a fight"
+      },
+      "perks": [
+        {
+          "id": "deadly_edge",
+          "name": "Deadly edge",
+          "text": "+3 crit chance",
+          "effect": {
+            "crit": 3
+          }
+        },
+        {
+          "id": "quick_hands",
+          "name": "Quick hands",
+          "text": "8% more haste",
+          "effect": {
+            "haste": 0.08
+          }
+        }
+      ]
+    },
+    {
+      "id": "priest",
+      "name": "Priest",
+      "role": "Healer",
+      "unlock": {
+        "building": "chapel",
+        "level": 1
+      },
+      "primary": "intellect",
+      "threat": 1,
+      "base": {
+        "strength": 3,
+        "agility": 5,
+        "intellect": 10,
+        "stamina": 8,
+        "spirit": 14
+      },
+      "growth": {
+        "strength": 0.2,
+        "agility": 0.4,
+        "intellect": 1.2,
+        "stamina": 0.9,
+        "spirit": 1.9
+      },
+      "weights": {
+        "strength": 0,
+        "agility": 0,
+        "intellect": 0.5,
+        "stamina": 0.4,
+        "spirit": 1
+      },
+      "ability": {
+        "name": "Heal",
+        "text": "Restores 30% of a chosen ally's health"
+      },
+      "perks": [
+        {
+          "id": "devout",
+          "name": "Devout",
+          "text": "12% more healing",
+          "effect": {
+            "healing": 0.12
+          }
+        },
+        {
+          "id": "serenity",
+          "name": "Serenity",
+          "text": "20% more regeneration",
+          "effect": {
+            "regen": 0.2
+          }
+        }
+      ]
+    },
+    {
+      "id": "hunter",
+      "name": "Hunter",
+      "role": "Sustained damage",
+      "unlock": {
+        "building": "barracks",
+        "level": 3
+      },
+      "primary": "agility",
+      "threat": 1,
+      "base": {
+        "strength": 8,
+        "agility": 14,
+        "intellect": 6,
+        "stamina": 9,
+        "spirit": 6
+      },
+      "growth": {
+        "strength": 0.8,
+        "agility": 1.8,
+        "intellect": 0.5,
+        "stamina": 1.1,
+        "spirit": 0.4
+      },
+      "weights": {
+        "strength": 0.2,
+        "agility": 1,
+        "intellect": 0.1,
+        "stamina": 0.5,
+        "spirit": 0.1
+      },
+      "ability": {
+        "name": "Multi-Shot",
+        "text": "Hits up to three enemies"
+      },
+      "perks": [
+        {
+          "id": "steady_aim",
+          "name": "Steady aim",
+          "text": "+3 crit chance",
+          "effect": {
+            "crit": 3
+          }
+        },
+        {
+          "id": "swift_quiver",
+          "name": "Swift quiver",
+          "text": "8% more haste",
+          "effect": {
+            "haste": 0.08
+          }
+        }
+      ]
+    },
+    {
+      "id": "paladin",
+      "name": "Paladin",
+      "role": "Hybrid tank and healer",
+      "unlock": {
+        "building": "chapel",
+        "level": 5
+      },
+      "primary": "strength",
+      "threat": 2,
+      "base": {
+        "strength": 11,
+        "agility": 6,
+        "intellect": 8,
+        "stamina": 13,
+        "spirit": 8
+      },
+      "growth": {
+        "strength": 1.3,
+        "agility": 0.5,
+        "intellect": 0.9,
+        "stamina": 1.7,
+        "spirit": 0.9
+      },
+      "weights": {
+        "strength": 0.8,
+        "agility": 0.1,
+        "intellect": 0.4,
+        "stamina": 1,
+        "spirit": 0.4
+      },
+      "ability": {
+        "name": "Holy Light",
+        "text": "Small heal plus a damage shield"
+      },
+      "perks": [
+        {
+          "id": "devotion",
+          "name": "Devotion",
+          "text": "10% more armour",
+          "effect": {
+            "armour": 0.1
+          }
+        },
+        {
+          "id": "sacred_light",
+          "name": "Sacred light",
+          "text": "12% more healing",
+          "effect": {
+            "healing": 0.12
+          }
+        }
+      ]
+    }
+  ],
+  "eraCaps": [
+    60,
+    70
+  ]
+}

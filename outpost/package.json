@@ -1,0 +1,17 @@
+{
+  "name": "outpost-of-azeroth",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Unofficial, non-commercial Warcraft-universe incremental game. See the design doc.",
+  "scripts": {
+    "test": "node --test \"test/*.test.js\"",
+    "build": "node build.js",
+    "sim": "node sim/pacing.js",
+    "tune": "node sim/tune-townhall.js",
+    "play": "node sim/play.js"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.0"
+  }
+}

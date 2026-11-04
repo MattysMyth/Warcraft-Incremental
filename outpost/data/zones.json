@@ -1,0 +1,451 @@
+{
+  "reputation": {
+    "tiers": [
+      {
+        "id": "stranger",
+        "name": "Stranger",
+        "at": 0,
+        "reward": 1.0,
+        "luck": 0
+      },
+      {
+        "id": "known",
+        "name": "Known",
+        "at": 40,
+        "reward": 1.05,
+        "luck": 0.05
+      },
+      {
+        "id": "friendly",
+        "name": "Friendly",
+        "at": 120,
+        "reward": 1.1,
+        "luck": 0.1
+      },
+      {
+        "id": "trusted",
+        "name": "Trusted",
+        "at": 300,
+        "reward": 1.15,
+        "luck": 0.15
+      },
+      {
+        "id": "honored",
+        "name": "Honored",
+        "at": 600,
+        "reward": 1.25,
+        "luck": 0.2
+      }
+    ],
+    "gain": {
+      "bounty": 2,
+      "gathering": 1,
+      "slay": 4,
+      "escort": 10,
+      "dungeon": 30,
+      "raid": 60
+    },
+    "firstClear": 60
+  },
+  "recruit": {
+    "discount": 0.5
+  },
+  "zones": [
+    {
+      "id": "elwynn",
+      "name": "Elwynn Forest",
+      "levels": [
+        1,
+        10
+      ],
+      "tier": 1,
+      "headline": "fargodeep_mine",
+      "gate": null,
+      "blurb": "Farms, woods and the old mine road. Everything starts here.",
+      "titles": [
+        "Stranger",
+        "Farmhand's Friend",
+        "Goldshire Regular",
+        "Friend of the Vale",
+        "Warden of Elwynn"
+      ],
+      "perk": {
+        "key": "gold",
+        "value": 0.1,
+        "text": "+10% gold from quests"
+      }
+    },
+    {
+      "id": "westfall",
+      "name": "Westfall",
+      "levels": [
+        10,
+        20
+      ],
+      "tier": 2,
+      "headline": "the_deadmines",
+      "gate": {
+        "zone": "elwynn",
+        "dungeon": "fargodeep_mine"
+      },
+      "blurb": "Rolling farmland, a lighthouse and a gang that has dug in underground.",
+      "titles": [
+        "Stranger",
+        "Hill Visitor",
+        "Sentinel's Ally",
+        "Friend of the Harvest",
+        "Guardian of Westfall"
+      ],
+      "perk": {
+        "key": "res",
+        "value": 0.1,
+        "text": "+10% resources from gathering quests"
+      }
+    },
+    {
+      "id": "duskwood",
+      "name": "Duskwood",
+      "levels": [
+        20,
+        30
+      ],
+      "tier": 3,
+      "headline": "stitches",
+      "gate": {
+        "zone": "westfall",
+        "dungeon": "the_deadmines"
+      },
+      "blurb": "Fog, old graves and a village that keeps its candles lit.",
+      "titles": [
+        "Stranger",
+        "Lantern Bearer",
+        "Night Watch Friend",
+        "Light of Darkshire",
+        "Keeper of Duskwood"
+      ],
+      "perk": {
+        "key": "xp",
+        "value": 0.1,
+        "text": "+10% experience from quests"
+      }
+    },
+    {
+      "id": "stranglethorn",
+      "name": "Stranglethorn Vale",
+      "levels": [
+        30,
+        40
+      ],
+      "tier": 4,
+      "headline": "zul_gurub",
+      "gate": {
+        "zone": "duskwood",
+        "dungeon": "stitches",
+        "townHall": 8
+      },
+      "blurb": "Jungle, pirates and an old troll city that has started to hum.",
+      "titles": [
+        "Stranger",
+        "Jungle Walker",
+        "Bay Regular",
+        "Friend of the Vale",
+        "Warden of Stranglethorn"
+      ],
+      "perk": {
+        "key": "gold",
+        "value": 0.1,
+        "text": "+10% gold from quests"
+      }
+    },
+    {
+      "id": "swamp",
+      "name": "Swamp of Sorrows",
+      "levels": [
+        40,
+        50
+      ],
+      "tier": 5,
+      "headline": "atalhakkar",
+      "gate": {
+        "zone": "stranglethorn",
+        "dungeon": "zul_gurub"
+      },
+      "blurb": "Grey water, green dragons and a sunken temple that is not quite sunk.",
+      "titles": [
+        "Stranger",
+        "Marsh Visitor",
+        "Causeway Friend",
+        "Friend of the Shore",
+        "Warden of the Sorrows"
+      ],
+      "perk": {
+        "key": "res",
+        "value": 0.1,
+        "text": "+10% resources from gathering quests"
+      }
+    },
+    {
+      "id": "steppes",
+      "name": "Burning Steppes",
+      "levels": [
+        50,
+        60
+      ],
+      "tier": 6,
+      "headline": "blackrock_depths",
+      "gate": {
+        "zone": "swamp",
+        "dungeon": "atalhakkar"
+      },
+      "blurb": "Ash, obsidian and an army waiting for orders.",
+      "titles": [
+        "Stranger",
+        "Ash Walker",
+        "Caravan Friend",
+        "Friend of the Pass",
+        "Warden of the Steppes"
+      ],
+      "perk": {
+        "key": "xp",
+        "value": 0.1,
+        "text": "+10% experience from quests"
+      }
+    },
+    {
+      "id": "molten",
+      "name": "Molten Core",
+      "levels": [
+        60,
+        60
+      ],
+      "tier": 7,
+      "headline": "ragnaros",
+      "gate": {
+        "zone": "steppes",
+        "dungeon": "blackrock_depths",
+        "townHall": 15
+      },
+      "blurb": "The heart of the mountain, and the master of the fire.",
+      "titles": [
+        "Stranger",
+        "Ember Walker",
+        "Hall Friend",
+        "Friend of the Flame",
+        "Warden of the Core"
+      ],
+      "perk": {
+        "key": "gold",
+        "value": 0.15,
+        "text": "+15% gold from quests"
+      }
+    },
+    {
+      "id": "hellfire",
+      "name": "Hellfire Peninsula",
+      "era": 2,
+      "levels": [
+        61,
+        70
+      ],
+      "tier": 7,
+      "headline": "hellfire_ramparts",
+      "blurb": "A scorched land past the Dark Portal. Era 2 begins here; the rest of the chronicle is still being written.",
+      "titles": [
+        "Stranger",
+        "Hold Friend",
+        "Wall Guard",
+        "Hero of the Hold",
+        "Warden of Outland"
+      ],
+      "perk": {
+        "key": "xp",
+        "value": 0.1,
+        "text": "+10% experience from quests"
+      }
+    }
+  ],
+  "recruits": [
+    {
+      "id": "maren_holt",
+      "zone": "elwynn",
+      "name": "Maren Holt",
+      "race": "human",
+      "class": "warrior",
+      "trait": "stalwart",
+      "level": 8,
+      "requires": {
+        "story": 3
+      },
+      "blurb": "The drover from the mine road, who has not stopped being grateful."
+    },
+    {
+      "id": "edda_stonehelm",
+      "zone": "elwynn",
+      "name": "Edda Stonehelm",
+      "race": "dwarf",
+      "class": "priest",
+      "trait": "stalwart",
+      "level": 10,
+      "requires": {
+        "tier": 3
+      },
+      "blurb": "A travelling healer who trusts the Warden's word."
+    },
+    {
+      "id": "jory_wickerman",
+      "zone": "westfall",
+      "name": "Jory Wickerman",
+      "race": "human",
+      "class": "hunter",
+      "trait": "stalwart",
+      "level": 16,
+      "requires": {
+        "story": 4
+      },
+      "blurb": "A farmhand turned tracker who knows every field and every ditch."
+    },
+    {
+      "id": "pip_brasswhistle",
+      "zone": "westfall",
+      "name": "Pip Brasswhistle",
+      "race": "gnome",
+      "class": "rogue",
+      "trait": "stalwart",
+      "level": 16,
+      "requires": {
+        "tier": 3
+      },
+      "blurb": "A gnome who knows the Deadmines tunnels better than their builders."
+    },
+    {
+      "id": "lysandra_dawnveil",
+      "zone": "duskwood",
+      "name": "Lysandra Dawnveil",
+      "race": "night_elf",
+      "class": "hunter",
+      "trait": "stalwart",
+      "level": 26,
+      "requires": {
+        "story": 4
+      },
+      "blurb": "A sentinel who followed the fog south and stayed."
+    },
+    {
+      "id": "garrick_vane",
+      "zone": "duskwood",
+      "name": "Garrick Vane",
+      "race": "human",
+      "class": "paladin",
+      "trait": "stalwart",
+      "level": 26,
+      "requires": {
+        "tier": 3
+      },
+      "blurb": "A watchman with a very good lantern and a better sword."
+    },
+    {
+      "id": "kess_stormveil",
+      "zone": "stranglethorn",
+      "name": "Kess Stormveil",
+      "race": "night_elf",
+      "class": "mage",
+      "trait": "stalwart",
+      "level": 36,
+      "requires": {
+        "story": 4
+      },
+      "blurb": "A scholar of the old ruins who survived by being too curious to die."
+    },
+    {
+      "id": "brogan_ironvale",
+      "zone": "stranglethorn",
+      "name": "Brogan Ironvale",
+      "race": "dwarf",
+      "class": "warrior",
+      "trait": "stalwart",
+      "level": 36,
+      "requires": {
+        "tier": 3
+      },
+      "blurb": "A veteran who came to the Vale for the gold and stayed for the fight."
+    },
+    {
+      "id": "tilda_marshfield",
+      "zone": "swamp",
+      "name": "Tilda Marshfield",
+      "race": "human",
+      "class": "priest",
+      "trait": "stalwart",
+      "level": 46,
+      "requires": {
+        "story": 4
+      },
+      "blurb": "A hedge healer who knows every drowned shrine by its smell."
+    },
+    {
+      "id": "fenwick_cogsworth",
+      "zone": "swamp",
+      "name": "Fenwick Cogsworth",
+      "race": "gnome",
+      "class": "hunter",
+      "trait": "stalwart",
+      "level": 46,
+      "requires": {
+        "tier": 3
+      },
+      "blurb": "A gnome with a crossbow bigger than he is and more patience than he looks."
+    },
+    {
+      "id": "harlan_emberhand",
+      "zone": "steppes",
+      "name": "Harlan Emberhand",
+      "race": "human",
+      "class": "paladin",
+      "trait": "stalwart",
+      "level": 56,
+      "requires": {
+        "story": 4
+      },
+      "blurb": "A knight who has walked the Steppes twice and does not plan a third."
+    },
+    {
+      "id": "sable_nightwhisper",
+      "zone": "steppes",
+      "name": "Sable Nightwhisper",
+      "race": "night_elf",
+      "class": "rogue",
+      "trait": "stalwart",
+      "level": 56,
+      "requires": {
+        "tier": 3
+      },
+      "blurb": "A shadow who went into the Depths alone and came out with a map."
+    },
+    {
+      "id": "ignis_hallowed",
+      "zone": "molten",
+      "name": "Ignis the Hallowed",
+      "race": "dwarf",
+      "class": "paladin",
+      "trait": "stalwart",
+      "level": 60,
+      "requires": {
+        "story": 3
+      },
+      "blurb": "A priest of the light who walks into the fire because no one else will."
+    },
+    {
+      "id": "embrie_flintlock",
+      "zone": "molten",
+      "name": "Embrie Flintlock",
+      "race": "gnome",
+      "class": "mage",
+      "trait": "stalwart",
+      "level": 60,
+      "requires": {
+        "tier": 3
+      },
+      "blurb": "She has been in the Core and out of it, and still wants to see it again."
+    }
+  ]
+}

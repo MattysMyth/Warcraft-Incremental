@@ -1,0 +1,51 @@
+{
+  "costGrowth": 1.15,
+  "milestones": [
+    10,
+    25,
+    50
+  ],
+  "milestoneMultiplier": 2,
+  "stipendGoldPerSec": 0.5,
+  "tributeGold": 1,
+  "tickSeconds": 0.1,
+  "offlineChunkSeconds": 10,
+  "offlineTiers": [
+    {
+      "upToSeconds": 7200,
+      "rate": 1.0
+    },
+    {
+      "upToSeconds": 43200,
+      "rate": 0.5
+    },
+    {
+      "upToSeconds": 604800,
+      "rate": 0.1
+    }
+  ],
+  "welcomeBackMinSeconds": 60,
+  "logLimit": 40,
+  "startingResources": {
+    "gold": 10
+  },
+  "caps": {
+    "base": 1000,
+    "perWarehouseLevel": 1.3
+  },
+  "housing": {
+    "base": 4,
+    "perHouseLevel": 4
+  },
+  "residents": {
+    "arrivalSeconds": 20,
+    "arrivalFood": 5,
+    "foodPerSecEach": 0.1
+  },
+  "workers": {
+    "maxPerBuilding": 5,
+    "bonusEach": 0.1
+  },
+  "levelsPerTownHall": 10,
+  "hungerQuestSpeed": 0.5
+}

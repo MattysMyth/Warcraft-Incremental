@@ -1,0 +1,68 @@
+{
+  "brew": {
+    "queueMax": 5,
+    "stockBase": 6,
+    "stockPerLab": 2,
+    "speedPerLab": 0.05,
+    "craftMax": 0.5
+  },
+  "potions": [
+    {
+      "id": "vigour",
+      "name": "Draught of Vigour",
+      "lab": 1,
+      "cost": {
+        "herbs": 8,
+        "gold": 2000
+      },
+      "seconds": 90,
+      "effect": {
+        "hp": 0.2
+      },
+      "text": "+20% health for one quest"
+    },
+    {
+      "id": "might",
+      "name": "Brew of Might",
+      "lab": 3,
+      "cost": {
+        "herbs": 14,
+        "gold": 5000
+      },
+      "seconds": 150,
+      "effect": {
+        "power": 0.2
+      },
+      "text": "+20% damage for one quest"
+    },
+    {
+      "id": "ward",
+      "name": "Ward Tonic",
+      "lab": 5,
+      "cost": {
+        "herbs": 20,
+        "gold": 9000
+      },
+      "seconds": 210,
+      "effect": {
+        "armour": 0.35
+      },
+      "text": "+35% armour for one quest"
+    },
+    {
+      "id": "mending",
+      "name": "Mending Salve",
+      "lab": 7,
+      "cost": {
+        "herbs": 26,
+        "gold": 14000
+      },
+      "seconds": 270,
+      "effect": {
+        "healing": 0.3,
+        "hp": 0.1
+      },
+      "text": "+30% healing and +10% health for one quest"
+    }
+  ]
+}
