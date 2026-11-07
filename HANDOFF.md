@@ -461,3 +461,21 @@ offline welcome card, number formats, corrupt-save quarantine, no sideways scrol
 - `npm run build:pages` writes `docs/index.html` (standalone: doctype, viewport with `viewport-fit=cover`, iOS home-screen meta tags, inline favicon) and `docs/.nojekyll`. `npm run build` still writes the fragment form in `dist/` for the Artifact host.
 - `.github/workflows/pages.yml` tests, builds and deploys `docs/` on push to `main` (Settings > Pages > Source: GitHub Actions). README.md has both hosting routes.
 - iOS: `touch-action: manipulation` on everything (no double-tap zoom, pinch zoom kept), `user-select: none` and no tap callout on buttons, 16 px fields on touch screens (stops focus zoom). Verified in Chromium touch emulation only, not on a real iPhone.
+
+## Worker slots scale (post-CP10 change)
+
+- Previously every building took a flat 5 workers (+10% each), so housing past about 40 residents did nothing. Now `economy.workers` also has `levelsPerExtraSlot: 10`, `maxExtraSlots: 15`, `extraBonusEach: 0.05`: a building gains one extra slot per 10 levels (up to 20 workers at level 150), and extra slots add +5% each instead of +10%. `workerCap(state, id)` in derive.js is the single source; actions, save cleaning, UI and the sim bot all use it. The bot fills the 10% slots of every building before any 5% slot.
+- Not tuned: the bot never builds more than 25 residents (`desired` in sim/pacing.js), so the pacing baselines do not exercise the extra slots. Housing cost and late food use with many more workers is untested.
+
+## Checkpoint 11: hands-on play (incremental, not idle)
+
+Goal from the player: make it an incremental game, not an idle one. Six changes, all data-driven in `data/engage.json` (validated by `validateEngage` in data.js), save version 11.
+
+- **Offline and orders.** `economy.offlineTiers` is now 100% for 15 min, 40% to 2 h, 15% to 12 h, 5% to 3 days (an away day is worth about 3 hours). Standing orders: slot 1 at Barracks 1 as before, one more slot per 5 levels (was 3), best-available orders from Barracks 10 (was 3). Gating orders harder than this slowed the early bot beyond the pacing targets, so the first slot was kept.
+- **Rally.** `state.rally {charge, burst, bursts}`. Each tribute tap adds `tapCharge`; at `full` a 20 s burst gives +40% output (`outputBoost` in engage.js, also on the stipend). Charge drains 3 per second. Tribute is now a flat sum plus 0.1 s of gold income (`tributeGain`), so it keeps pace with the town.
+- **Perks.** `town.perks[building][level] = 'a' | 'b'` at levels 10/25/50 on the 8 workplaces (output, cheaper levels, worker bonus, worker slots). First pick free, a change costs `respecSeconds` of gold income. Perk discount enters through `ecoFor(state, data, id)`, so any caller pricing a building should pass the id.
+- **Edicts.** `town.edict`, one at a time, Town Hall 2+, swap costs gold. Multiplies resource output, building prices or quest speed. Both reset with a Rebuild.
+- **Timed events.** `state.event {id,left,total}` and `state.events {next,seq,taken}`. A caravan, scholar, omen or refugees arrive every 4 to 7 minutes once a Market is level 3, stay 2 minutes and lapse with no penalty. Each has a free choice (validated). Buffs live in `state.buffs`. Setting `events: 'off'` stops them.
+- **Hero commands.** Each class has one command (`engage.commands.byClass`); `issueCommand` shortens the trip or adds `run.bonus.gold / xp`, then the hero rests 90 s (`state.quests.cmd`). Success is decided at launch, so commands change time and pay, never the outcome.
+- **Measure.** `npm run engage -- --hours=24` plays five habits and prints progress against the hands-on bot. Seed 1, 24 h: hands-on 100%, plain play 85%, 15 min every hour 93%, every 4 h 55%, once a day 7%. Bot options: `engage`, `tapsPerSec`, `presence`.
+- **Not tuned.** All numbers above are first guesses. Pacing baselines still use the plain bot, so a hands-on player runs about 15% ahead of the design targets. The 15-minutes-an-hour player is barely behind; tighten `offlineTiers` or add upkeep if that is too generous. No real-device test of the new screens; checked in Chromium at 390 px and 1200 px only.

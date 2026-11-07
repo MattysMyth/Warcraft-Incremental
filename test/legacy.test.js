@@ -255,7 +255,7 @@ test('Sands upgrades are bought with Sands and feed the shared bonus reader', ()
   assert.equal(bonusOf(b, 'boardSlots'), 4);
   const h = buySands(s, 'hourglass').state;
   assert.ok(effectiveSeconds(86400, DATA.economy.offlineTiers, bonusOf(h, 'offlineRate')) > effectiveSeconds(86400));
-  assert.equal(effectiveSeconds(1000, DATA.economy.offlineTiers, 0.5), 1000, 'the first tier was already full rate');
+  assert.equal(effectiveSeconds(900, DATA.economy.offlineTiers, 0.5), 900, 'the first tier was already full rate');
 });
 
 test('the Warden\'s Journal records long absences only when bought', () => {

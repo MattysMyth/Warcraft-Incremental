@@ -1,0 +1,509 @@
+{
+ "rally": {
+  "tapCharge": 4,
+  "full": 100,
+  "decayPerSec": 3,
+  "burstSeconds": 20,
+  "boost": 0.4,
+  "tributeSeconds": 0.1
+ },
+ "perks": {
+  "tiers": [
+   10,
+   25,
+   50
+  ],
+  "respecSeconds": 120,
+  "respecMin": 100,
+  "byBuilding": {
+   "lumber_camp": [
+    {
+     "a": {
+      "name": "Sharpened Axes",
+      "output": 0.25
+     },
+     "b": {
+      "name": "Cheap Timber Sheds",
+      "discount": 0.15
+     }
+    },
+    {
+     "a": {
+      "name": "Teamsters",
+      "workerBonus": 0.05
+     },
+     "b": {
+      "name": "Second Crew",
+      "slots": 2
+     }
+    },
+    {
+     "a": {
+      "name": "Old Growth Rights",
+      "output": 0.6
+     },
+     "b": {
+      "name": "Sawmill Annex",
+      "discount": 0.3,
+      "slots": 3
+     }
+    }
+   ],
+   "farm": [
+    {
+     "a": {
+      "name": "Crop Rotation",
+      "output": 0.25
+     },
+     "b": {
+      "name": "Shared Barns",
+      "discount": 0.15
+     }
+    },
+    {
+     "a": {
+      "name": "Scarecrows",
+      "workerBonus": 0.05
+     },
+     "b": {
+      "name": "Extra Hands",
+      "slots": 2
+     }
+    },
+    {
+     "a": {
+      "name": "Bumper Harvest",
+      "output": 0.6
+     },
+     "b": {
+      "name": "Granary Lofts",
+      "discount": 0.3,
+      "slots": 3
+     }
+    }
+   ],
+   "market": [
+    {
+     "a": {
+      "name": "Busy Stalls",
+      "output": 0.25
+     },
+     "b": {
+      "name": "Fair Rents",
+      "discount": 0.15
+     }
+    },
+    {
+     "a": {
+      "name": "Guild Stewards",
+      "workerBonus": 0.05
+     },
+     "b": {
+      "name": "Second Row",
+      "slots": 2
+     }
+    },
+    {
+     "a": {
+      "name": "Merchant Quarter",
+      "output": 0.6
+     },
+     "b": {
+      "name": "Trade Fair",
+      "discount": 0.3,
+      "slots": 3
+     }
+    }
+   ],
+   "quarry": [
+    {
+     "a": {
+      "name": "Iron Chisels",
+      "output": 0.25
+     },
+     "b": {
+      "name": "Rubble Carts",
+      "discount": 0.15
+     }
+    },
+    {
+     "a": {
+      "name": "Blasting Powder",
+      "workerBonus": 0.05
+     },
+     "b": {
+      "name": "Extra Crew",
+      "slots": 2
+     }
+    },
+    {
+     "a": {
+      "name": "Deep Cut",
+      "output": 0.6
+     },
+     "b": {
+      "name": "Quarry Lodge",
+      "discount": 0.3,
+      "slots": 3
+     }
+    }
+   ],
+   "mine": [
+    {
+     "a": {
+      "name": "Pick Steel",
+      "output": 0.25
+     },
+     "b": {
+      "name": "Timbered Shafts",
+      "discount": 0.15
+     }
+    },
+    {
+     "a": {
+      "name": "Rail Carts",
+      "workerBonus": 0.05
+     },
+     "b": {
+      "name": "Second Shift",
+      "slots": 2
+     }
+    },
+    {
+     "a": {
+      "name": "Rich Vein",
+      "output": 0.6
+     },
+     "b": {
+      "name": "Deep Galleries",
+      "discount": 0.3,
+      "slots": 3
+     }
+    }
+   ],
+   "blacksmith": [
+    {
+     "a": {
+      "name": "Hotter Forge",
+      "output": 0.25
+     },
+     "b": {
+      "name": "Bellows Boys",
+      "discount": 0.15
+     }
+    },
+    {
+     "a": {
+      "name": "Apprentice Line",
+      "workerBonus": 0.05
+     },
+     "b": {
+      "name": "Journeymen",
+      "slots": 2
+     }
+    },
+    {
+     "a": {
+      "name": "Master's Anvil",
+      "output": 0.6
+     },
+     "b": {
+      "name": "Foundry Row",
+      "discount": 0.3,
+      "slots": 3
+     }
+    }
+   ],
+   "alchemy_lab": [
+    {
+     "a": {
+      "name": "Fine Alembics",
+      "output": 0.25
+     },
+     "b": {
+      "name": "Herb Gardens",
+      "discount": 0.15
+     }
+    },
+    {
+     "a": {
+      "name": "Assistants",
+      "workerBonus": 0.05
+     },
+     "b": {
+      "name": "Night Shift",
+      "slots": 2
+     }
+    },
+    {
+     "a": {
+      "name": "Distilled Wonders",
+      "output": 0.6
+     },
+     "b": {
+      "name": "Annex Lab",
+      "discount": 0.3,
+      "slots": 3
+     }
+    }
+   ],
+   "mage_tower": [
+    {
+     "a": {
+      "name": "Focus Crystals",
+      "output": 0.25
+     },
+     "b": {
+      "name": "Student Hall",
+      "discount": 0.15
+     }
+    },
+    {
+     "a": {
+      "name": "Ley Tapping",
+      "workerBonus": 0.05
+     },
+     "b": {
+      "name": "Apprentice Circle",
+      "slots": 2
+     }
+    },
+    {
+     "a": {
+      "name": "Spire Rising",
+      "output": 0.6
+     },
+     "b": {
+      "name": "Arcane Library",
+      "discount": 0.3,
+      "slots": 3
+     }
+    }
+   ]
+  }
+ },
+ "edicts": {
+  "townHall": 2,
+  "swapSeconds": 90,
+  "swapMin": 100,
+  "list": [
+   {
+    "id": "timber_levy",
+    "name": "Timber Levy",
+    "text": "Fell more trees at the price of the fields.",
+    "res": {
+     "lumber": 1.5,
+     "food": 0.8
+    }
+   },
+   {
+    "id": "harvest_rites",
+    "name": "Harvest Rites",
+    "text": "Feast days fill the larders; the stalls stay quiet.",
+    "res": {
+     "food": 1.5,
+     "gold": 0.8
+    }
+   },
+   {
+    "id": "market_day",
+    "name": "Market Day",
+    "text": "Every day is market day, and builders charge for it.",
+    "res": {
+     "gold": 1.4
+    },
+    "costMult": 1.2
+   },
+   {
+    "id": "quarry_charter",
+    "name": "Stonebreaker's Charter",
+    "text": "Stone and ore first; the sawmills wait.",
+    "res": {
+     "stone": 1.5,
+     "iron_ore": 1.25,
+     "lumber": 0.8
+    }
+   },
+   {
+    "id": "war_drums",
+    "name": "War Drums",
+    "text": "Parties march faster; the treasury pays for the drums.",
+    "questSpeed": 0.25,
+    "res": {
+     "gold": 0.85
+    }
+   },
+   {
+    "id": "austerity",
+    "name": "Austerity",
+    "text": "Build cheaply and spend little.",
+    "costMult": 0.8,
+    "res": {
+     "gold": 0.85
+    }
+   }
+  ]
+ },
+ "events": {
+  "firstDelaySeconds": 240,
+  "interval": [
+   240,
+   420
+  ],
+  "window": 120,
+  "minMarket": 3,
+  "list": [
+   {
+    "id": "caravan",
+    "name": "Merchant Caravan",
+    "text": "A caravan has stopped at the gate. The drivers will sell from their wagons.",
+    "choices": [
+     {
+      "label": "Buy timber",
+      "cost": {
+       "res": "gold",
+       "seconds": 90,
+       "min": 40
+      },
+      "gain": {
+       "res": "lumber",
+       "seconds": 600,
+       "min": 60
+      }
+     },
+     {
+      "label": "Buy provisions",
+      "cost": {
+       "res": "gold",
+       "seconds": 90,
+       "min": 40
+      },
+      "gain": {
+       "res": "food",
+       "seconds": 600,
+       "min": 60
+      }
+     },
+     {
+      "label": "Send them on"
+     }
+    ]
+   },
+   {
+    "id": "scholar",
+    "name": "Wandering Scholar",
+    "text": "A scholar offers a lecture on logistics to anyone who will stand him a meal.",
+    "choices": [
+     {
+      "label": "Stand him a meal",
+      "cost": {
+       "res": "gold",
+       "seconds": 60,
+       "min": 30
+      },
+      "buff": {
+       "name": "Logistics lecture",
+       "questSpeed": 0.35,
+       "seconds": 300
+      }
+     },
+     {
+      "label": "Politely decline"
+     }
+    ]
+   },
+   {
+    "id": "omen",
+    "name": "Omen of Plenty",
+    "text": "Birds wheel over the outpost and the weather is mild. The villagers wonder what to make of it.",
+    "choices": [
+     {
+      "label": "Hold a feast",
+      "cost": {
+       "res": "food",
+       "seconds": 120,
+       "min": 25
+      },
+      "buff": {
+       "name": "Feast day",
+       "output": 0.3,
+       "seconds": 180
+      }
+     },
+     {
+      "label": "Make offerings",
+      "cost": {
+       "res": "gold",
+       "seconds": 60,
+       "min": 30
+      },
+      "buff": {
+       "name": "Offerings",
+       "output": 0.2,
+       "seconds": 240
+      }
+     },
+     {
+      "label": "Ignore it"
+     }
+    ]
+   },
+   {
+    "id": "refugees",
+    "name": "Refugees at the Gate",
+    "text": "A handful of travellers ask for shelter and a place at the table.",
+    "needsRoom": true,
+    "choices": [
+     {
+      "label": "Take them in",
+      "cost": {
+       "res": "food",
+       "seconds": 60,
+       "min": 15
+      },
+      "residents": 2
+     },
+     {
+      "label": "Send them on"
+     }
+    ]
+   }
+  ]
+ },
+ "commands": {
+  "cooldownSeconds": 90,
+  "byClass": {
+   "warrior": {
+    "name": "Charge",
+    "text": "cuts 30% from the trip",
+    "time": 0.3
+   },
+   "mage": {
+    "name": "Arcane Haste",
+    "text": "cuts 25% from the trip",
+    "time": 0.25
+   },
+   "rogue": {
+    "name": "Scout Ahead",
+    "text": "adds 25% to gold and goods",
+    "gold": 0.25
+   },
+   "priest": {
+    "name": "Blessing",
+    "text": "adds 30% experience",
+    "xp": 0.3
+   },
+   "hunter": {
+    "name": "Track Quarry",
+    "text": "adds 25% to gold and goods",
+    "gold": 0.25
+   },
+   "paladin": {
+    "name": "Rallying Cry",
+    "text": "cuts 15% and adds 15% experience",
+    "time": 0.15,
+    "xp": 0.15
+   }
+  }
+ }
+}

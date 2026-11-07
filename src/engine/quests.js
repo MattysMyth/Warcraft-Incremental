@@ -15,7 +15,7 @@ const clamp = (x, lo, hi) => Math.min(hi, Math.max(lo, x));
 const round5 = (x) => Math.max(5, Math.round(x / 5) * 5);
 
 export const newQuests = (data = DATA) => ({
-  board: [], active: [], orders: [], counter: 0, refreshIn: QD(data).board.refreshSeconds, history: [], seq: 0, focus: null, orderSeq: 0,
+  board: [], active: [], orders: [], counter: 0, refreshIn: QD(data).board.refreshSeconds, history: [], seq: 0, focus: null, orderSeq: 0, cmd: {},
 });
 
 export const busyIds = (state) => new Set(state.quests.active.flatMap((r) => r.party));
@@ -296,13 +296,16 @@ function finishRun(state, run, data) {
     const openBefore = new Set(openZones(s, data).map((z) => z.id));
     const firstClear = isDelve(run.offer.type) && !zone.cleared.includes(tpl.id);
     const stolen = run.stolen ?? 0;
-    const gold = Math.round(run.reward.gold * (1 - stolen) * (firstClear ? QD(data).loot.dungeon.firstClearGoldMult : 1));
+    const gold = Math.round(run.reward.gold * (1 + (run.bonus?.gold ?? 0)) * (1 - stolen) * (firstClear ? QD(data).loot.dungeon.firstClearGoldMult : 1));
+    // A hero's command can raise what the trip pays; the bonus is stored on the run.
+    const lift = 1 + (run.bonus?.gold ?? 0);
+    const rewardRes = Object.fromEntries(Object.entries(run.reward.res).map(([id, amt]) => [id, Math.round(amt * lift)]));
     let res = { ...s.res, gold: s.res.gold + gold };
-    for (const [id, amt] of Object.entries(run.reward.res)) res[id] = Math.min(storageCap(s, id, data), (res[id] ?? 0) + amt);
+    for (const [id, amt] of Object.entries(rewardRes)) res[id] = Math.min(storageCap(s, id, data), (res[id] ?? 0) + amt);
     let xpTotal = 0;
     const heroes = s.heroes.map((h) => {
       if (!run.party.includes(h.id)) return h;
-      const xp = heroXpFor(s, h, run.offer, data);
+      const xp = heroXpFor(s, h, run.offer, data) * (1 + (run.bonus?.xp ?? 0));
       xpTotal += xp;
       return addXp(h, xp, data, heroCap(s, data));
     });
@@ -338,7 +341,7 @@ function finishRun(state, run, data) {
     const tierAfter = tierIndex(next.rep, data);
     const loot = dropLoot(s, run, firstClear, data);
     s = loot.state;
-    Object.assign(entry, { gold, xp: Math.round(xpTotal), res: run.reward.res, loot: loot.names, sold: loot.sold, firstClear, legacy: points, stolen, rep: gain, story: !!tpl.story, opened: opened.map((z) => z.name) });
+    Object.assign(entry, { gold, xp: Math.round(xpTotal), res: rewardRes, loot: loot.names, sold: loot.sold, firstClear, legacy: points, stolen, rep: gain, story: !!tpl.story, opened: opened.map((z) => z.name) });
     for (const z of opened) s = { ...s, log: [{ t: s.savedAt, text: `${z.name} is open to the outpost's parties.` }, ...s.log] };
     if (tierAfter > tierBefore) {
       const zn = data.zoneById[run.offer.zone];
@@ -347,7 +350,7 @@ function finishRun(state, run, data) {
     }
     const bits = [];
     if (gold) bits.push(`${gold} gold`);
-    for (const [id, amt] of Object.entries(run.reward.res)) bits.push(`${amt} ${data.resourceById[id].name.toLowerCase()}`);
+    for (const [id, amt] of Object.entries(rewardRes)) bits.push(`${amt} ${data.resourceById[id].name.toLowerCase()}`);
     bits.push(`${entry.xp} experience`);
     if (loot.names.length) bits.push(`${loot.names.length} ${loot.names.length === 1 ? 'item' : 'items'}`);
     line = `${names.join(' and ')} finished "${run.offer.title}": ${bits.join(', ')}.${tpl.story ? ' The story moves on.' : ''}${points ? ` ${points} Legacy earned.` : ''}`;
@@ -496,7 +499,7 @@ export function launch(state, offer, partyIds, data = DATA, { potion = null, ord
   const total = runSeconds(state, offer, data);
   const run = {
     id: offer.id, offer, party: ids, remaining: Math.max(1, total - credit), total, chance, success: fight.won, units,
-    stolen: fight.stolen, wipedAt: fight.wipedAt, reward: rewardFor(state, offer, ids.length, data), potion: potion ?? null, order: order ?? null,
+    stolen: fight.stolen, wipedAt: fight.wipedAt, reward: rewardFor(state, offer, ids.length, data), potion: potion ?? null, order: order ?? null, bonus: { gold: 0, xp: 0 },
   };
   const alchemy = potion ? { ...state.alchemy, stock: { ...state.alchemy.stock, [potion]: potionStock(state, potion) - ids.length } } : state.alchemy;
   return { ok: true, run, state: { ...state, alchemy, quests: { ...state.quests, active: [...state.quests.active, run] } } };

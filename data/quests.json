@@ -4153,8 +4153,8 @@
   },
   "orders": {
     "barracks": 1,
-    "smartBarracks": 3,
-    "levelsPerSlot": 3,
+    "smartBarracks": 10,
+    "levelsPerSlot": 5,
     "maxSlots": 4,
     "minOdds": [
       0,

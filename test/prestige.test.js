@@ -104,7 +104,7 @@ test('the multiplier follows total Renown earned, so spending never weakens the 
   // The multiplier reaches production, the stipend and tribute.
   const base = flows(fresh()).gross.gold;
   assert.ok(Math.abs(flows(s).gross.gold - base * before) < 1e-9);
-  assert.ok(Math.abs(collectTribute(s).gain - before) < 1e-9);
+  assert.ok(Math.abs(collectTribute(s).gain - before * (1 + DATA.engage.rally.tributeSeconds * 0.5)) < 1e-9);
   const market = withBuildings(fresh(), { market: 3 });
   const rich40 = { ...market, prestige: s.prestige };
   assert.ok(Math.abs(outputOf(rich40, DATA.buildingById.market) - outputOf(market, DATA.buildingById.market) * before) < 1e-9);
@@ -155,7 +155,7 @@ test('Rebuild resets exactly the listed state and keeps the rest', () => {
 
   // Resets
   assert.deepEqual(s.res, { ...Object.fromEntries(DATA.resources.map((x) => [x.id, 0])), gold: 10 + 100 });
-  assert.deepEqual(s.town, { buildings: Object.fromEntries(Object.keys(s0.town.buildings).map((id) => [id, 0])), workers: {}, townHall: 1, residents: 0, arrival: 0 });
+  assert.deepEqual(s.town, { buildings: Object.fromEntries(Object.keys(s0.town.buildings).map((id) => [id, 0])), workers: {}, townHall: 1, residents: 0, arrival: 0, perks: {}, edict: null });
   assert.deepEqual(s.tavern, newTavern());
   assert.deepEqual(s.quests.board, []);
   assert.deepEqual(s.quests.active, []);
@@ -203,7 +203,7 @@ test('Rebuild resets exactly the listed state and keeps the rest', () => {
 test('every top-level piece of state is covered by the reset-or-keep rules', () => {
   const s0 = midgame();
   const s = rebuild(s0).state;
-  const reset = ['res', 'town', 'tavern', 'alchemy', 'raids'];
+  const reset = ['res', 'town', 'tavern', 'alchemy', 'raids', 'rally', 'buffs', 'event', 'events'];
   const partial = ['quests', 'zones', 'heroes', 'prestige', 'stats', 'log'];
   const kept = ['v', 'seed', 'items', 'counters', 'settings', 'savedAt', 'achievements', 'era', 'hall', 'journal'];
   assert.deepEqual(Object.keys(s0).sort(), [...reset, ...partial, ...kept].sort(), 'a new state key needs a decision in the Rebuild');

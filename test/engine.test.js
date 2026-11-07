@@ -5,7 +5,7 @@ import { advance, effectiveSeconds } from '../src/engine/offline.js';
 import { buyBuilding, collectTribute, setSetting } from '../src/engine/actions.js';
 import { nextRandom } from '../src/engine/rng.js';
 import { fmt, fmtDuration, fmtRate } from '../src/engine/numbers.js';
-import { fresh, withRes, withBuildings, T0, eco } from './helpers.js';
+import { fresh, withRes, withBuildings, T0, eco, DATA } from './helpers.js';
 
 const H = 3600;
 
@@ -33,26 +33,30 @@ test('stepping in small pieces equals one big step', () => {
   }
 });
 
-test('offline policy: 100% for 2h, 50% to 12h, 10% to 7 days, nothing beyond', () => {
+test('offline policy: 100% for 15 min, 40% to 2h, 15% to 12h, 5% to 3 days, nothing beyond', () => {
+  const M = 60;
   assert.equal(effectiveSeconds(0), 0);
-  assert.equal(effectiveSeconds(1 * H), 1 * H);
-  assert.equal(effectiveSeconds(2 * H), 2 * H);
-  assert.equal(effectiveSeconds(4 * H), 2 * H + 1 * H);
-  assert.equal(effectiveSeconds(12 * H), 2 * H + 5 * H);
-  assert.equal(effectiveSeconds(7 * 24 * H), 7 * H + 0.1 * (156 * H));
-  assert.equal(effectiveSeconds(30 * 24 * H), effectiveSeconds(7 * 24 * H));
+  assert.equal(effectiveSeconds(10 * M), 10 * M);
+  assert.equal(effectiveSeconds(15 * M), 15 * M);
+  assert.equal(effectiveSeconds(1 * H), 15 * M + 0.4 * 45 * M);
+  assert.equal(effectiveSeconds(2 * H), 15 * M + 0.4 * 105 * M);
+  assert.equal(effectiveSeconds(12 * H), 15 * M + 0.4 * 105 * M + 0.15 * 10 * H);
+  assert.ok(Math.abs(effectiveSeconds(3 * 24 * H) - (15 * M + 0.4 * 105 * M + 0.15 * 10 * H + 0.05 * 60 * H)) < 1e-6);
+  assert.equal(effectiveSeconds(30 * 24 * H), effectiveSeconds(3 * 24 * H));
+  // An away day is worth about two and a half hours of play: being there matters.
+  assert.ok(effectiveSeconds(24 * H) < 3.5 * H);
 });
 
 test('advance credits offline time through the policy and reports it', () => {
   const s = withBuildings(fresh(), { market: 5 });
   const { state, report } = advance(s, T0 + 4 * H * 1000);
   const income = 0.5 + 5 * 0.6;
-  assert.ok(Math.abs(report.credited - 3 * H) < 1e-6);
-  assert.ok(Math.abs(state.res.gold - (10 + income * 3 * H)) < 1e-3 * state.res.gold);
+  assert.ok(Math.abs(report.credited - effectiveSeconds(4 * H)) < 1e-6);
+  assert.ok(Math.abs(state.res.gold - (10 + income * report.credited)) < 1e-3 * state.res.gold);
   assert.equal(state.savedAt, T0 + 4 * H * 1000);
   assert.ok(report.gains.gold > 0);
   assert.equal(report.beyondLimit, false);
-  assert.equal(advance(s, T0 + 8 * 24 * H * 1000).report.beyondLimit, true);
+  assert.equal(advance(s, T0 + 4 * 24 * H * 1000).report.beyondLimit, true);
 });
 
 test('advance never runs time backwards', () => {
@@ -105,9 +109,10 @@ test('reaching a milestone is logged', () => {
 
 test('tribute adds gold and counts clicks', () => {
   const r = collectTribute(fresh());
-  assert.equal(r.state.res.gold, 11);
+  assert.equal(r.state.res.gold, 10 + r.gain);
+  assert.equal(r.gain, 1 + DATA.engage.rally.tributeSeconds * 0.5, 'a flat sum plus a slice of gold income');
   assert.equal(r.state.stats.tributes, 1);
-  assert.equal(r.state.stats.lifetimeGold, 1);
+  assert.equal(r.state.stats.lifetimeGold, r.gain);
 });
 
 test('settings validate their values', () => {
@@ -150,5 +155,5 @@ test('number formatting truncates and switches notation', () => {
 });
 
 test('economy data keeps the design-doc offline tiers', () => {
-  assert.deepEqual(eco.offlineTiers.map((t) => t.rate), [1, 0.5, 0.1]);
+  assert.deepEqual(eco.offlineTiers.map((t) => t.rate), [1, 0.4, 0.15, 0.05]);
 });

@@ -1,6 +1,7 @@
 // Everything derived from state plus data lives here. Nothing in this file is
 // ever stored in a save.
 import { DATA, isLive, isWorkplace, liveBuildings, townHallCost } from './data.js';
+import { outputBoost, stipendBoost, costMultiplier, questSpeedBoost, perkEffects } from './engage.js';
 import { bonusOf, renownMultiplier, renownTotal, resourceBoost, legacyMultiplier, legacyTotal, sandsMultiplier, sandsTotal } from './renown.js';
 
 export const levelOf = (state, id) => state.town.buildings[id] ?? 0;
@@ -40,9 +41,19 @@ export function freeResidents(state) {
   return state.town.residents - workersAssigned(state);
 }
 
+// A building takes `maxPerBuilding` workers from the start, then one more for every
+// `levelsPerExtraSlot` levels, up to `maxExtraSlots` extra. The first slots add
+// `bonusEach` to output; the extra ones add the smaller `extraBonusEach`.
+export function workerCap(state, id, data = DATA) {
+  const w = data.economy.workers;
+  const extra = Math.min(w.maxExtraSlots, Math.floor(levelOf(state, id) / w.levelsPerExtraSlot));
+  return w.maxPerBuilding + extra + perkEffects(state, id, data).slots;
+}
+
 export function workerMultiplier(state, id, data = DATA) {
-  const { maxPerBuilding, bonusEach } = data.economy.workers;
-  return 1 + bonusEach * Math.min(workersAt(state, id), maxPerBuilding);
+  const { maxPerBuilding, bonusEach, extraBonusEach } = data.economy.workers;
+  const n = Math.min(workersAt(state, id), workerCap(state, id, data));
+  return 1 + (bonusEach + perkEffects(state, id, data).workerBonus) * Math.min(n, maxPerBuilding) + extraBonusEach * Math.max(0, n - maxPerBuilding);
 }
 
 // ---- Levels and costs ----
@@ -66,9 +77,11 @@ export function globalMultiplier(state, data = DATA) {
 }
 
 // The economy as this player sees it: building prices carry the Guild Masons discount.
-export function ecoFor(state, data = DATA) {
+// With a building id it also carries that building's perk discount and any edict.
+export function ecoFor(state, data = DATA, id = null) {
   const cut = bonusOf(state, 'buildingDiscount', data);
-  return cut > 0 ? { ...data.economy, costScale: 1 - cut } : data.economy;
+  const k = (1 - cut) * (id ? costMultiplier(state, id, data) : 1);
+  return k !== 1 ? { ...data.economy, costScale: k } : data.economy;
 }
 
 // Cost of buying `count` levels of a building that is currently at `level`.
@@ -127,7 +140,7 @@ export function productionOf(def, level, mult = 1, eco = DATA.economy) {
 // Output per second of one workplace, with the global multiplier and its workers.
 export function outputOf(state, def, data = DATA, levelOverride = null) {
   const level = levelOverride ?? levelOf(state, def.id);
-  return productionOf(def, level, globalMultiplier(state, data) * workerMultiplier(state, def.id, data) * resourceBoost(state, def.produces, data), data.economy);
+  return productionOf(def, level, globalMultiplier(state, data) * workerMultiplier(state, def.id, data) * resourceBoost(state, def.produces, data) * outputBoost(state, def, data), data.economy);
 }
 
 // Food one resident eats each second, after the Thrifty Larders discount.
@@ -139,7 +152,7 @@ export const foodPerResident = (state, data = DATA) => data.economy.residents.fo
 // and converter capacity (how much it could make if its input never ran short).
 export function productionParts(state, data = DATA) {
   const gross = Object.fromEntries(data.resources.map((r) => [r.id, 0]));
-  const stipend = data.economy.stipendGoldPerSec * globalMultiplier(state, data) * resourceBoost(state, 'gold', data);
+  const stipend = data.economy.stipendGoldPerSec * globalMultiplier(state, data) * resourceBoost(state, 'gold', data) * stipendBoost(state, data);
   gross.gold += stipend;
   const converters = [];
   for (const def of liveBuildings(data)) {
@@ -228,7 +241,7 @@ export function isHungry(state, data = DATA) {
 
 // Multiplier for quest speed. Quests arrive in a later checkpoint; this is the rule they will read.
 export function questSpeedMultiplier(state, data = DATA) {
-  return (isHungry(state, data) ? data.economy.hungerQuestSpeed : 1) * (1 + bonusOf(state, 'questSpeed', data));
+  return (isHungry(state, data) ? data.economy.hungerQuestSpeed : 1) * (1 + bonusOf(state, 'questSpeed', data) + questSpeedBoost(state, data));
 }
 
 // Why the next resident has or has not arrived.

@@ -26,6 +26,7 @@ export function createSettings(ctx) {
   const textSelect = pick('set-text', 'textSize', [['normal', 'Normal'], ['large', 'Larger']]);
   const effectsSelect = pick('set-effects', 'effects', [['on', 'Show event notices and highlights'], ['off', 'Keep it quiet']]);
   const sceneSelect = pick('set-scene', 'scene', [['on', 'Show the town picture'], ['off', 'Hide it']]);
+  const eventsSelect = pick('set-events', 'events', [['on', 'Show them'], ['off', 'Switch them off']]);
   const tutorialBtn = h('button', { class: 'btn', type: 'button', id: 'tutorial-again', onClick: () => ctx.run((s) => setSetting(s, 'tutorial', 'on')) }, 'Show the tutorial again');
 
   // ---- Saving ----
@@ -82,6 +83,7 @@ export function createSettings(ctx) {
       h('div', { class: 'field' }, h('label', { for: 'set-motion' }, 'Motion'), motionSelect),
       h('div', { class: 'field' }, h('label', { for: 'set-effects' }, 'Feedback'), effectsSelect),
       h('div', { class: 'field' }, h('label', { for: 'set-scene' }, 'Town picture'), sceneSelect),
+      h('div', { class: 'field' }, h('label', { for: 'set-events' }, 'Timed decisions (caravans, omens)'), eventsSelect),
       h('div', { class: 'row' }, tutorialBtn),
     ),
     h('div', { class: 'card' },
@@ -118,7 +120,7 @@ export function createSettings(ctx) {
     h('div', { class: 'card' },
       h('h2', { class: 'h-sec' }, 'About'),
       h('p', { class: 'muted' }, 'Outpost of Azeroth is an unofficial, non-commercial fan project. Warcraft and its names belong to Blizzard Entertainment. This game uses none of Blizzard\'s art, audio or text; every picture is original.'),
-      h('p', { class: 'muted', id: 'build-info' }, 'Checkpoint 10: polish. Phone layout, theme and text size, a tutorial, the town picture and event notices.'),
+      h('p', { class: 'muted', id: 'build-info' }, 'Checkpoint 11: hands-on play. Rally meter, building perks, edicts, timed decisions and hero commands.'),
     ),
   );
 
@@ -127,7 +129,7 @@ export function createSettings(ctx) {
     journal.update(state);
     if (fmtSelect.value !== state.settings.numberFormat) fmtSelect.value = state.settings.numberFormat;
     if (motionSelect.value !== state.settings.reducedMotion) motionSelect.value = state.settings.reducedMotion;
-    for (const [sel, key] of [[themeSelect, 'theme'], [textSelect, 'textSize'], [effectsSelect, 'effects'], [sceneSelect, 'scene']]) if (sel.value !== state.settings[key]) sel.value = state.settings[key];
+    for (const [sel, key] of [[themeSelect, 'theme'], [textSelect, 'textSize'], [effectsSelect, 'effects'], [sceneSelect, 'scene'], [eventsSelect, 'events']]) if (sel.value !== state.settings[key]) sel.value = state.settings[key];
     setAttr(tutorialBtn, 'disabled', state.settings.tutorial === 'on');
     const t = ctx.lastSave();
     if (!ctx.storageOk()) setText(saveStatus, 'This browser is not keeping a save. Use an export string to keep your progress.');

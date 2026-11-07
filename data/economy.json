@@ -12,16 +12,20 @@
   "offlineChunkSeconds": 10,
   "offlineTiers": [
     {
-      "upToSeconds": 7200,
+      "upToSeconds": 900,
       "rate": 1.0
     },
     {
-      "upToSeconds": 43200,
-      "rate": 0.5
+      "upToSeconds": 7200,
+      "rate": 0.4
     },
     {
-      "upToSeconds": 604800,
-      "rate": 0.1
+      "upToSeconds": 43200,
+      "rate": 0.15
+    },
+    {
+      "upToSeconds": 259200,
+      "rate": 0.05
     }
   ],
   "welcomeBackMinSeconds": 60,
@@ -44,7 +48,10 @@
   },
   "workers": {
     "maxPerBuilding": 5,
-    "bonusEach": 0.1
+    "bonusEach": 0.1,
+    "levelsPerExtraSlot": 10,
+    "maxExtraSlots": 15,
+    "extraBonusEach": 0.05
   },
   "levelsPerTownHall": 10,
   "hungerQuestSpeed": 0.5

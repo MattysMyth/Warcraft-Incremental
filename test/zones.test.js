@@ -9,7 +9,11 @@ import { heroUnit } from '../src/engine/combat.js';
 import { step } from '../src/engine/tick.js';
 import { advance } from '../src/engine/offline.js';
 import { serialize, deserialize, normalize, migrate, MIGRATIONS } from '../src/engine/save.js';
-import { validateData } from '../src/engine/data.js';
+import { validateData, DATA as D } from '../src/engine/data.js';
+
+const OB = D.quests.orders;
+const BAR = OB.barracks;
+const SMART = OB.smartBarracks;
 import { newState, SAVE_VERSION } from '../src/engine/state.js';
 import { fresh, withRes, withBuildings, DATA, T0 } from './helpers.js';
 
@@ -206,14 +210,14 @@ test('orders need the Barracks, give slots by level and reject bad parties', () 
   const none = town(2, { barracks: 0 });
   assert.equal(orderSlots(none), 0);
   assert.equal(createOrder(none, { mode: 'repeat', template: 'old_boar', party: [none.heroes[0].id] }).ok, false);
-  const s = town(3, { barracks: 1 });
+  const s = town(3, { barracks: BAR });
   assert.equal(orderSlots(s), 1);
   assert.equal(smartOrders(s), false);
   assert.equal(createOrder(s, { mode: 'best', party: [s.heroes[0].id] }).ok, false, 'smart orders come later');
   const ok = createOrder(s, { mode: 'repeat', template: 'old_boar', party: [s.heroes[0].id] });
   assert.ok(ok.ok, ok.error);
   assert.equal(createOrder(ok.state, { mode: 'repeat', template: 'old_boar', party: [s.heroes[1].id] }).ok, false, 'no free slot');
-  const s4 = town(3, { barracks: 4 });
+  const s4 = town(3, { barracks: BAR + OB.levelsPerSlot });
   assert.equal(orderSlots(s4), 2);
   const a = createOrder(s4, { mode: 'repeat', template: 'old_boar', party: [s4.heroes[0].id] }).state;
   assert.equal(createOrder(a, { mode: 'repeat', template: 'wolf_pack', party: [s4.heroes[0].id] }).ok, false, 'a hero follows one order');
@@ -224,7 +228,7 @@ test('orders need the Barracks, give slots by level and reject bad parties', () 
 });
 
 test('a repeat order keeps sending the party out, and pausing stops it', () => {
-  let s = town(2, { barracks: 1 });
+  let s = town(2, { barracks: BAR });
   s = createOrder(s, { mode: 'repeat', template: 'old_boar', party: [s.heroes[0].id], minOdds: 0 }).state;
   s = step(s, 1);
   assert.equal(s.quests.active.length, 1, 'the order dispatched');
@@ -241,12 +245,12 @@ test('a repeat order keeps sending the party out, and pausing stops it', () => {
 });
 
 test('an order waits while a hero is hurt or the odds are below its line', () => {
-  let s = town(1, { barracks: 1 });
+  let s = town(1, { barracks: BAR });
   const hurt = { ...s, heroes: s.heroes.map((h) => ({ ...h, injury: 50 })) };
   const o = createOrder(hurt, { mode: 'repeat', template: 'old_boar', party: [s.heroes[0].id], minOdds: 0 }).state;
   assert.equal(step(o, 1).quests.active.length, 0, 'a resting hero is left alone');
   // A weak pair against a risky line: the order will not go until the line is lowered.
-  let two = town(2, { barracks: 1 });
+  let two = town(2, { barracks: BAR });
   two = { ...two, heroes: two.heroes.map((h) => ({ ...h, level: 1, gear: { ...h.gear, weapon: null } })) };
   let w = createOrder(two, { mode: 'repeat', template: 'kobold_warren', party: two.heroes.map((h) => h.id), minOdds: 0.9 }).state;
   w = step(w, 1);
@@ -258,7 +262,7 @@ test('an order waits while a hero is hurt or the odds are below its line', () =>
 });
 
 test('a best-available order takes the hardest notice the party can win', () => {
-  let s = town(2, { barracks: 3 });
+  let s = town(2, { barracks: SMART });
   s = stepQuests(s, 1);
   const ids = s.heroes.map((h) => h.id);
   s = createOrder(s, { mode: 'best', party: ids.slice(0, 1), minOdds: 0.5 }).state;
@@ -270,12 +274,12 @@ test('a best-available order takes the hardest notice the party can win', () => 
 });
 
 test('orders catch up offline without losing the partial trip', () => {
-  let s = town(2, { barracks: 1 });
+  let s = town(2, { barracks: BAR });
   s = createOrder(s, { mode: 'repeat', template: 'old_boar', party: [s.heroes[0].id], minOdds: 0 }).state;
   s = step(s, 1);
   const { state, report } = advance({ ...s, savedAt: T0 }, T0 + 3600 * 1000, DATA);
   const run = state.quests.history.length;
-  assert.ok(report.quests.done >= 10, `an hour of orders did ${report.quests.done}`);
+  assert.ok(report.quests.done >= 5, `an hour away (about half an hour credited) of orders did ${report.quests.done}`);
   assert.ok(run > 0 && state.quests.orders[0].runs === report.quests.done || state.quests.orders[0].runs >= report.quests.done - 1);
 });
 
@@ -375,7 +379,7 @@ test('normalize repairs orders, potions, zones and story progress', () => {
 });
 
 test('a long run across zones keeps every invariant', () => {
-  let s = town(4, { barracks: 7 });
+  let s = town(4, { barracks: SMART + 2 * OB.levelsPerSlot });
   s = createOrder(s, { mode: 'best', party: [s.heroes[0].id, s.heroes[1].id], minOdds: 0.5 }).state;
   s = createOrder(s, { mode: 'repeat', template: 'old_boar', party: [s.heroes[2].id], minOdds: 0 }).state;
   s = { ...s, zones: { ...s.zones, elwynn: { ...s.zones.elwynn, cleared: ['fargodeep_mine'] } } };

@@ -27,8 +27,8 @@ export function createWelcome(report, mode, onClose) {
     h('p', {}, `The outpost ran for ${fmtDuration(report.elapsed)} and earned ${fmtDuration(report.credited)} of production.`),
     reduced
       ? h('p', { class: 'muted' }, report.beyondLimit
-          ? 'Time away counts in full for the first 2 hours, then at half to 12 hours, then at a tenth up to 7 days. Anything past 7 days is not counted.'
-          : 'Time away counts in full for the first 2 hours, then at half to 12 hours, then at a tenth up to 7 days.')
+          ? 'Time away counts in full for the first 15 minutes, then at 40% to 2 hours, 15% to 12 hours and 5% up to 3 days. Anything past 3 days is not counted. Playing is worth more than waiting.'
+          : 'Time away counts in full for the first 15 minutes, then at 40% to 2 hours, 15% to 12 hours and 5% up to 3 days. Playing is worth more than waiting.')
       : null,
     gains.length ? h('ul', { class: 'gains' }, gains) : null,
     levels.length ? h('p', { class: 'muted' }, 'Heroes who trained while you were away:') : null,

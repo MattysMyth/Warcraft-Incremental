@@ -14,6 +14,7 @@ import raids from '../../data/raids.json' with { type: 'json' };
 import achievements from '../../data/achievements.json' with { type: 'json' };
 import legacy from '../../data/legacy.json' with { type: 'json' };
 import sands from '../../data/sands.json' with { type: 'json' };
+import engage from '../../data/engage.json' with { type: 'json' };
 
 export const BUILDING_KINDS = ['wall', 'producer', 'converter', 'house', 'warehouse', 'tavern', 'barracks', 'chapel', 'stables', 'archives', 'planned'];
 
@@ -46,6 +47,9 @@ export const DATA = {
   achievements,
   legacy,
   sands,
+  engage,
+  edictById: Object.fromEntries(engage.edicts.list.map((e) => [e.id, e])),
+  eventById: Object.fromEntries(engage.events.list.map((e) => [e.id, e])),
   legacyById: Object.fromEntries(legacy.upgrades.map((u) => [u.id, u])),
   sandsById: Object.fromEntries(sands.upgrades.map((u) => [u.id, u])),
   // Every shop upgrade that carries a given effect key, with the part of the save that holds its level.
@@ -141,6 +145,7 @@ export function validateData(data = DATA) {
   if (!(eco.residents?.foodPerSecEach >= 0)) problems.push('economy.residents.foodPerSecEach must not be negative');
   if (!Number.isInteger(eco.workers?.maxPerBuilding) || eco.workers.maxPerBuilding < 0) problems.push('economy.workers.maxPerBuilding must be a whole number');
   if (!(eco.workers?.bonusEach >= 0)) problems.push('economy.workers.bonusEach must not be negative');
+  if (!positive(eco.workers?.levelsPerExtraSlot) || !Number.isInteger(eco.workers?.maxExtraSlots) || eco.workers.maxExtraSlots < 0 || !(eco.workers?.extraBonusEach >= 0)) problems.push('economy.workers needs levelsPerExtraSlot, maxExtraSlots and extraBonusEach');
   if (!Number.isInteger(eco.levelsPerTownHall) || eco.levelsPerTownHall < 1) problems.push('economy.levelsPerTownHall must be a whole number');
   if (!(eco.hungerQuestSpeed >= 0 && eco.hungerQuestSpeed <= 1)) problems.push('economy.hungerQuestSpeed must be 0 to 1');
 
@@ -207,6 +212,7 @@ export function validateData(data = DATA) {
   if (data.raids) problems.push(...validateRaids(data));
   if (data.achievements) problems.push(...validateAchievements(data));
   if (data.legacy && data.sands) problems.push(...validateLegacy(data));
+  if (data.engage) problems.push(...validateEngage(data));
   return problems;
 }
 
@@ -633,5 +639,59 @@ export function validateLegacy(data = DATA) {
   if (!(sd.gain?.perEra >= 0) || !(sd.gain?.legacyExp >= 0)) problems.push('sands.gain needs perEra and legacyExp');
   if (!(sd.multiplier?.per >= 0) || !positive(sd.multiplier?.exp)) problems.push('sands.multiplier needs per and exp');
   if (!(sd.journalKeep >= 1)) problems.push('sands.journalKeep must be at least 1');
+  return problems;
+}
+
+// Checks for data/engage.json: Rally, building perks, edicts, timed events and hero commands.
+export function validateEngage(data = DATA) {
+  const problems = [];
+  const e = data.engage;
+  const positive = (x) => Number.isFinite(x) && x > 0;
+  const r = e.rally;
+  if (!r || !positive(r.tapCharge) || !positive(r.full) || !(r.decayPerSec >= 0) || !positive(r.burstSeconds) || !(r.boost >= 0) || !(r.tributeSeconds >= 0)) problems.push('engage.rally needs tapCharge, full, decayPerSec, burstSeconds, boost and tributeSeconds');
+  const tiers = e.perks?.tiers;
+  if (!Array.isArray(tiers) || tiers.some((t, i) => !Number.isInteger(t) || t < 1 || (i > 0 && t <= tiers[i - 1]))) problems.push('engage.perks.tiers must be increasing whole levels');
+  if (!positive(e.perks?.respecSeconds) || !(e.perks?.respecMin >= 0)) problems.push('engage.perks needs respecSeconds and respecMin');
+  const effectKeys = ['output', 'discount', 'workerBonus', 'slots'];
+  for (const [id, rows] of Object.entries(e.perks?.byBuilding ?? {})) {
+    const def = data.buildingById[id];
+    if (!def || !isWorkplace(def)) problems.push(`perks name "${id}", which is not a workplace`);
+    if (!Array.isArray(rows) || rows.length !== (tiers ?? []).length) problems.push(`perks for "${id}" need one row per tier`);
+    for (const row of rows ?? []) for (const k of ['a', 'b']) {
+      const p = row?.[k];
+      if (!p?.name || !effectKeys.some((key) => p[key] > 0)) problems.push(`a perk of "${id}" needs a name and an effect`);
+      for (const key of Object.keys(p ?? {})) if (key !== 'name' && !effectKeys.includes(key)) problems.push(`a perk of "${id}" has unknown effect "${key}"`);
+    }
+  }
+  for (const b of data.buildings) if (isWorkplace(b) && !e.perks?.byBuilding?.[b.id]) problems.push(`workplace "${b.id}" has no perks`);
+  const seen = new Set();
+  for (const ed of e.edicts?.list ?? []) {
+    if (seen.has(ed.id)) problems.push(`duplicate edict "${ed.id}"`);
+    seen.add(ed.id);
+    if (!ed.name || !ed.text) problems.push(`edict "${ed.id}" needs a name and text`);
+    for (const [rid, m] of Object.entries(ed.res ?? {})) if (!data.resourceById[rid] || !positive(m)) problems.push(`edict "${ed.id}" has a bad resource multiplier for "${rid}"`);
+    if (ed.costMult !== undefined && !positive(ed.costMult)) problems.push(`edict "${ed.id}" costMult must be positive`);
+    if (!(ed.questSpeed === undefined || ed.questSpeed >= 0) ) problems.push(`edict "${ed.id}" questSpeed must not be negative`);
+  }
+  if (!(e.edicts?.townHall >= 1) || !positive(e.edicts?.swapSeconds)) problems.push('engage.edicts needs townHall and swapSeconds');
+  const ev = e.events;
+  if (!ev || !Array.isArray(ev.interval) || !(ev.interval[0] > 0) || ev.interval[1] < ev.interval[0] || !positive(ev.window) || !positive(ev.firstDelaySeconds)) problems.push('engage.events needs interval, window and firstDelaySeconds');
+  const seenEv = new Set();
+  for (const x of ev?.list ?? []) {
+    if (seenEv.has(x.id)) problems.push(`duplicate event "${x.id}"`);
+    seenEv.add(x.id);
+    if (!x.name || !x.text || !Array.isArray(x.choices) || x.choices.length < 2) problems.push(`event "${x.id}" needs a name, text and at least two choices`);
+    if (!x.choices?.some((c) => !c.cost)) problems.push(`event "${x.id}" needs a free choice, so no one is forced to pay`);
+    for (const c of x.choices ?? []) {
+      if (!c.label) problems.push(`event "${x.id}" has a choice without a label`);
+      for (const part of [c.cost, c.gain]) if (part && (!data.resourceById[part.res] || !positive(part.seconds))) problems.push(`event "${x.id}" has a bad cost or gain`);
+      if (c.buff && (!c.buff.name || !positive(c.buff.seconds) || !(c.buff.output > 0 || c.buff.questSpeed > 0))) problems.push(`event "${x.id}" has a bad buff`);
+    }
+  }
+  for (const c of data.heroes.classes) {
+    const cmd = e.commands?.byClass?.[c.id];
+    if (!cmd?.name || !cmd?.text || !(cmd.time > 0 || cmd.gold > 0 || cmd.xp > 0)) problems.push(`class "${c.id}" needs a command with a name, text and an effect`);
+  }
+  if (!positive(e.commands?.cooldownSeconds)) problems.push('engage.commands needs cooldownSeconds');
   return problems;
 }

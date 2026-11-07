@@ -9,10 +9,10 @@ import { DATA, isLive, isWorkplace, liveBuildings, isDelve } from '../src/engine
 import { newState } from '../src/engine/state.js';
 import { step } from '../src/engine/tick.js';
 import {
-  buyBuilding, buyTownHall, assignWorker, recruitHero, craftItem, craftCost, sellItem, chooseTalent, refreshPool, dispatchQuest, brewPotion,
+  buyBuilding, buyTownHall, assignWorker, recruitHero, choosePerk, answerEvent, issueCommand, collectTribute, craftItem, craftCost, sellItem, chooseTalent, refreshPool, dispatchQuest, brewPotion,
 } from '../src/engine/actions.js';
 import {
-  costOf, canAfford, levelOf, levelCap, isUnlocked, freeResidents, workersAt, ecoFor, flows,
+  costOf, canAfford, levelOf, levelCap, isUnlocked, freeResidents, workersAt, workerCap, ecoFor, flows,
 } from '../src/engine/derive.js';
 import { itemValue } from '../src/engine/heroes.js';
 import { rosterCap, recruitCost, refreshCost, pendingTalents, sheetOf } from '../src/engine/heroes.js';
@@ -24,6 +24,9 @@ import { rebuildPreview, renownTotal, upgradeCost } from '../src/engine/renown.j
 import { zoneState } from '../src/engine/zones.js';
 import { potionStock } from '../src/engine/alchemy.js';
 import { nextPurchase } from './pacing.js';
+import { advance } from '../src/engine/offline.js';
+import { perkRows } from '../src/engine/engage.js';
+import { choiceTerms, eventOf, commandWait } from '../src/engine/events.js';
 
 export const POLICY = {
   // Seconds between decisions, by seconds since the run began.
@@ -40,6 +43,13 @@ export const POLICY = {
   shop: ['purse', 'ledgers', 'foundations', 'headstart', 'hands', 'masons', 'charter', 'bounties', 'lessons', 'roads', 'cottages',
     'scouts', 'notices', 'standing', 'larders', 'reputation', 'forgelore', 'cellars', 'bedrest', 'bunks'],
   rebuild: true,
+  // Hands-on play, off for the pacing baselines. With `engage` the bot picks perks, answers events and
+  // uses hero commands; `tapsPerSec` is how fast it taps tribute while present.
+  engage: false,
+  tapsPerSec: 0,
+  // null: always present. Otherwise the bot plays `sessionSeconds` out of every `everySeconds` and is
+  // away the rest of the time, which the engine credits by its offline rules.
+  presence: null,
   // Convert experience into gold when ranking quests.
   xpGold: 3,
 };
@@ -72,8 +82,10 @@ export function playGame({ maxHours = 24, data = DATA, seed = 1, policy = POLICY
   // ---- Workers ----
   function assignWorkers() {
     let did = false;
-    for (const id of WORKER_ORDER) {
-      while (freeResidents(s) > 0 && lv(id) > 0 && workersAt(s, id) < data.economy.workers.maxPerBuilding) {
+    // Fill the full-value slots of every building first, then the smaller extra slots.
+    for (const pass of [0, 1]) for (const id of WORKER_ORDER) {
+      const limit = pass === 0 ? data.economy.workers.maxPerBuilding : workerCap(s, id, data);
+      while (freeResidents(s) > 0 && lv(id) > 0 && workersAt(s, id) < limit) {
         if (!apply(assignWorker(s, id, 1, data))) break;
         did = true;
       }
@@ -116,7 +128,7 @@ export function playGame({ maxHours = 24, data = DATA, seed = 1, policy = POLICY
       const def = data.buildingById[id];
       if (!def || !isLive(def) || !isUnlocked(def, s)) continue;
       while (lv(id) < target && lv(id) < levelCap(s, data)) {
-        const cost = costOf(def, lv(id), 1, ecoFor(s, data));
+        const cost = costOf(def, lv(id), 1, ecoFor(s, data, id));
         const unlocksClass = (id === 'tavern' && lv(id) < 3) || (id === 'barracks' && lv(id) < 3) || (id === 'chapel' && lv(id) < 1);
         const first = lv(id) === 0 || unlocksClass || (id === 'tavern' && s.heroes.length >= rosterCap(s, data) && s.heroes.length < (policy.roster[s.town.townHall] ?? 10));
         const room = surplusGold(pending, first);
@@ -387,9 +399,31 @@ export function playGame({ maxHours = 24, data = DATA, seed = 1, policy = POLICY
     return did;
   }
 
+  // ---- Hands-on play: perks, events, hero commands ----
+  function engageActions() {
+    let did = false;
+    for (const id of Object.keys(data.engage.perks.byBuilding)) {
+      for (const row of perkRows(id, data)) {
+        if (lv(id) >= row.at && !s.town.perks?.[id]?.[row.at] && apply(choosePerk(s, id, row.at, row.at === data.engage.perks.tiers[1] ? 'b' : 'a', data))) did = true;
+      }
+    }
+    const def = eventOf(s, data);
+    if (def) {
+      let best = def.choices.findIndex((c) => !c.cost);
+      def.choices.forEach((c, i) => {
+        const t = choiceTerms(s, c, data);
+        if ((c.buff || c.gain || c.residents) && (!t.cost || t.cost.amount <= 0.25 * (s.res[t.cost.res] ?? 0))) best = i;
+      });
+      if (best >= 0 && apply(answerEvent(s, best, data))) did = true;
+    }
+    for (const run of s.quests.active) for (const id of run.party) if (commandWait(s, id) <= 0 && apply(issueCommand(s, run.id, id, data))) did = true;
+    return did;
+  }
+
   // ---- One round of decisions ----
   function act() {
     let did = false;
+    if (policy.engage && engageActions()) did = true;
     if (assignWorkers()) did = true;
     const pendingBuy = nextPurchase(s, data);
     const pending = pendingBuy && !canAfford(s.res, pendingBuy.cost) ? pendingBuy : null;
@@ -441,8 +475,28 @@ export function playGame({ maxHours = 24, data = DATA, seed = 1, policy = POLICY
       timeline.push({ h: Math.round(t / 360) / 10, th: s.town.townHall, heroes: lv2, runGold: Math.round(s.stats.lifetimeGold), renown: renownTotal(s), rebuilds: stats.rebuilds });
     }
     let dt = Math.min(cadence(), limit - t);
+    if (policy.presence) {
+      const { everySeconds, sessionSeconds } = policy.presence;
+      const into = t % everySeconds;
+      if (into >= sessionSeconds - 1e-9) {
+        // Leave until the next visit. The engine decides how much of the time away counts.
+        const gap = Math.min(everySeconds - into, limit - t);
+        const r = advance({ ...s, savedAt: t * 1000 }, (t + gap) * 1000, data);
+        s = r.state;
+        t += gap;
+        continue;
+      }
+      dt = Math.min(dt, sessionSeconds - into);
+    }
+    // Tapping is simulated a second at a time so the Rally meter drains and fills as it would.
+    const tapStep = policy.tapsPerSec > 0 ? 1 : 10;
+    let owed = 0;
     while (dt > 1e-9) {
-      const d = Math.min(10, dt);
+      const d = Math.min(tapStep, dt);
+      if (policy.tapsPerSec > 0) {
+        owed += policy.tapsPerSec * d;
+        while (owed >= 1) { s = collectTribute(s, data).state; owed -= 1; }
+      }
       s = step(s, d, data);
       dt -= d;
       t += d;

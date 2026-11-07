@@ -4,7 +4,7 @@ import {
   buyBuilding, buyTownHall, assignWorker,
 } from '../src/engine/actions.js';
 import {
-  levelCap, housingCapacity, storageCap, costExceedsStorage, workerMultiplier, freeResidents,
+  levelCap, housingCapacity, storageCap, costExceedsStorage, workerMultiplier, workerCap, freeResidents,
   flows, incomePerSec, isHungry, questSpeedMultiplier, arrivalStatus, isUnlocked,
 } from '../src/engine/derive.js';
 import { step } from '../src/engine/tick.js';
@@ -137,7 +137,7 @@ test('an empty larder with mouths to feed is hunger, and slows quests by half', 
 });
 
 test('workers add ten percent each, five at most, and only from free residents', () => {
-  let s = withTown(withBuildings(fresh(), { market: 10 }), { residents: 6 });
+  let s = withTown(withBuildings(fresh(), { market: 9 }), { residents: 6 });
   const base = flows(s).gross.gold;
   for (let i = 0; i < 5; i += 1) s = assignWorker(s, 'market', 1).state;
   assert.equal(s.town.workers.market, 5);
@@ -239,4 +239,21 @@ test('the validator rejects impossible costs and unlock orders', () => {
   assert.match(problems, /"warehouse" needs unlockTownHall/);
   assert.match(problems, /converter "blacksmith" needs a positive ratio/);
   assert.match(problems, /no cost for level 15/);
+});
+
+test('worker slots grow with building level, and extra slots add less output', () => {
+  const w = DATA.economy.workers;
+  const s0 = fresh();
+  const at = (lvl, n) => {
+    let s = { ...s0, town: { ...s0.town, buildings: { ...s0.town.buildings, market: lvl }, workers: { market: n }, residents: 40 } };
+    return s;
+  };
+  assert.equal(workerCap(at(1, 0), 'market'), w.maxPerBuilding);
+  assert.equal(workerCap(at(w.levelsPerExtraSlot, 0), 'market'), w.maxPerBuilding + 1);
+  assert.equal(workerCap(at(10000, 0), 'market'), w.maxPerBuilding + w.maxExtraSlots);
+  const full = workerMultiplier(at(w.levelsPerExtraSlot, w.maxPerBuilding + 1), 'market');
+  assert.ok(Math.abs(full - (1 + w.bonusEach * w.maxPerBuilding + w.extraBonusEach)) < 1e-12);
+  // The engine refuses the sixth worker below the unlock level and accepts it at it.
+  assert.equal(assignWorker(at(1, w.maxPerBuilding), 'market', 1).ok, false);
+  assert.equal(assignWorker(at(w.levelsPerExtraSlot, w.maxPerBuilding), 'market', 1).ok, true);
 });

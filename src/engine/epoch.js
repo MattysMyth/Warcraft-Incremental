@@ -11,6 +11,7 @@ import { newTavern } from './heroes.js';
 import { newQuests } from './quests.js';
 import { newAlchemy } from './alchemy.js';
 import { newRaids } from './raids.js';
+import { newEngage } from './engage.js';
 import { addLog } from './actions.js';
 import { startingTown, startingResources, scoutedZones } from './rebuild.js';
 import { retireAll } from './legacy.js';
@@ -89,6 +90,7 @@ export function epoch(state, data = DATA) {
     quests: { ...newQuests(data), history: q.history, seq: q.seq, orderSeq: q.orderSeq },
     alchemy: newAlchemy(),
     raids: newRaids(data),
+    ...newEngage(data),
     zones,
     heroes: [],
     items: [],

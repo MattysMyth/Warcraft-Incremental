@@ -5,6 +5,7 @@ import { newTavern, xpToNext } from './heroes.js';
 import { newQuests } from './quests.js';
 import { newAlchemy } from './alchemy.js';
 import { newRaids } from './raids.js';
+import { newEngage } from './engage.js';
 
 // Ordered migrations. MIGRATIONS[i] upgrades a save from version i+1 to i+2.
 // Version 1 is the baseline, so the list is empty until the first format change.
@@ -74,6 +75,9 @@ export const MIGRATIONS = [
     const seasoned = built || (o.heroes ?? []).length > 0 || (o.stats?.playSeconds ?? 0) > 300;
     return { ...o, settings: { ...(o.settings ?? {}), tutorial: seasoned ? 'done' : 'on' } };
   },
+  // v10 -> v11 (hands-on layer): the Rally meter, building perks, edicts, timed events and hero commands.
+  // Nothing to carry over; the fields start empty and normalize() fills them in.
+  (o) => ({ ...o, town: { ...(o.town ?? {}), perks: {}, edict: null }, ...newEngage(), settings: { ...(o.settings ?? {}), events: 'on' } }),
 ];
 
 export function migrate(raw, migrations = MIGRATIONS, target = SAVE_VERSION) {
@@ -200,6 +204,7 @@ function cleanRun(raw, heroes, data) {
     stolen: Math.min(data.enemies.steal.max, num(raw.stolen)), wipedAt: Number.isInteger(raw.wipedAt) && raw.wipedAt >= 0 ? raw.wipedAt : null,
     reward: { gold: num(rw.gold), res },
     potion: data.potionById[raw.potion] ? raw.potion : null, order: typeof raw.order === 'string' ? raw.order : null,
+    bonus: { gold: Math.min(2, num(raw.bonus?.gold)), xp: Math.min(2, num(raw.bonus?.xp)) },
   };
 }
 
@@ -262,6 +267,7 @@ function cleanQuests(raw, heroes, data) {
     refreshIn: Math.min(data.quests.board.refreshSeconds, num(raw.refreshIn, base.refreshIn)) || base.refreshIn,
     history,
     seq: Math.max(Math.floor(num(raw.seq)), ...history.map((e) => e.n)),
+    cmd: Object.fromEntries(Object.entries(raw.cmd ?? {}).filter(([id, v]) => heroes.some((h) => h.id === id) && num(v) > 0).map(([id, v]) => [id, Math.min(data.engage.commands.cooldownSeconds, num(v))])),
   };
 }
 
@@ -367,10 +373,37 @@ function cleanWorkers(raw, buildings, residents, data) {
   let left = residents;
   for (const def of data.buildings) {
     if (!isWorkplace(def) || !(buildings[def.id] > 0)) continue;
-    const n = Math.min(Math.floor(num(raw?.[def.id])), data.economy.workers.maxPerBuilding, left);
+    const n = Math.min(Math.floor(num(raw?.[def.id])), data.economy.workers.maxPerBuilding + data.economy.workers.maxExtraSlots, left);
     if (n > 0) { out[def.id] = n; left -= n; }
   }
   return out;
+}
+
+// Perks: only known workplaces, known tiers, and picks a and b.
+function cleanPerks(raw, buildings, data) {
+  const out = {};
+  for (const [id, rows] of Object.entries(data.engage.perks.byBuilding)) {
+    const picks = {};
+    for (const at of data.engage.perks.tiers) {
+      const v = raw?.[id]?.[at];
+      if ((v === 'a' || v === 'b') && (buildings[id] ?? 0) >= at) picks[at] = v;
+    }
+    if (Object.keys(picks).length) out[id] = picks;
+  }
+  return out;
+}
+
+// The Rally meter, buffs and the pending event.
+function cleanEngage(obj, data) {
+  const base = newEngage(data);
+  const cfg = data.engage;
+  const r = obj.rally ?? {};
+  const rally = { charge: Math.min(cfg.rally.full, num(r.charge)), burst: Math.min(cfg.rally.burstSeconds, num(r.burst)), bursts: Math.floor(num(r.bursts)) };
+  const buffs = (Array.isArray(obj.buffs) ? obj.buffs : []).filter((b) => b && typeof b.name === 'string' && num(b.left) > 0)
+    .slice(0, 6).map((b) => ({ id: String(b.id ?? '').slice(0, 30), name: b.name.slice(0, 40), left: Math.min(3600, num(b.left)), total: Math.min(3600, Math.max(num(b.left), num(b.total))), output: Math.min(1, num(b.output)), questSpeed: Math.min(1, num(b.questSpeed)) }));
+  const ev = obj.event && data.eventById[obj.event.id] && num(obj.event.left) > 0 ? { id: obj.event.id, left: Math.min(cfg.events.window, num(obj.event.left)), total: cfg.events.window } : null;
+  const e = obj.events ?? {};
+  return { rally, buffs, event: ev, events: { next: Math.min(cfg.events.interval[1], num(e.next, base.events.next)), seq: Math.floor(num(e.seq)), taken: Math.floor(num(e.taken)) } };
 }
 
 // Fill gaps and clamp nonsense so a hand-edited or partial save cannot crash the game.
@@ -397,7 +430,10 @@ export function normalize(obj, data = DATA) {
       townHall: Math.min(data.townHall.maxLevel, Math.max(1, Math.floor(num(obj.town?.townHall, 1)))),
       residents,
       arrival: Math.min(num(obj.town?.arrival), data.economy.residents.arrivalSeconds),
+      perks: cleanPerks(obj.town?.perks, buildings, data),
+      edict: data.edictById[obj.town?.edict] ? obj.town.edict : null,
     },
+    ...cleanEngage(obj, data),
     era,
     heroes,
     items,
@@ -440,6 +476,7 @@ export function normalize(obj, data = DATA) {
       effects: ['on', 'off'].includes(s.effects) ? s.effects : DEFAULT_SETTINGS.effects,
       scene: ['on', 'off'].includes(s.scene) ? s.scene : DEFAULT_SETTINGS.scene,
       tutorial: ['on', 'done'].includes(s.tutorial) ? s.tutorial : DEFAULT_SETTINGS.tutorial,
+      events: ['on', 'off'].includes(s.events) ? s.events : DEFAULT_SETTINGS.events,
     },
     log: (Array.isArray(obj.log) ? obj.log : [])
       .filter((e) => e && typeof e.text === 'string')

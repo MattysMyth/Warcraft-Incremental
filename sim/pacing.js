@@ -10,7 +10,7 @@ import { step } from '../src/engine/tick.js';
 import { buyBuilding, buyTownHall, assignWorker } from '../src/engine/actions.js';
 import {
   costOf, canAfford, flows, ecoFor, townHallCostFor, secondsToAfford, productionOf, globalMultiplier, levelOf, levelCap,
-  isUnlocked, housingCapacity, storageCap, freeResidents, workersAt, costExceedsStorage,
+  isUnlocked, housingCapacity, storageCap, freeResidents, workersAt, workerCap, costExceedsStorage,
 } from '../src/engine/derive.js';
 
 export const BASELINE_PATH = fileURLToPath(new URL('../data/pacing-baseline.json', import.meta.url));
@@ -33,7 +33,7 @@ export function nextPurchase(s, data = DATA) {
 
   const consider = (def, forced, why) => {
     if (!isUnlocked(def, s) || lv(def.id) >= cap) return null;
-    const cost = costOf(def, lv(def.id), 1, ecoFor(s, data));
+    const cost = costOf(def, lv(def.id), 1, ecoFor(s, data, def.id));
     return { kind: 'building', def, cost, forced, why };
   };
 
@@ -81,7 +81,7 @@ export function nextPurchase(s, data = DATA) {
   const mult = globalMultiplier(s);
   for (const def of liveBuildings(data)) {
     if (!isWorkplace(def) || !isUnlocked(def, s) || lv(def.id) >= cap) continue;
-    const cost = costOf(def, lv(def.id), 1, ecoFor(s, data));
+    const cost = costOf(def, lv(def.id), 1, ecoFor(s, data, def.id));
     if (costExceedsStorage(s, cost, data)) continue;
     const w = wait(cost);
     if (!Number.isFinite(w)) continue;
@@ -116,8 +116,10 @@ export function simulate({ maxHours = 24, data = DATA } = {}) {
   };
 
   function assignWorkers() {
-    for (const id of WORKER_ORDER) {
-      while (freeResidents(s) > 0 && lv(id) > 0 && workersAt(s, id) < data.economy.workers.maxPerBuilding) {
+    // Fill the full-value slots of every building first, then the smaller extra slots.
+    for (const pass of [0, 1]) for (const id of WORKER_ORDER) {
+      const limit = pass === 0 ? data.economy.workers.maxPerBuilding : workerCap(s, id, data);
+      while (freeResidents(s) > 0 && lv(id) > 0 && workersAt(s, id) < limit) {
         const r = assignWorker(s, id, 1, data);
         if (!r.ok) break;
         s = r.state;

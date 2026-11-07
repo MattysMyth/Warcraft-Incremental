@@ -2,9 +2,9 @@ import { DATA, isWorkplace, liveBuildings } from '../engine/data.js';
 import {
   costOf, canAfford, maxAffordable, outputOf, ecoFor, globalMultiplier, nextMilestone, incomeBreakdown,
   secondsToAfford, isUnlocked, levelOf, levelCap, costExceedsStorage, housingCapacity, storageCap,
-  workersAt, freeResidents,
+  workersAt, freeResidents, workerCap, workerMultiplier,
 } from '../engine/derive.js';
-import { buyBuilding, assignWorker, collectTribute, setSetting } from '../engine/actions.js';
+import { buyBuilding, assignWorker, collectTribute, setSetting, tributeGain } from '../engine/actions.js';
 import { fmt, fmtRate, fmtDuration } from '../engine/numbers.js';
 import { h, setText, setClass, setAttr } from './dom.js';
 import { icon } from './icons.js';
@@ -12,6 +12,7 @@ import { createResourceStrip } from './resources.js';
 import { createTownHall } from './townhall.js';
 import { createResidents } from './residents.js';
 import { createDefence } from './defence.js';
+import { createRally, createPerks, createEdicts } from './engage.js';
 
 export { createResourceStrip };
 
@@ -21,7 +22,6 @@ const BUY_CHOICES = [
   { value: 'max', label: 'Max' },
 ];
 
-const maxWorkers = DATA.economy.workers.maxPerBuilding;
 const bonusPct = Math.round(DATA.economy.workers.bonusEach * 100);
 
 // One line saying what the building does at its current level.
@@ -84,6 +84,8 @@ export function createTown(ctx) {
   const residents = createResidents();
   const defence = createDefence();
 
+  const rally = createRally();
+  const edicts = createEdicts(ctx);
   const tributeLabel = h('span', {});
   const tributeBtn = h(
     'button',
@@ -92,7 +94,7 @@ export function createTown(ctx) {
       type: 'button',
       onClick: () => {
         const r = ctx.run((s) => collectTribute(s));
-        if (r.ok) ctx.pulse(tributeBtn);
+        if (r.ok) { ctx.pulse(tributeBtn); if (r.rallied) ctx.announce('Rally! Production is boosted for a few seconds.'); }
       },
     },
     icon('tribute'),
@@ -150,6 +152,7 @@ export function createTown(ctx) {
       r.pipText = h('span', { class: 'pip-text' });
       r.pipsRow = isWorkplace(def) ? h('p', { class: 'b-pips' }, h('span', { class: 'pips', 'aria-hidden': 'true' }, r.pips), r.pipText) : null;
       r.workers = isWorkplace(def) ? workerStepper(def) : null;
+      r.perks = isWorkplace(def) ? createPerks(ctx, def) : null;
       r.costs = Object.keys(def.cost).map((id) => {
         const v = h('span', { class: 'cost-v' });
         return { id, v, el: h('span', { class: `cost cost-${id}` }, icon(id), v, h('span', { class: 'sr-only' }, DATA.resourceById[id].name)) };
@@ -182,6 +185,7 @@ export function createTown(ctx) {
           r.prod,
           r.pipsRow,
           r.workers?.el,
+          r.perks?.el,
         ),
         h('div', { class: 'b-buy' }, h('div', { class: 'costs' }, r.costs.map((c) => c.el)), r.eta, r.btn),
       );
@@ -201,6 +205,7 @@ export function createTown(ctx) {
     'aside',
     { class: 'aside' },
     residents.el,
+    edicts.el,
     h('section', { class: 'card' }, h('h2', { class: 'h-sec' }, 'Next doublings'), goals),
     h('section', { class: 'card' }, h('h2', { class: 'h-sec' }, 'Recent events'), events),
   );
@@ -211,7 +216,7 @@ export function createTown(ctx) {
     { class: 'town-main' },
     th.el,
     defence.el,
-    h('div', { class: 'toolbar' }, tributeBtn, h('div', { class: 'buy-amount' }, h('span', { class: 'toolbar-label', id: 'buy-label' }, 'Buy'), seg)),
+    h('div', { class: 'toolbar' }, h('div', { class: 'tribute-box' }, tributeBtn, rally.el), h('div', { class: 'buy-amount' }, h('span', { class: 'toolbar-label', id: 'buy-label' }, 'Buy'), seg)),
     ledger,
     further,
   );
@@ -227,7 +232,9 @@ export function createTown(ctx) {
     const cap = levelCap(state);
     const choice = state.settings.buyAmount;
 
-    setText(tributeLabel, `Gather tribute +${fmt(eco.tributeGold * mult, mode)} gold`);
+    setText(tributeLabel, `Gather tribute +${fmt(tributeGain(state), mode)} gold`);
+    rally.update(state);
+    edicts.update(state);
     for (const c of BUY_CHOICES) {
       const on = choice === c.value;
       setAttr(buyButtons[c.value], 'aria-checked', on ? 'true' : 'false');
@@ -248,8 +255,9 @@ export function createTown(ctx) {
       const level = levelOf(state, def.id);
       const room = Math.max(0, cap - level);
       const atLimit = room === 0;
-      const n = atLimit ? 1 : choice === 'max' ? Math.max(1, maxAffordable(state.res, def, level, eco, room)) : Math.min(choice, room);
-      const cost = costOf(def, level, n, eco);
+      const beco = ecoFor(state, DATA, def.id);
+      const n = atLimit ? 1 : choice === 'max' ? Math.max(1, maxAffordable(state.res, def, level, beco, room)) : Math.min(choice, room);
+      const cost = costOf(def, level, n, beco);
       const ok = !atLimit && canAfford(state.res, cost);
 
       setText(r.level, level > 0 ? `Level ${level} of ${cap}` : 'Not built');
@@ -263,14 +271,20 @@ export function createTown(ctx) {
         if (ms && ms.at <= cap + eco.levelsPerTownHall) goalList.push({ name: def.name, ...ms });
       }
 
+      r.perks?.update(state, level);
       if (r.workers) {
         const w = workersAt(state, def.id);
         const built = level > 0;
         r.workers.el.hidden = !built;
-        setText(r.workers.count, `${w} of ${maxWorkers}`);
-        setText(r.workers.bonus, w > 0 ? `+${w * bonusPct}% output` : `+${bonusPct}% each`);
+        const cap = workerCap(state, def.id);
+        const wk = DATA.economy.workers;
+        const nextSlot = cap - wk.maxPerBuilding < wk.maxExtraSlots ? (cap - wk.maxPerBuilding + 1) * wk.levelsPerExtraSlot : null;
+        setText(r.workers.count, `${w} of ${cap}`);
+        setText(r.workers.bonus, w > 0
+          ? `+${Math.round((workerMultiplier(state, def.id) - 1) * 100)}% output`
+          : `+${bonusPct}% each${nextSlot ? `, more slots at level ${nextSlot}` : ''}`);
         setAttr(r.workers.minus, 'disabled', w <= 0);
-        setAttr(r.workers.plus, 'disabled', w >= maxWorkers || freeResidents(state) <= 0);
+        setAttr(r.workers.plus, 'disabled', w >= cap || freeResidents(state) <= 0);
       }
 
       r.costs.forEach((c) => {

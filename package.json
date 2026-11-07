@@ -11,7 +11,8 @@
     "serve": "node build.js --pages && npx --yes http-server docs -p 8080",
     "sim": "node sim/pacing.js",
     "tune": "node sim/tune-townhall.js",
-    "play": "node sim/play.js"
+    "play": "node sim/play.js",
+    "engage": "node sim/engage.js"
   },
   "devDependencies": {
     "esbuild": "0.25.0"

@@ -1,5 +1,6 @@
 // The headless bot plays the real engine. These check the early pacing targets from the design:
 // tavern and first hero near 10 minutes, Elwynn cleared near an hour, the Deadmines near three hours.
+import { runProfiles, PROFILES } from '../sim/engage.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { playGame, POLICY } from '../sim/bot.js';
@@ -23,4 +24,12 @@ test('the bot reaches the early milestones on the design targets (median of five
 test('the first Rebuild becomes advisable between two and three hours', () => {
   const r = playGame({ maxHours: 3.2, seed: 1, data: DATA, policy: { ...POLICY, rebuild: true } });
   assert.ok(r.marks.rebuild_1 >= 2 * 3600 * 0.85 && r.marks.rebuild_1 <= 3 * 3600 * 1.15, `first Rebuild at ${mins(r.marks.rebuild_1 ?? NaN)} min`);
+});
+
+test('being there matters: hands-on play beats plain play, and long absences fall well behind', () => {
+  const rows = runProfiles({ hours: 8, profiles: PROFILES.slice(0, 4) });
+  const [hands, plain, hourly, fourHourly] = rows;
+  assert.ok(hands.marks >= plain.marks, `hands-on ${hands.marks} vs plain ${plain.marks}`);
+  assert.ok(hourly.share <= 1.02, 'a 15-minute visit each hour does not beat constant play');
+  assert.ok(fourHourly.share < 0.9, `visiting every 4 hours reached ${(fourHourly.share * 100).toFixed(0)}% of the hands-on player`);
 });

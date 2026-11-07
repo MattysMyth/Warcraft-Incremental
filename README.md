@@ -7,6 +7,7 @@ An unofficial, non-commercial, fan-made incremental game set in the Warcraft uni
 ```
 npm install
 npm test            # unit tests
+npm run engage      # how far different play habits get (hands-on vs checking in now and then)
 npm run serve       # builds the standalone page and serves it at http://localhost:8080
 ```
 

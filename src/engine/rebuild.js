@@ -11,6 +11,7 @@ import { newTavern } from './heroes.js';
 import { newQuests } from './quests.js';
 import { newAlchemy } from './alchemy.js';
 import { newRaids } from './raids.js';
+import { newEngage } from './engage.js';
 import { levelCap } from './derive.js';
 import { bonusOf, rebuildPreview, renownTotal, upgradeCost, upgradeLevel } from './renown.js';
 import { addLog } from './actions.js';
@@ -28,7 +29,7 @@ export function startingTown(state, data = DATA) {
       if (def && isLive(def) && def.unlockTownHall <= townHall) buildings[id] = Math.min(level, cap);
     }
   }
-  return { buildings, workers: {}, townHall, residents: 0, arrival: 0 };
+  return { buildings, workers: {}, townHall, residents: 0, arrival: 0, perks: {}, edict: null };
 }
 
 export function startingResources(state, data = DATA) {
@@ -68,6 +69,7 @@ export function rebuild(state, data = DATA) {
     quests: { ...newQuests(data), history: q.history, seq: q.seq, orderSeq: q.orderSeq },
     alchemy: newAlchemy(),
     raids: newRaids(data),
+    ...newEngage(data),
     zones,
     heroes: state.heroes.map((h) => (h.injury > 0 ? { ...h, injury: 0 } : h)),
     prestige: { ...state.prestige, renown: state.prestige.renown + pre.gain, renownTotal: total },

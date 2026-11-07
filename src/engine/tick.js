@@ -5,6 +5,8 @@ import { stepQuests } from './quests.js';
 import { stepAlchemy } from './alchemy.js';
 import { stepRaids } from './raids.js';
 import { checkAchievements } from './achievements.js';
+import { stepEngage } from './engage.js';
+import { stepEvents } from './events.js';
 
 // Advance the world by `dt` seconds of game time. Pure: returns a new state.
 // Order within a step: producers, smelting, eating, new arrivals, storage limits.
@@ -60,5 +62,5 @@ export function step(state, dt, data = DATA) {
   };
   const grown = { ...next, ...stepHeroes(next, dt, data) };
   if (grown.alchemy?.queue.length) grown.alchemy = stepAlchemy(grown, dt, data);
-  return checkAchievements(stepRaids(stepQuests(grown, dt, data), dt, data), data);
+  return checkAchievements(stepEvents(stepEngage(stepRaids(stepQuests(grown, dt, data), dt, data), dt, data), dt, data), data);
 }

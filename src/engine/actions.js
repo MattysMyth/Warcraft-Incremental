@@ -2,9 +2,11 @@
 // { ok: false, error }. The UI never changes state any other way.
 import { DATA, isLive, isWorkplace, liveBuildings } from './data.js';
 import { bonusOf } from './renown.js';
+import { rallyTap } from './engage.js';
+export { choosePerk, setEdict, answerEvent, issueCommand } from './events.js';
 import {
   costOf, canAfford, maxAffordable, milestoneMultiplier, globalMultiplier, ecoFor, townHallCostFor,
-  isUnlocked, levelCap, levelOf, freeResidents, workersAt,
+  isUnlocked, levelCap, levelOf, freeResidents, workersAt, workerCap, productionParts,
 } from './derive.js';
 import { NUMBER_FORMATS } from './numbers.js';
 import {
@@ -35,7 +37,7 @@ export function buyBuilding(state, id, count, data = DATA) {
   if (!isUnlocked(def, state)) {
     return { ok: false, error: `The ${def.name} unlocks at Town Hall level ${def.unlockTownHall}.` };
   }
-  const eco = ecoFor(state, data);
+  const eco = ecoFor(state, data, id);
   const level = levelOf(state, id);
   const cap = levelCap(state, data);
   const room = cap - level;
@@ -99,9 +101,9 @@ export function assignWorker(state, id, delta, data = DATA) {
   if (levelOf(state, id) <= 0) return { ok: false, error: `Build the ${def.name} before assigning workers.` };
   if (delta !== 1 && delta !== -1) return { ok: false, error: 'Move workers one at a time.' };
   const now = workersAt(state, id);
-  const max = data.economy.workers.maxPerBuilding;
+  const max = workerCap(state, id, data);
   if (delta > 0) {
-    if (now >= max) return { ok: false, error: `A building takes at most ${max} workers.` };
+    if (now >= max) return { ok: false, error: `A building takes at most ${max} workers at this level.` };
     if (freeResidents(state) <= 0) return { ok: false, error: 'No free residents. Build Houses and keep the larder stocked.' };
   } else if (now <= 0) {
     return { ok: false, error: `No workers at the ${def.name}.` };
@@ -111,13 +113,21 @@ export function assignWorker(state, id, delta, data = DATA) {
   return { ok: true, state: { ...state, town: { ...state.town, workers } } };
 }
 
+// Tribute is a flat sum plus a slice of the town's gold income, so it keeps pace with the town.
+export function tributeGain(state, data = DATA) {
+  return data.economy.tributeGold * globalMultiplier(state, data) + data.engage.rally.tributeSeconds * productionParts(state, data).gross.gold;
+}
+
 export function collectTribute(state, data = DATA) {
-  const gain = data.economy.tributeGold * globalMultiplier(state);
+  const gain = tributeGain(state, data);
+  const { started, ...rally } = rallyTap(state, data);
   return {
     ok: true,
     gain,
+    rallied: !!started,
     state: {
       ...state,
+      rally,
       res: { ...state.res, gold: state.res.gold + gain },
       stats: {
         ...state.stats,
@@ -137,6 +147,7 @@ const SETTING_RULES = {
   effects: (v) => ['on', 'off'].includes(v),
   scene: (v) => ['on', 'off'].includes(v),
   tutorial: (v) => ['on', 'done'].includes(v),
+  events: (v) => ['on', 'off'].includes(v),
 };
 
 export function setSetting(state, key, value) {

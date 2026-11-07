@@ -490,3 +490,33 @@ button, .btn, .btn-small, .seg-btn, .tab, summary, label, .file {
   select, textarea, input:not([type="checkbox"]):not([type="radio"]) { font-size: 16px; }
 }
 html { overscroll-behavior-y: none; }
+
+/* ---- Checkpoint 11: hands-on play ---- */
+.tribute-box { display: grid; gap: 6px; min-width: 0; flex: 1 1 260px; }
+.rally { display: grid; gap: 4px; font-size: 13px; color: var(--muted); }
+.rally-bar { height: 8px; border-radius: 999px; background: var(--panel-2, rgba(255,255,255,0.08)); border: 1px solid var(--line); overflow: hidden; }
+.rally-fill { display: block; height: 100%; width: 0; background: var(--accent); transition: width 0.12s linear; }
+.rally.is-burst { color: var(--text); font-weight: 600; }
+.rally.is-burst .rally-bar { border-color: var(--accent); }
+html[data-motion="reduce"] .rally-fill { transition: none; }
+.event-wrap { display: grid; gap: 8px; margin: 0 0 10px; }
+.event-wrap:not(:has(:not([hidden]))) { display: none; }
+.event-card { border-color: var(--accent); display: grid; gap: 8px; }
+.event-card p { margin: 0; }
+.event-bar { height: 6px; }
+.event-choices { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+.perk-opt { display: grid; gap: 2px; text-align: left; justify-items: start; justify-content: stretch; align-content: center; width: 100%; height: auto; min-height: 46px; padding: 8px 12px; white-space: normal; }
+.perk-opt .perk-text { font-weight: 400; font-size: 13px; color: var(--muted); }
+.perk-opt.is-chosen { border-color: var(--accent); box-shadow: inset 3px 0 0 var(--accent); }
+.perk-opt.is-chosen .perk-text { color: var(--text); }
+.perks { margin-top: 8px; border-top: 1px dashed var(--line); padding-top: 6px; }
+.perks > summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; font-weight: 600; }
+.perks.has-choice > summary { color: var(--accent); }
+.perk-tier { display: grid; gap: 4px; margin: 8px 0; }
+.perk-at { margin: 0; font-size: 12.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.perk-opts, .edict-list { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+.edict-list { grid-template-columns: minmax(0, 1fr); }
+.edict-now { margin: 0 0 4px; font-weight: 600; }
+.buffs { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.cmd-row { flex-wrap: wrap; gap: 6px; }
+.cmd { max-width: 100%; white-space: normal; text-align: left; }

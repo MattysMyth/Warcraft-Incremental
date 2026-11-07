@@ -3,8 +3,9 @@ import { newTavern } from './heroes.js';
 import { newQuests } from './quests.js';
 import { newAlchemy } from './alchemy.js';
 import { newRaids } from './raids.js';
+import { newEngage } from './engage.js';
 
-export const SAVE_VERSION = 10;
+export const SAVE_VERSION = 11;
 
 export const DEFAULT_SETTINGS = Object.freeze({
   numberFormat: 'suffix',
@@ -15,6 +16,7 @@ export const DEFAULT_SETTINGS = Object.freeze({
   effects: 'on',
   scene: 'on',
   tutorial: 'on',
+  events: 'on',
 });
 
 // A fresh game. `seed` and `now` are passed in so tests are reproducible.
@@ -28,7 +30,8 @@ export function newState({ seed, now, data = DATA }) {
     savedAt: now,
     seed: seed >>> 0,
     res,
-    town: { buildings, workers: {}, townHall: 1, residents: 0, arrival: 0 },
+    town: { buildings, workers: {}, townHall: 1, residents: 0, arrival: 0, perks: {}, edict: null },
+    ...newEngage(data),
     era: 1,
     heroes: [],
     items: [],

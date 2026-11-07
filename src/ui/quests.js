@@ -5,7 +5,8 @@ import { levelOf } from '../engine/derive.js';
 import { orderSlots } from '../engine/orders.js';
 import { potionStock } from '../engine/alchemy.js';
 import { createOrdersPanel } from './orders.js';
-import { dispatchQuest, recallQuest, discardOffer, createOrder } from '../engine/actions.js';
+import { dispatchQuest, recallQuest, discardOffer, createOrder, issueCommand } from '../engine/actions.js';
+import { commandOf, commandWait } from '../engine/events.js';
 import { fmt, fmtDuration } from '../engine/numbers.js';
 import { h, setText, setClass, setAttr } from './dom.js';
 import { icon } from './icons.js';
@@ -242,6 +243,15 @@ export function createQuests(ctx) {
     r.fill = r.bar.firstChild;
     r.odds = h('p', { class: 'muted' });
     r.recall = h('button', { class: 'btn btn-small btn-danger', type: 'button', onClick: () => act((s) => recallQuest(s, run.id), () => 'Party called back.') }, 'Call back');
+    // One command button per hero on the trip: a class ability that works on this trip, then rests.
+    r.cmds = run.party.map((hid) => {
+      const b = h('button', {
+        class: 'btn btn-small cmd', type: 'button',
+        onClick: () => act((s) => issueCommand(s, run.id, hid), (res) => `${res.command.name}.`),
+      });
+      return { id: hid, b };
+    });
+    r.cmdRow = h('div', { class: 'row cmd-row', role: 'group', 'aria-label': 'Hero commands' }, r.cmds.map((c) => c.b));
     r.heroBars = bars(run.party.length);
     r.heroList = h('ul', { class: 'hpbars', 'aria-label': 'Party health' }, r.heroBars.map((b) => b.el));
     r.enemyList = h('ul', { class: 'hpbars enemies', 'aria-label': 'Enemy health' });
@@ -253,7 +263,7 @@ export function createQuests(ctx) {
     r.el = h('li', { class: 'run' },
       h('div', { class: 'run-head' }, h('strong', {}, run.offer.title), r.left),
       h('p', { class: 'b-blurb' }, `${run.party.length > 1 ? 'Party' : 'Hero'}: `, h('span', { class: 'run-party' })),
-      r.bar, r.odds, r.watch, h('div', { class: 'row' }, r.recall));
+      r.bar, r.odds, r.cmdRow, r.watch, h('div', { class: 'row' }, r.recall));
     r.partyEl = r.el.querySelector('.run-party');
     return r;
   }
@@ -317,6 +327,17 @@ export function createQuests(ctx) {
       setAttr(r.bar, 'aria-valuenow', Math.round(frac * 100));
       setText(r.partyEl, run.party.map((id) => state.heroes.find((x) => x.id === id)?.name ?? '?').join(' and '));
       setText(r.odds, `${pct(run.chance)} chance of success.${run.potion ? ` Drinking ${DATA.potionById[run.potion].name}.` : ''}${run.order ? ' On a standing order.' : ''}`);
+      for (const c of r.cmds) {
+        const hero = state.heroes.find((x) => x.id === c.id);
+        const cmd = hero && commandOf(hero);
+        c.b.hidden = !cmd;
+        if (!cmd) continue;
+        const wait = commandWait(state, c.id);
+        setText(c.b, wait > 0 ? `${hero.name}: ${cmd.name}, resting ${Math.ceil(wait)}s` : `${hero.name}: ${cmd.name} (${cmd.text})`);
+        setAttr(c.b, 'title', `${cmd.name} ${cmd.text}.`);
+        setAttr(c.b, 'aria-label', `${hero.name}: ${cmd.name}, ${cmd.text}${wait > 0 ? `, resting ${Math.ceil(wait)} seconds` : ''}`);
+        setAttr(c.b, 'disabled', wait > 0);
+      }
       updateWatch(state, run, r, frac);
     }
   }

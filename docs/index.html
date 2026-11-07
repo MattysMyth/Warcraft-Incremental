@@ -506,6 +506,36 @@ button, .btn, .btn-small, .seg-btn, .tab, summary, label, .file {
 }
 html { overscroll-behavior-y: none; }
 
+/* ---- Checkpoint 11: hands-on play ---- */
+.tribute-box { display: grid; gap: 6px; min-width: 0; flex: 1 1 260px; }
+.rally { display: grid; gap: 4px; font-size: 13px; color: var(--muted); }
+.rally-bar { height: 8px; border-radius: 999px; background: var(--panel-2, rgba(255,255,255,0.08)); border: 1px solid var(--line); overflow: hidden; }
+.rally-fill { display: block; height: 100%; width: 0; background: var(--accent); transition: width 0.12s linear; }
+.rally.is-burst { color: var(--text); font-weight: 600; }
+.rally.is-burst .rally-bar { border-color: var(--accent); }
+html[data-motion="reduce"] .rally-fill { transition: none; }
+.event-wrap { display: grid; gap: 8px; margin: 0 0 10px; }
+.event-wrap:not(:has(:not([hidden]))) { display: none; }
+.event-card { border-color: var(--accent); display: grid; gap: 8px; }
+.event-card p { margin: 0; }
+.event-bar { height: 6px; }
+.event-choices { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+.perk-opt { display: grid; gap: 2px; text-align: left; justify-items: start; justify-content: stretch; align-content: center; width: 100%; height: auto; min-height: 46px; padding: 8px 12px; white-space: normal; }
+.perk-opt .perk-text { font-weight: 400; font-size: 13px; color: var(--muted); }
+.perk-opt.is-chosen { border-color: var(--accent); box-shadow: inset 3px 0 0 var(--accent); }
+.perk-opt.is-chosen .perk-text { color: var(--text); }
+.perks { margin-top: 8px; border-top: 1px dashed var(--line); padding-top: 6px; }
+.perks > summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; font-weight: 600; }
+.perks.has-choice > summary { color: var(--accent); }
+.perk-tier { display: grid; gap: 4px; margin: 8px 0; }
+.perk-at { margin: 0; font-size: 12.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.perk-opts, .edict-list { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+.edict-list { grid-template-columns: minmax(0, 1fr); }
+.edict-now { margin: 0 0 4px; font-weight: 600; }
+.buffs { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.cmd-row { flex-wrap: wrap; gap: 6px; }
+.cmd { max-width: 100%; white-space: normal; text-align: left; }
+
 </style>
 <div id="app"></div>
 <script>
@@ -525,16 +555,20 @@ html { overscroll-behavior-y: none; }
     offlineChunkSeconds: 10,
     offlineTiers: [
       {
-        upToSeconds: 7200,
+        upToSeconds: 900,
         rate: 1
       },
       {
-        upToSeconds: 43200,
-        rate: 0.5
+        upToSeconds: 7200,
+        rate: 0.4
       },
       {
-        upToSeconds: 604800,
-        rate: 0.1
+        upToSeconds: 43200,
+        rate: 0.15
+      },
+      {
+        upToSeconds: 259200,
+        rate: 0.05
       }
     ],
     welcomeBackMinSeconds: 60,
@@ -557,7 +591,10 @@ html { overscroll-behavior-y: none; }
     },
     workers: {
       maxPerBuilding: 5,
-      bonusEach: 0.1
+      bonusEach: 0.1,
+      levelsPerExtraSlot: 10,
+      maxExtraSlots: 15,
+      extraBonusEach: 0.05
     },
     levelsPerTownHall: 10,
     hungerQuestSpeed: 0.5
@@ -6119,8 +6156,8 @@ html { overscroll-behavior-y: none; }
     },
     orders: {
       barracks: 1,
-      smartBarracks: 3,
-      levelsPerSlot: 3,
+      smartBarracks: 10,
+      levelsPerSlot: 5,
       maxSlots: 4,
       minOdds: [
         0,
@@ -8516,6 +8553,517 @@ html { overscroll-behavior-y: none; }
     ]
   };
 
+  // data/engage.json
+  var engage_default = {
+    rally: {
+      tapCharge: 4,
+      full: 100,
+      decayPerSec: 3,
+      burstSeconds: 20,
+      boost: 0.4,
+      tributeSeconds: 0.1
+    },
+    perks: {
+      tiers: [
+        10,
+        25,
+        50
+      ],
+      respecSeconds: 120,
+      respecMin: 100,
+      byBuilding: {
+        lumber_camp: [
+          {
+            a: {
+              name: "Sharpened Axes",
+              output: 0.25
+            },
+            b: {
+              name: "Cheap Timber Sheds",
+              discount: 0.15
+            }
+          },
+          {
+            a: {
+              name: "Teamsters",
+              workerBonus: 0.05
+            },
+            b: {
+              name: "Second Crew",
+              slots: 2
+            }
+          },
+          {
+            a: {
+              name: "Old Growth Rights",
+              output: 0.6
+            },
+            b: {
+              name: "Sawmill Annex",
+              discount: 0.3,
+              slots: 3
+            }
+          }
+        ],
+        farm: [
+          {
+            a: {
+              name: "Crop Rotation",
+              output: 0.25
+            },
+            b: {
+              name: "Shared Barns",
+              discount: 0.15
+            }
+          },
+          {
+            a: {
+              name: "Scarecrows",
+              workerBonus: 0.05
+            },
+            b: {
+              name: "Extra Hands",
+              slots: 2
+            }
+          },
+          {
+            a: {
+              name: "Bumper Harvest",
+              output: 0.6
+            },
+            b: {
+              name: "Granary Lofts",
+              discount: 0.3,
+              slots: 3
+            }
+          }
+        ],
+        market: [
+          {
+            a: {
+              name: "Busy Stalls",
+              output: 0.25
+            },
+            b: {
+              name: "Fair Rents",
+              discount: 0.15
+            }
+          },
+          {
+            a: {
+              name: "Guild Stewards",
+              workerBonus: 0.05
+            },
+            b: {
+              name: "Second Row",
+              slots: 2
+            }
+          },
+          {
+            a: {
+              name: "Merchant Quarter",
+              output: 0.6
+            },
+            b: {
+              name: "Trade Fair",
+              discount: 0.3,
+              slots: 3
+            }
+          }
+        ],
+        quarry: [
+          {
+            a: {
+              name: "Iron Chisels",
+              output: 0.25
+            },
+            b: {
+              name: "Rubble Carts",
+              discount: 0.15
+            }
+          },
+          {
+            a: {
+              name: "Blasting Powder",
+              workerBonus: 0.05
+            },
+            b: {
+              name: "Extra Crew",
+              slots: 2
+            }
+          },
+          {
+            a: {
+              name: "Deep Cut",
+              output: 0.6
+            },
+            b: {
+              name: "Quarry Lodge",
+              discount: 0.3,
+              slots: 3
+            }
+          }
+        ],
+        mine: [
+          {
+            a: {
+              name: "Pick Steel",
+              output: 0.25
+            },
+            b: {
+              name: "Timbered Shafts",
+              discount: 0.15
+            }
+          },
+          {
+            a: {
+              name: "Rail Carts",
+              workerBonus: 0.05
+            },
+            b: {
+              name: "Second Shift",
+              slots: 2
+            }
+          },
+          {
+            a: {
+              name: "Rich Vein",
+              output: 0.6
+            },
+            b: {
+              name: "Deep Galleries",
+              discount: 0.3,
+              slots: 3
+            }
+          }
+        ],
+        blacksmith: [
+          {
+            a: {
+              name: "Hotter Forge",
+              output: 0.25
+            },
+            b: {
+              name: "Bellows Boys",
+              discount: 0.15
+            }
+          },
+          {
+            a: {
+              name: "Apprentice Line",
+              workerBonus: 0.05
+            },
+            b: {
+              name: "Journeymen",
+              slots: 2
+            }
+          },
+          {
+            a: {
+              name: "Master's Anvil",
+              output: 0.6
+            },
+            b: {
+              name: "Foundry Row",
+              discount: 0.3,
+              slots: 3
+            }
+          }
+        ],
+        alchemy_lab: [
+          {
+            a: {
+              name: "Fine Alembics",
+              output: 0.25
+            },
+            b: {
+              name: "Herb Gardens",
+              discount: 0.15
+            }
+          },
+          {
+            a: {
+              name: "Assistants",
+              workerBonus: 0.05
+            },
+            b: {
+              name: "Night Shift",
+              slots: 2
+            }
+          },
+          {
+            a: {
+              name: "Distilled Wonders",
+              output: 0.6
+            },
+            b: {
+              name: "Annex Lab",
+              discount: 0.3,
+              slots: 3
+            }
+          }
+        ],
+        mage_tower: [
+          {
+            a: {
+              name: "Focus Crystals",
+              output: 0.25
+            },
+            b: {
+              name: "Student Hall",
+              discount: 0.15
+            }
+          },
+          {
+            a: {
+              name: "Ley Tapping",
+              workerBonus: 0.05
+            },
+            b: {
+              name: "Apprentice Circle",
+              slots: 2
+            }
+          },
+          {
+            a: {
+              name: "Spire Rising",
+              output: 0.6
+            },
+            b: {
+              name: "Arcane Library",
+              discount: 0.3,
+              slots: 3
+            }
+          }
+        ]
+      }
+    },
+    edicts: {
+      townHall: 2,
+      swapSeconds: 90,
+      swapMin: 100,
+      list: [
+        {
+          id: "timber_levy",
+          name: "Timber Levy",
+          text: "Fell more trees at the price of the fields.",
+          res: {
+            lumber: 1.5,
+            food: 0.8
+          }
+        },
+        {
+          id: "harvest_rites",
+          name: "Harvest Rites",
+          text: "Feast days fill the larders; the stalls stay quiet.",
+          res: {
+            food: 1.5,
+            gold: 0.8
+          }
+        },
+        {
+          id: "market_day",
+          name: "Market Day",
+          text: "Every day is market day, and builders charge for it.",
+          res: {
+            gold: 1.4
+          },
+          costMult: 1.2
+        },
+        {
+          id: "quarry_charter",
+          name: "Stonebreaker's Charter",
+          text: "Stone and ore first; the sawmills wait.",
+          res: {
+            stone: 1.5,
+            iron_ore: 1.25,
+            lumber: 0.8
+          }
+        },
+        {
+          id: "war_drums",
+          name: "War Drums",
+          text: "Parties march faster; the treasury pays for the drums.",
+          questSpeed: 0.25,
+          res: {
+            gold: 0.85
+          }
+        },
+        {
+          id: "austerity",
+          name: "Austerity",
+          text: "Build cheaply and spend little.",
+          costMult: 0.8,
+          res: {
+            gold: 0.85
+          }
+        }
+      ]
+    },
+    events: {
+      firstDelaySeconds: 240,
+      interval: [
+        240,
+        420
+      ],
+      window: 120,
+      minMarket: 3,
+      list: [
+        {
+          id: "caravan",
+          name: "Merchant Caravan",
+          text: "A caravan has stopped at the gate. The drivers will sell from their wagons.",
+          choices: [
+            {
+              label: "Buy timber",
+              cost: {
+                res: "gold",
+                seconds: 90,
+                min: 40
+              },
+              gain: {
+                res: "lumber",
+                seconds: 600,
+                min: 60
+              }
+            },
+            {
+              label: "Buy provisions",
+              cost: {
+                res: "gold",
+                seconds: 90,
+                min: 40
+              },
+              gain: {
+                res: "food",
+                seconds: 600,
+                min: 60
+              }
+            },
+            {
+              label: "Send them on"
+            }
+          ]
+        },
+        {
+          id: "scholar",
+          name: "Wandering Scholar",
+          text: "A scholar offers a lecture on logistics to anyone who will stand him a meal.",
+          choices: [
+            {
+              label: "Stand him a meal",
+              cost: {
+                res: "gold",
+                seconds: 60,
+                min: 30
+              },
+              buff: {
+                name: "Logistics lecture",
+                questSpeed: 0.35,
+                seconds: 300
+              }
+            },
+            {
+              label: "Politely decline"
+            }
+          ]
+        },
+        {
+          id: "omen",
+          name: "Omen of Plenty",
+          text: "Birds wheel over the outpost and the weather is mild. The villagers wonder what to make of it.",
+          choices: [
+            {
+              label: "Hold a feast",
+              cost: {
+                res: "food",
+                seconds: 120,
+                min: 25
+              },
+              buff: {
+                name: "Feast day",
+                output: 0.3,
+                seconds: 180
+              }
+            },
+            {
+              label: "Make offerings",
+              cost: {
+                res: "gold",
+                seconds: 60,
+                min: 30
+              },
+              buff: {
+                name: "Offerings",
+                output: 0.2,
+                seconds: 240
+              }
+            },
+            {
+              label: "Ignore it"
+            }
+          ]
+        },
+        {
+          id: "refugees",
+          name: "Refugees at the Gate",
+          text: "A handful of travellers ask for shelter and a place at the table.",
+          needsRoom: true,
+          choices: [
+            {
+              label: "Take them in",
+              cost: {
+                res: "food",
+                seconds: 60,
+                min: 15
+              },
+              residents: 2
+            },
+            {
+              label: "Send them on"
+            }
+          ]
+        }
+      ]
+    },
+    commands: {
+      cooldownSeconds: 90,
+      byClass: {
+        warrior: {
+          name: "Charge",
+          text: "cuts 30% from the trip",
+          time: 0.3
+        },
+        mage: {
+          name: "Arcane Haste",
+          text: "cuts 25% from the trip",
+          time: 0.25
+        },
+        rogue: {
+          name: "Scout Ahead",
+          text: "adds 25% to gold and goods",
+          gold: 0.25
+        },
+        priest: {
+          name: "Blessing",
+          text: "adds 30% experience",
+          xp: 0.3
+        },
+        hunter: {
+          name: "Track Quarry",
+          text: "adds 25% to gold and goods",
+          gold: 0.25
+        },
+        paladin: {
+          name: "Rallying Cry",
+          text: "cuts 15% and adds 15% experience",
+          time: 0.15,
+          xp: 0.15
+        }
+      }
+    }
+  };
+
   // src/engine/data.js
   var BUILDING_KINDS = ["wall", "producer", "converter", "house", "warehouse", "tavern", "barracks", "chapel", "stables", "archives", "planned"];
   function bonusSources(renown, legacy, sands) {
@@ -8546,6 +9094,9 @@ html { overscroll-behavior-y: none; }
     achievements: achievements_default,
     legacy: legacy_default,
     sands: sands_default,
+    engage: engage_default,
+    edictById: Object.fromEntries(engage_default.edicts.list.map((e) => [e.id, e])),
+    eventById: Object.fromEntries(engage_default.events.list.map((e) => [e.id, e])),
     legacyById: Object.fromEntries(legacy_default.upgrades.map((u) => [u.id, u])),
     sandsById: Object.fromEntries(sands_default.upgrades.map((u) => [u.id, u])),
     // Every shop upgrade that carries a given effect key, with the part of the save that holds its level.
@@ -8630,6 +9181,7 @@ html { overscroll-behavior-y: none; }
     if (!(eco2.residents?.foodPerSecEach >= 0)) problems2.push("economy.residents.foodPerSecEach must not be negative");
     if (!Number.isInteger(eco2.workers?.maxPerBuilding) || eco2.workers.maxPerBuilding < 0) problems2.push("economy.workers.maxPerBuilding must be a whole number");
     if (!(eco2.workers?.bonusEach >= 0)) problems2.push("economy.workers.bonusEach must not be negative");
+    if (!positive(eco2.workers?.levelsPerExtraSlot) || !Number.isInteger(eco2.workers?.maxExtraSlots) || eco2.workers.maxExtraSlots < 0 || !(eco2.workers?.extraBonusEach >= 0)) problems2.push("economy.workers needs levelsPerExtraSlot, maxExtraSlots and extraBonusEach");
     if (!Number.isInteger(eco2.levelsPerTownHall) || eco2.levelsPerTownHall < 1) problems2.push("economy.levelsPerTownHall must be a whole number");
     if (!(eco2.hungerQuestSpeed >= 0 && eco2.hungerQuestSpeed <= 1)) problems2.push("economy.hungerQuestSpeed must be 0 to 1");
     for (const r of res) {
@@ -8694,6 +9246,7 @@ html { overscroll-behavior-y: none; }
     if (data.raids) problems2.push(...validateRaids(data));
     if (data.achievements) problems2.push(...validateAchievements(data));
     if (data.legacy && data.sands) problems2.push(...validateLegacy(data));
+    if (data.engage) problems2.push(...validateEngage(data));
     return problems2;
   }
   function validateHeroes(data = DATA) {
@@ -9125,6 +9678,143 @@ html { overscroll-behavior-y: none; }
     if (!(sd.journalKeep >= 1)) problems2.push("sands.journalKeep must be at least 1");
     return problems2;
   }
+  function validateEngage(data = DATA) {
+    const problems2 = [];
+    const e = data.engage;
+    const positive = (x) => Number.isFinite(x) && x > 0;
+    const r = e.rally;
+    if (!r || !positive(r.tapCharge) || !positive(r.full) || !(r.decayPerSec >= 0) || !positive(r.burstSeconds) || !(r.boost >= 0) || !(r.tributeSeconds >= 0)) problems2.push("engage.rally needs tapCharge, full, decayPerSec, burstSeconds, boost and tributeSeconds");
+    const tiers = e.perks?.tiers;
+    if (!Array.isArray(tiers) || tiers.some((t, i) => !Number.isInteger(t) || t < 1 || i > 0 && t <= tiers[i - 1])) problems2.push("engage.perks.tiers must be increasing whole levels");
+    if (!positive(e.perks?.respecSeconds) || !(e.perks?.respecMin >= 0)) problems2.push("engage.perks needs respecSeconds and respecMin");
+    const effectKeys = ["output", "discount", "workerBonus", "slots"];
+    for (const [id, rows] of Object.entries(e.perks?.byBuilding ?? {})) {
+      const def = data.buildingById[id];
+      if (!def || !isWorkplace(def)) problems2.push(`perks name "${id}", which is not a workplace`);
+      if (!Array.isArray(rows) || rows.length !== (tiers ?? []).length) problems2.push(`perks for "${id}" need one row per tier`);
+      for (const row of rows ?? []) for (const k of ["a", "b"]) {
+        const p = row?.[k];
+        if (!p?.name || !effectKeys.some((key) => p[key] > 0)) problems2.push(`a perk of "${id}" needs a name and an effect`);
+        for (const key of Object.keys(p ?? {})) if (key !== "name" && !effectKeys.includes(key)) problems2.push(`a perk of "${id}" has unknown effect "${key}"`);
+      }
+    }
+    for (const b of data.buildings) if (isWorkplace(b) && !e.perks?.byBuilding?.[b.id]) problems2.push(`workplace "${b.id}" has no perks`);
+    const seen = /* @__PURE__ */ new Set();
+    for (const ed of e.edicts?.list ?? []) {
+      if (seen.has(ed.id)) problems2.push(`duplicate edict "${ed.id}"`);
+      seen.add(ed.id);
+      if (!ed.name || !ed.text) problems2.push(`edict "${ed.id}" needs a name and text`);
+      for (const [rid, m] of Object.entries(ed.res ?? {})) if (!data.resourceById[rid] || !positive(m)) problems2.push(`edict "${ed.id}" has a bad resource multiplier for "${rid}"`);
+      if (ed.costMult !== void 0 && !positive(ed.costMult)) problems2.push(`edict "${ed.id}" costMult must be positive`);
+      if (!(ed.questSpeed === void 0 || ed.questSpeed >= 0)) problems2.push(`edict "${ed.id}" questSpeed must not be negative`);
+    }
+    if (!(e.edicts?.townHall >= 1) || !positive(e.edicts?.swapSeconds)) problems2.push("engage.edicts needs townHall and swapSeconds");
+    const ev = e.events;
+    if (!ev || !Array.isArray(ev.interval) || !(ev.interval[0] > 0) || ev.interval[1] < ev.interval[0] || !positive(ev.window) || !positive(ev.firstDelaySeconds)) problems2.push("engage.events needs interval, window and firstDelaySeconds");
+    const seenEv = /* @__PURE__ */ new Set();
+    for (const x of ev?.list ?? []) {
+      if (seenEv.has(x.id)) problems2.push(`duplicate event "${x.id}"`);
+      seenEv.add(x.id);
+      if (!x.name || !x.text || !Array.isArray(x.choices) || x.choices.length < 2) problems2.push(`event "${x.id}" needs a name, text and at least two choices`);
+      if (!x.choices?.some((c) => !c.cost)) problems2.push(`event "${x.id}" needs a free choice, so no one is forced to pay`);
+      for (const c of x.choices ?? []) {
+        if (!c.label) problems2.push(`event "${x.id}" has a choice without a label`);
+        for (const part of [c.cost, c.gain]) if (part && (!data.resourceById[part.res] || !positive(part.seconds))) problems2.push(`event "${x.id}" has a bad cost or gain`);
+        if (c.buff && (!c.buff.name || !positive(c.buff.seconds) || !(c.buff.output > 0 || c.buff.questSpeed > 0))) problems2.push(`event "${x.id}" has a bad buff`);
+      }
+    }
+    for (const c of data.heroes.classes) {
+      const cmd = e.commands?.byClass?.[c.id];
+      if (!cmd?.name || !cmd?.text || !(cmd.time > 0 || cmd.gold > 0 || cmd.xp > 0)) problems2.push(`class "${c.id}" needs a command with a name, text and an effect`);
+    }
+    if (!positive(e.commands?.cooldownSeconds)) problems2.push("engage.commands needs cooldownSeconds");
+    return problems2;
+  }
+
+  // src/engine/engage.js
+  var newEngage = (data = DATA) => ({
+    rally: { charge: 0, burst: 0, bursts: 0 },
+    buffs: [],
+    event: null,
+    events: { next: data.engage.events.firstDelaySeconds, seq: 0, taken: 0 }
+  });
+  var product = (xs) => xs.reduce((a, x) => a * x, 1);
+  var rallyBurst = (state2) => state2.rally?.burst ?? 0;
+  function rallyTap(state2, data = DATA) {
+    const cfg = data.engage.rally;
+    const r = state2.rally ?? { charge: 0, burst: 0, bursts: 0 };
+    if (r.burst > 0) return { ...r, burst: r.burst };
+    const charge = r.charge + cfg.tapCharge;
+    if (charge >= cfg.full) return { charge: 0, burst: cfg.burstSeconds, bursts: (r.bursts ?? 0) + 1, started: true };
+    return { ...r, charge };
+  }
+  function perkRows(id, data = DATA) {
+    const rows = data.engage.perks.byBuilding[id];
+    if (!rows) return [];
+    return rows.map((row, i) => ({ at: data.engage.perks.tiers[i], a: row.a, b: row.b }));
+  }
+  var perkChoice = (state2, id, at) => state2.town.perks?.[id]?.[at] ?? null;
+  function perkEffects(state2, id, data = DATA) {
+    const out = { output: 0, discount: 0, workerBonus: 0, slots: 0 };
+    const chosen = state2.town.perks?.[id];
+    if (!chosen) return out;
+    const level = state2.town.buildings[id] ?? 0;
+    for (const row of perkRows(id, data)) {
+      const pick = chosen[row.at];
+      if (!pick || level < row.at) continue;
+      const p = row[pick];
+      for (const k of Object.keys(out)) out[k] += p?.[k] ?? 0;
+    }
+    return out;
+  }
+  function describePerk(p) {
+    const bits = [];
+    if (p.output) bits.push(`+${Math.round(p.output * 100)}% output`);
+    if (p.discount) bits.push(`${Math.round(p.discount * 100)}% cheaper levels`);
+    if (p.workerBonus) bits.push(`workers add +${Math.round(p.workerBonus * 100)}% more each`);
+    if (p.slots) bits.push(`+${p.slots} worker slots`);
+    return bits.join(", ");
+  }
+  var edictOf = (state2, data = DATA) => data.edictById[state2.town.edict] ?? null;
+  var buffTotal = (state2, key) => (state2.buffs ?? []).reduce((a, b) => a + (b[key] ?? 0), 0);
+  function outputBoost(state2, def, data = DATA) {
+    const edict = edictOf(state2, data);
+    return product([
+      1 + (rallyBurst(state2) > 0 ? data.engage.rally.boost : 0),
+      1 + buffTotal(state2, "output"),
+      1 + perkEffects(state2, def.id, data).output,
+      edict?.res?.[def.produces] ?? 1
+    ]);
+  }
+  function stipendBoost(state2, data = DATA) {
+    const edict = edictOf(state2, data);
+    return product([1 + (rallyBurst(state2) > 0 ? data.engage.rally.boost : 0), 1 + buffTotal(state2, "output"), edict?.res?.gold ?? 1]);
+  }
+  function costMultiplier(state2, id, data = DATA) {
+    const edict = edictOf(state2, data);
+    return (1 - Math.min(0.9, perkEffects(state2, id, data).discount)) * (edict?.costMult ?? 1);
+  }
+  var questSpeedBoost = (state2, data = DATA) => buffTotal(state2, "questSpeed") + (edictOf(state2, data)?.questSpeed ?? 0);
+  function stepEngage(state2, dt, data = DATA) {
+    const r = state2.rally;
+    let next = state2;
+    if (r && (r.charge > 0 || r.burst > 0)) {
+      const burst = Math.max(0, r.burst - dt);
+      const charge = burst > 0 ? 0 : Math.max(0, r.charge - data.engage.rally.decayPerSec * dt);
+      next = { ...next, rally: { ...r, burst, charge } };
+    }
+    const cmd = state2.quests?.cmd;
+    if (cmd && Object.keys(cmd).length) {
+      const rest = {};
+      for (const [id, left] of Object.entries(cmd)) if (left - dt > 0) rest[id] = left - dt;
+      next = { ...next, quests: { ...next.quests, cmd: rest } };
+    }
+    if (state2.buffs?.length) {
+      const buffs = state2.buffs.map((b) => ({ ...b, left: b.left - dt })).filter((b) => b.left > 0);
+      next = { ...next, buffs };
+    }
+    return next;
+  }
 
   // src/engine/renown.js
   var renownTotal = (state2) => state2.prestige?.renownTotal ?? state2.prestige?.renown ?? 0;
@@ -9224,9 +9914,15 @@ html { overscroll-behavior-y: none; }
   function freeResidents(state2) {
     return state2.town.residents - workersAssigned(state2);
   }
+  function workerCap(state2, id, data = DATA) {
+    const w = data.economy.workers;
+    const extra = Math.min(w.maxExtraSlots, Math.floor(levelOf(state2, id) / w.levelsPerExtraSlot));
+    return w.maxPerBuilding + extra + perkEffects(state2, id, data).slots;
+  }
   function workerMultiplier(state2, id, data = DATA) {
-    const { maxPerBuilding, bonusEach } = data.economy.workers;
-    return 1 + bonusEach * Math.min(workersAt(state2, id), maxPerBuilding);
+    const { maxPerBuilding, bonusEach, extraBonusEach } = data.economy.workers;
+    const n = Math.min(workersAt(state2, id), workerCap(state2, id, data));
+    return 1 + (bonusEach + perkEffects(state2, id, data).workerBonus) * Math.min(n, maxPerBuilding) + extraBonusEach * Math.max(0, n - maxPerBuilding);
   }
   function milestoneMultiplier(level, eco2 = DATA.economy) {
     let m = 1;
@@ -9240,9 +9936,10 @@ html { overscroll-behavior-y: none; }
   function globalMultiplier(state2, data = DATA) {
     return renownMultiplier(renownTotal(state2), data) * legacyMultiplier(legacyTotal(state2), data) * sandsMultiplier(sandsTotal(state2), data) * (1 + data.achievements.bonusEach * Object.keys(state2.achievements ?? {}).length);
   }
-  function ecoFor(state2, data = DATA) {
+  function ecoFor(state2, data = DATA, id = null) {
     const cut = bonusOf(state2, "buildingDiscount", data);
-    return cut > 0 ? { ...data.economy, costScale: 1 - cut } : data.economy;
+    const k = (1 - cut) * (id ? costMultiplier(state2, id, data) : 1);
+    return k !== 1 ? { ...data.economy, costScale: k } : data.economy;
   }
   function costOf(def, level, count = 1, eco2 = DATA.economy) {
     const g = eco2.costGrowth;
@@ -9288,12 +9985,12 @@ html { overscroll-behavior-y: none; }
   }
   function outputOf(state2, def, data = DATA, levelOverride = null) {
     const level = levelOverride ?? levelOf(state2, def.id);
-    return productionOf(def, level, globalMultiplier(state2, data) * workerMultiplier(state2, def.id, data) * resourceBoost(state2, def.produces, data), data.economy);
+    return productionOf(def, level, globalMultiplier(state2, data) * workerMultiplier(state2, def.id, data) * resourceBoost(state2, def.produces, data) * outputBoost(state2, def, data), data.economy);
   }
   var foodPerResident = (state2, data = DATA) => data.economy.residents.foodPerSecEach * (1 - bonusOf(state2, "foodSaver", data));
   function productionParts(state2, data = DATA) {
     const gross = Object.fromEntries(data.resources.map((r) => [r.id, 0]));
-    const stipend = data.economy.stipendGoldPerSec * globalMultiplier(state2, data) * resourceBoost(state2, "gold", data);
+    const stipend = data.economy.stipendGoldPerSec * globalMultiplier(state2, data) * resourceBoost(state2, "gold", data) * stipendBoost(state2, data);
     gross.gold += stipend;
     const converters = [];
     for (const def of liveBuildings(data)) {
@@ -9361,7 +10058,7 @@ html { overscroll-behavior-y: none; }
     return flows(state2, data).net.food < 0;
   }
   function questSpeedMultiplier(state2, data = DATA) {
-    return (isHungry(state2, data) ? data.economy.hungerQuestSpeed : 1) * (1 + bonusOf(state2, "questSpeed", data));
+    return (isHungry(state2, data) ? data.economy.hungerQuestSpeed : 1) * (1 + bonusOf(state2, "questSpeed", data) + questSpeedBoost(state2, data));
   }
   function arrivalStatus(state2, data = DATA) {
     const { arrivalSeconds, arrivalFood } = data.economy.residents;
@@ -10247,7 +10944,8 @@ html { overscroll-behavior-y: none; }
     history: [],
     seq: 0,
     focus: null,
-    orderSeq: 0
+    orderSeq: 0,
+    cmd: {}
   });
   var isBusy = (state2, heroId) => state2.quests.active.some((r) => r.party.includes(heroId));
   var isStory = (offer, data = DATA) => !!data.templateById[offer.template]?.story;
@@ -10496,13 +11194,15 @@ html { overscroll-behavior-y: none; }
       const openBefore = new Set(openZones(s, data).map((z) => z.id));
       const firstClear = isDelve(run.offer.type) && !zone.cleared.includes(tpl.id);
       const stolen = run.stolen ?? 0;
-      const gold = Math.round(run.reward.gold * (1 - stolen) * (firstClear ? QD(data).loot.dungeon.firstClearGoldMult : 1));
+      const gold = Math.round(run.reward.gold * (1 + (run.bonus?.gold ?? 0)) * (1 - stolen) * (firstClear ? QD(data).loot.dungeon.firstClearGoldMult : 1));
+      const lift = 1 + (run.bonus?.gold ?? 0);
+      const rewardRes = Object.fromEntries(Object.entries(run.reward.res).map(([id, amt]) => [id, Math.round(amt * lift)]));
       let res = { ...s.res, gold: s.res.gold + gold };
-      for (const [id, amt] of Object.entries(run.reward.res)) res[id] = Math.min(storageCap(s, id, data), (res[id] ?? 0) + amt);
+      for (const [id, amt] of Object.entries(rewardRes)) res[id] = Math.min(storageCap(s, id, data), (res[id] ?? 0) + amt);
       let xpTotal = 0;
       const heroes = s.heroes.map((h2) => {
         if (!run.party.includes(h2.id)) return h2;
-        const xp = heroXpFor(s, h2, run.offer, data);
+        const xp = heroXpFor(s, h2, run.offer, data) * (1 + (run.bonus?.xp ?? 0));
         xpTotal += xp;
         return addXp(h2, xp, data, heroCap(s, data));
       });
@@ -10539,7 +11239,7 @@ html { overscroll-behavior-y: none; }
       const tierAfter = tierIndex(next.rep, data);
       const loot = dropLoot(s, run, firstClear, data);
       s = loot.state;
-      Object.assign(entry, { gold, xp: Math.round(xpTotal), res: run.reward.res, loot: loot.names, sold: loot.sold, firstClear, legacy: points, stolen, rep: gain, story: !!tpl.story, opened: opened.map((z) => z.name) });
+      Object.assign(entry, { gold, xp: Math.round(xpTotal), res: rewardRes, loot: loot.names, sold: loot.sold, firstClear, legacy: points, stolen, rep: gain, story: !!tpl.story, opened: opened.map((z) => z.name) });
       for (const z of opened) s = { ...s, log: [{ t: s.savedAt, text: `${z.name} is open to the outpost's parties.` }, ...s.log] };
       if (tierAfter > tierBefore) {
         const zn = data.zoneById[run.offer.zone];
@@ -10548,7 +11248,7 @@ html { overscroll-behavior-y: none; }
       }
       const bits = [];
       if (gold) bits.push(`${gold} gold`);
-      for (const [id, amt] of Object.entries(run.reward.res)) bits.push(`${amt} ${data.resourceById[id].name.toLowerCase()}`);
+      for (const [id, amt] of Object.entries(rewardRes)) bits.push(`${amt} ${data.resourceById[id].name.toLowerCase()}`);
       bits.push(`${entry.xp} experience`);
       if (loot.names.length) bits.push(`${loot.names.length} ${loot.names.length === 1 ? "item" : "items"}`);
       line = `${names.join(" and ")} finished "${run.offer.title}": ${bits.join(", ")}.${tpl.story ? " The story moves on." : ""}${points ? ` ${points} Legacy earned.` : ""}`;
@@ -10716,7 +11416,8 @@ html { overscroll-behavior-y: none; }
       wipedAt: fight.wipedAt,
       reward: rewardFor(state2, offer, ids.length, data),
       potion: potion ?? null,
-      order: order ?? null
+      order: order ?? null,
+      bonus: { gold: 0, xp: 0 }
     };
     const alchemy = potion ? { ...state2.alchemy, stock: { ...state2.alchemy.stock, [potion]: potionStock(state2, potion) - ids.length } } : state2.alchemy;
     return { ok: true, run, state: { ...state2, alchemy, quests: { ...state2.quests, active: [...state2.quests.active, run] } } };
@@ -10811,7 +11512,7 @@ html { overscroll-behavior-y: none; }
   }
 
   // src/engine/state.js
-  var SAVE_VERSION = 10;
+  var SAVE_VERSION = 11;
   var DEFAULT_SETTINGS = Object.freeze({
     numberFormat: "suffix",
     reducedMotion: "auto",
@@ -10820,7 +11521,8 @@ html { overscroll-behavior-y: none; }
     textSize: "normal",
     effects: "on",
     scene: "on",
-    tutorial: "on"
+    tutorial: "on",
+    events: "on"
   });
   function newState({ seed, now, data = DATA }) {
     const res = {};
@@ -10832,7 +11534,8 @@ html { overscroll-behavior-y: none; }
       savedAt: now,
       seed: seed >>> 0,
       res,
-      town: { buildings, workers: {}, townHall: 1, residents: 0, arrival: 0 },
+      town: { buildings, workers: {}, townHall: 1, residents: 0, arrival: 0, perks: {}, edict: null },
+      ...newEngage(data),
       era: 1,
       heroes: [],
       items: [],
@@ -10893,6 +11596,124 @@ html { overscroll-behavior-y: none; }
     return { ...state2, achievements: { ...have, ...add2 }, log };
   }
 
+  // src/engine/events.js
+  var logLine = (state2, text, data) => ({ ...state2, log: [{ t: state2.savedAt, text }, ...state2.log].slice(0, data.economy.logLimit) });
+  var grossGold = (state2, data) => productionParts(state2, data).gross.gold;
+  var feeFor = (state2, seconds, min, data = DATA) => Math.ceil(Math.max(min, seconds * grossGold(state2, data)));
+  var respecFee = (state2, data = DATA) => feeFor(state2, data.engage.perks.respecSeconds, data.engage.perks.respecMin, data);
+  var edictSwapFee = (state2, data = DATA) => feeFor(state2, data.engage.edicts.swapSeconds, data.engage.edicts.swapMin, data);
+  var pay = (state2, fee) => ({ ...state2, res: { ...state2.res, gold: state2.res.gold - fee } });
+  function choosePerk(state2, id, at, pick, data = DATA) {
+    const def = data.buildingById[id];
+    if (!def || !isWorkplace(def)) return { ok: false, error: "Only producing buildings have perks." };
+    const row = perkRows(id, data).find((r) => r.at === at);
+    if (!row) return { ok: false, error: "No such perk tier." };
+    if (pick !== "a" && pick !== "b") return { ok: false, error: "Choose one of the two perks." };
+    if (levelOf(state2, id) < at) return { ok: false, error: `The ${def.name} needs level ${at} for this choice.` };
+    const had = perkChoice(state2, id, at);
+    if (had === pick) return { ok: false, error: "That perk is already chosen." };
+    const fee = had ? respecFee(state2, data) : 0;
+    if (fee > state2.res.gold) return { ok: false, error: `Changing a perk costs ${fee} gold.` };
+    const perks2 = { ...state2.town.perks ?? {}, [id]: { ...state2.town.perks?.[id] ?? {}, [at]: pick } };
+    let next = { ...pay(state2, fee), town: { ...state2.town, perks: perks2 } };
+    next = logLine(next, `${def.name}: ${row[pick].name}${had ? ` (changed for ${fee} gold)` : ""}.`, data);
+    return { ok: true, state: next, fee, perk: row[pick] };
+  }
+  function setEdict(state2, id, data = DATA) {
+    if (state2.town.townHall < data.engage.edicts.townHall) return { ok: false, error: `Edicts need Town Hall level ${data.engage.edicts.townHall}.` };
+    const cur = edictOf(state2, data);
+    if (id === null) {
+      if (!cur) return { ok: false, error: "No edict is in force." };
+      return { ok: true, state: logLine({ ...state2, town: { ...state2.town, edict: null } }, `${cur.name} was lifted.`, data), fee: 0 };
+    }
+    const ed = data.edictById[id];
+    if (!ed) return { ok: false, error: "No such edict." };
+    if (cur?.id === id) return { ok: false, error: `${ed.name} is already in force.` };
+    const fee = cur ? edictSwapFee(state2, data) : 0;
+    if (fee > state2.res.gold) return { ok: false, error: `Changing the edict costs ${fee} gold.` };
+    return { ok: true, state: logLine({ ...pay(state2, fee), town: { ...state2.town, edict: id } }, `${ed.name} proclaimed${fee ? ` (${fee} gold)` : ""}.`, data), fee };
+  }
+  function choiceTerms(state2, choice, data = DATA) {
+    const gross = productionParts(state2, data).gross;
+    const amount = (p) => Math.ceil(Math.max(p.min ?? 0, p.seconds * (gross[p.res] ?? 0)));
+    return {
+      cost: choice.cost ? { res: choice.cost.res, amount: amount(choice.cost) } : null,
+      gain: choice.gain ? { res: choice.gain.res, amount: amount(choice.gain) } : null
+    };
+  }
+  var eventOf = (state2, data = DATA) => state2.event ? data.eventById[state2.event.id] ?? null : null;
+  var nextInterval = (state2, data) => {
+    const [lo, hi] = data.engage.events.interval;
+    return lo + makeRng(seedFrom(state2.seed, (state2.events?.seq ?? 0) + 1, 1313))() * (hi - lo);
+  };
+  function eligible2(def, state2, data) {
+    if (def.needsRoom && state2.town.residents >= housingCapacity(state2, data)) return false;
+    return true;
+  }
+  function stepEvents(state2, dt, data = DATA) {
+    const ev = state2.events;
+    if (!ev) return state2;
+    const cfg = data.engage.events;
+    if (state2.event) {
+      const left = state2.event.left - dt;
+      if (left > 0) return { ...state2, event: { ...state2.event, left } };
+      return { ...state2, event: null, events: { ...ev, next: nextInterval(state2, data) } };
+    }
+    if (state2.settings?.events === "off") return state2;
+    const next = ev.next - dt;
+    if (next > 0) return { ...state2, events: { ...ev, next } };
+    if (levelOf(state2, "market") < cfg.minMarket) return { ...state2, events: { ...ev, next: 30 } };
+    const pool = cfg.list.filter((d) => eligible2(d, state2, data));
+    const rng = makeRng(seedFrom(state2.seed, ev.seq + 1, 1212));
+    const def = pool[Math.floor(rng() * pool.length)];
+    if (!def) return { ...state2, events: { ...ev, next: 30 } };
+    return { ...state2, event: { id: def.id, left: cfg.window, total: cfg.window }, events: { ...ev, seq: ev.seq + 1, next: 0 } };
+  }
+  function answerEvent(state2, index, data = DATA) {
+    const def = eventOf(state2, data);
+    if (!def) return { ok: false, error: "That chance has passed." };
+    const choice = def.choices[index];
+    if (!choice) return { ok: false, error: "No such choice." };
+    const terms = choiceTerms(state2, choice, data);
+    if (terms.cost && (state2.res[terms.cost.res] ?? 0) < terms.cost.amount) return { ok: false, error: `That needs ${terms.cost.amount} ${data.resourceById[terms.cost.res].name.toLowerCase()}.` };
+    const res = { ...state2.res };
+    if (terms.cost) res[terms.cost.res] -= terms.cost.amount;
+    if (terms.gain) res[terms.gain.res] = Math.max(res[terms.gain.res] ?? 0, Math.min(storageCap(state2, terms.gain.res, data), (res[terms.gain.res] ?? 0) + terms.gain.amount));
+    let next = { ...state2, res, event: null, events: { ...state2.events, taken: (state2.events.taken ?? 0) + (terms.cost || choice.buff || choice.residents ? 1 : 0), next: nextInterval(state2, data) } };
+    const bits = [];
+    if (terms.cost) bits.push(`paid ${terms.cost.amount} ${data.resourceById[terms.cost.res].name.toLowerCase()}`);
+    if (terms.gain) bits.push(`took ${terms.gain.amount} ${data.resourceById[terms.gain.res].name.toLowerCase()}`);
+    if (choice.buff) {
+      const b = choice.buff;
+      next = { ...next, buffs: [...(next.buffs ?? []).filter((x) => x.id !== def.id), { id: def.id, name: b.name, left: b.seconds, total: b.seconds, output: b.output ?? 0, questSpeed: b.questSpeed ?? 0 }] };
+      bits.push(`${b.name} for ${Math.round(b.seconds / 60)} min`);
+    }
+    if (choice.residents) {
+      const room = Math.max(0, housingCapacity(next, data) - next.town.residents);
+      const n = Math.min(choice.residents, room);
+      next = { ...next, town: { ...next.town, residents: next.town.residents + n } };
+      bits.push(`${n} ${n === 1 ? "resident" : "residents"} settled`);
+    }
+    return { ok: true, state: logLine(next, `${def.name}: ${choice.label.toLowerCase()}${bits.length ? ` (${bits.join(", ")})` : ""}.`, data) };
+  }
+  var commandOf = (hero, data = DATA) => data.engage.commands.byClass[hero.class] ?? null;
+  var commandWait = (state2, heroId) => state2.quests.cmd?.[heroId] ?? 0;
+  function issueCommand(state2, runId, heroId, data = DATA) {
+    const run = state2.quests.active.find((r) => r.id === runId);
+    if (!run) return { ok: false, error: "That party is not on the road." };
+    if (!run.party.includes(heroId)) return { ok: false, error: "That hero is not in this party." };
+    const hero = state2.heroes.find((h2) => h2.id === heroId);
+    const cmd = hero && commandOf(hero, data);
+    if (!cmd) return { ok: false, error: "That hero has no command." };
+    const wait = commandWait(state2, heroId);
+    if (wait > 0) return { ok: false, error: `${hero.name} needs ${Math.ceil(wait)} more seconds to rest.` };
+    const bonus = { gold: (run.bonus?.gold ?? 0) + (cmd.gold ?? 0), xp: (run.bonus?.xp ?? 0) + (cmd.xp ?? 0) };
+    const remaining = cmd.time ? Math.max(1, run.remaining - run.total * cmd.time) : run.remaining;
+    const active = state2.quests.active.map((r) => r.id === runId ? { ...r, remaining, bonus } : r);
+    const next = { ...state2, quests: { ...state2.quests, active, cmd: { ...state2.quests.cmd ?? {}, [heroId]: data.engage.commands.cooldownSeconds } } };
+    return { ok: true, state: logLine(next, `${hero.name} used ${cmd.name} on "${run.offer.title}".`, data), command: cmd };
+  }
+
   // src/engine/tick.js
   function step(state2, dt, data = DATA) {
     if (!(dt > 0)) return state2;
@@ -10933,7 +11754,7 @@ html { overscroll-behavior-y: none; }
     };
     const grown = { ...next, ...stepHeroes(next, dt, data) };
     if (grown.alchemy?.queue.length) grown.alchemy = stepAlchemy(grown, dt, data);
-    return checkAchievements(stepRaids(stepQuests(grown, dt, data), dt, data), data);
+    return checkAchievements(stepEvents(stepEngage(stepRaids(stepQuests(grown, dt, data), dt, data), dt, data), dt, data), data);
   }
 
   // src/engine/offline.js
@@ -11121,7 +11942,10 @@ html { overscroll-behavior-y: none; }
       const built = Object.values(o.town?.buildings ?? {}).some((n) => n > 0);
       const seasoned = built || (o.heroes ?? []).length > 0 || (o.stats?.playSeconds ?? 0) > 300;
       return { ...o, settings: { ...o.settings ?? {}, tutorial: seasoned ? "done" : "on" } };
-    }
+    },
+    // v10 -> v11 (hands-on layer): the Rally meter, building perks, edicts, timed events and hero commands.
+    // Nothing to carry over; the fields start empty and normalize() fills them in.
+    (o) => ({ ...o, town: { ...o.town ?? {}, perks: {}, edict: null }, ...newEngage(), settings: { ...o.settings ?? {}, events: "on" } })
   ];
   function migrate(raw, migrations = MIGRATIONS, target = SAVE_VERSION) {
     if (!raw || typeof raw !== "object" || Array.isArray(raw)) throw new Error("Save is not an object.");
@@ -11259,7 +12083,8 @@ html { overscroll-behavior-y: none; }
       wipedAt: Number.isInteger(raw.wipedAt) && raw.wipedAt >= 0 ? raw.wipedAt : null,
       reward: { gold: num(rw.gold), res },
       potion: data.potionById[raw.potion] ? raw.potion : null,
-      order: typeof raw.order === "string" ? raw.order : null
+      order: typeof raw.order === "string" ? raw.order : null,
+      bonus: { gold: Math.min(2, num(raw.bonus?.gold)), xp: Math.min(2, num(raw.bonus?.xp)) }
     };
   }
   function cleanQuests(raw, heroes, data) {
@@ -11338,7 +12163,8 @@ html { overscroll-behavior-y: none; }
       counter: Math.max(Math.floor(num(raw.counter)), maxN),
       refreshIn: Math.min(data.quests.board.refreshSeconds, num(raw.refreshIn, base.refreshIn)) || base.refreshIn,
       history,
-      seq: Math.max(Math.floor(num(raw.seq)), ...history.map((e) => e.n))
+      seq: Math.max(Math.floor(num(raw.seq)), ...history.map((e) => e.n)),
+      cmd: Object.fromEntries(Object.entries(raw.cmd ?? {}).filter(([id, v]) => heroes.some((h2) => h2.id === id) && num(v) > 0).map(([id, v]) => [id, Math.min(data.engage.commands.cooldownSeconds, num(v))]))
     };
   }
   function cleanZones(raw, data) {
@@ -11449,13 +12275,35 @@ html { overscroll-behavior-y: none; }
     let left = residents;
     for (const def of data.buildings) {
       if (!isWorkplace(def) || !(buildings[def.id] > 0)) continue;
-      const n = Math.min(Math.floor(num(raw?.[def.id])), data.economy.workers.maxPerBuilding, left);
+      const n = Math.min(Math.floor(num(raw?.[def.id])), data.economy.workers.maxPerBuilding + data.economy.workers.maxExtraSlots, left);
       if (n > 0) {
         out[def.id] = n;
         left -= n;
       }
     }
     return out;
+  }
+  function cleanPerks(raw, buildings, data) {
+    const out = {};
+    for (const [id, rows] of Object.entries(data.engage.perks.byBuilding)) {
+      const picks = {};
+      for (const at of data.engage.perks.tiers) {
+        const v = raw?.[id]?.[at];
+        if ((v === "a" || v === "b") && (buildings[id] ?? 0) >= at) picks[at] = v;
+      }
+      if (Object.keys(picks).length) out[id] = picks;
+    }
+    return out;
+  }
+  function cleanEngage(obj, data) {
+    const base = newEngage(data);
+    const cfg = data.engage;
+    const r = obj.rally ?? {};
+    const rally = { charge: Math.min(cfg.rally.full, num(r.charge)), burst: Math.min(cfg.rally.burstSeconds, num(r.burst)), bursts: Math.floor(num(r.bursts)) };
+    const buffs = (Array.isArray(obj.buffs) ? obj.buffs : []).filter((b) => b && typeof b.name === "string" && num(b.left) > 0).slice(0, 6).map((b) => ({ id: String(b.id ?? "").slice(0, 30), name: b.name.slice(0, 40), left: Math.min(3600, num(b.left)), total: Math.min(3600, Math.max(num(b.left), num(b.total))), output: Math.min(1, num(b.output)), questSpeed: Math.min(1, num(b.questSpeed)) }));
+    const ev = obj.event && data.eventById[obj.event.id] && num(obj.event.left) > 0 ? { id: obj.event.id, left: Math.min(cfg.events.window, num(obj.event.left)), total: cfg.events.window } : null;
+    const e = obj.events ?? {};
+    return { rally, buffs, event: ev, events: { next: Math.min(cfg.events.interval[1], num(e.next, base.events.next)), seq: Math.floor(num(e.seq)), taken: Math.floor(num(e.taken)) } };
   }
   function normalize(obj, data = DATA) {
     const res = {};
@@ -11479,8 +12327,11 @@ html { overscroll-behavior-y: none; }
         workers,
         townHall: Math.min(data.townHall.maxLevel, Math.max(1, Math.floor(num(obj.town?.townHall, 1)))),
         residents,
-        arrival: Math.min(num(obj.town?.arrival), data.economy.residents.arrivalSeconds)
+        arrival: Math.min(num(obj.town?.arrival), data.economy.residents.arrivalSeconds),
+        perks: cleanPerks(obj.town?.perks, buildings, data),
+        edict: data.edictById[obj.town?.edict] ? obj.town.edict : null
       },
+      ...cleanEngage(obj, data),
       era,
       heroes,
       items,
@@ -11522,7 +12373,8 @@ html { overscroll-behavior-y: none; }
         textSize: ["normal", "large"].includes(s.textSize) ? s.textSize : DEFAULT_SETTINGS.textSize,
         effects: ["on", "off"].includes(s.effects) ? s.effects : DEFAULT_SETTINGS.effects,
         scene: ["on", "off"].includes(s.scene) ? s.scene : DEFAULT_SETTINGS.scene,
-        tutorial: ["on", "done"].includes(s.tutorial) ? s.tutorial : DEFAULT_SETTINGS.tutorial
+        tutorial: ["on", "done"].includes(s.tutorial) ? s.tutorial : DEFAULT_SETTINGS.tutorial,
+        events: ["on", "off"].includes(s.events) ? s.events : DEFAULT_SETTINGS.events
       },
       log: (Array.isArray(obj.log) ? obj.log : []).filter((e) => e && typeof e.text === "string").slice(0, data.economy.logLimit)
     };
@@ -11745,7 +12597,7 @@ html { overscroll-behavior-y: none; }
     if (!isUnlocked(def, state2)) {
       return { ok: false, error: `The ${def.name} unlocks at Town Hall level ${def.unlockTownHall}.` };
     }
-    const eco2 = ecoFor(state2, data);
+    const eco2 = ecoFor(state2, data, id);
     const level = levelOf(state2, id);
     const cap = levelCap(state2, data);
     const room = cap - level;
@@ -11802,9 +12654,9 @@ html { overscroll-behavior-y: none; }
     if (levelOf(state2, id) <= 0) return { ok: false, error: `Build the ${def.name} before assigning workers.` };
     if (delta !== 1 && delta !== -1) return { ok: false, error: "Move workers one at a time." };
     const now = workersAt(state2, id);
-    const max = data.economy.workers.maxPerBuilding;
+    const max = workerCap(state2, id, data);
     if (delta > 0) {
-      if (now >= max) return { ok: false, error: `A building takes at most ${max} workers.` };
+      if (now >= max) return { ok: false, error: `A building takes at most ${max} workers at this level.` };
       if (freeResidents(state2) <= 0) return { ok: false, error: "No free residents. Build Houses and keep the larder stocked." };
     } else if (now <= 0) {
       return { ok: false, error: `No workers at the ${def.name}.` };
@@ -11813,13 +12665,19 @@ html { overscroll-behavior-y: none; }
     if (workers[id] === 0) delete workers[id];
     return { ok: true, state: { ...state2, town: { ...state2.town, workers } } };
   }
+  function tributeGain(state2, data = DATA) {
+    return data.economy.tributeGold * globalMultiplier(state2, data) + data.engage.rally.tributeSeconds * productionParts(state2, data).gross.gold;
+  }
   function collectTribute(state2, data = DATA) {
-    const gain = data.economy.tributeGold * globalMultiplier(state2);
+    const gain = tributeGain(state2, data);
+    const { started, ...rally } = rallyTap(state2, data);
     return {
       ok: true,
       gain,
+      rallied: !!started,
       state: {
         ...state2,
+        rally,
         res: { ...state2.res, gold: state2.res.gold + gain },
         stats: {
           ...state2.stats,
@@ -11837,7 +12695,8 @@ html { overscroll-behavior-y: none; }
     textSize: (v) => ["normal", "large"].includes(v),
     effects: (v) => ["on", "off"].includes(v),
     scene: (v) => ["on", "off"].includes(v),
-    tutorial: (v) => ["on", "done"].includes(v)
+    tutorial: (v) => ["on", "done"].includes(v),
+    events: (v) => ["on", "off"].includes(v)
   };
   function setSetting(state2, key, value) {
     const rule = SETTING_RULES[key];
@@ -12326,13 +13185,234 @@ html { overscroll-behavior-y: none; }
     return { el, update };
   }
 
+  // src/ui/engage.js
+  var describePerk2 = (p) => {
+    const t = describePerk(p);
+    return t.charAt(0).toUpperCase() + t.slice(1);
+  };
+  var R = () => DATA.engage.rally;
+  var resName = (id) => DATA.resourceById[id].name.toLowerCase();
+  function createRally() {
+    const label = h("span", { class: "rally-label" });
+    const fill = h("span", { class: "rally-fill" });
+    const bar = h("div", { class: "rally-bar", role: "progressbar", "aria-valuemin": "0", "aria-valuemax": "100", "aria-label": "Rally meter" }, fill);
+    const el = h("div", { class: "rally" }, label, bar);
+    return {
+      el,
+      update(state2) {
+        const r = state2.rally ?? { charge: 0, burst: 0 };
+        const burst = r.burst > 0;
+        const frac = burst ? r.burst / R().burstSeconds : r.charge / R().full;
+        fill.style.width = `${Math.round(Math.min(1, frac) * 100)}%`;
+        setClass(el, "is-burst", burst);
+        setAttr(bar, "aria-valuenow", Math.round(Math.min(1, frac) * 100));
+        setText(label, burst ? `Rally! +${Math.round(R().boost * 100)}% output for ${Math.ceil(r.burst)}s` : r.charge > 0 ? "Rally: keep tapping" : `Rally: tap tribute to fill the meter for +${Math.round(R().boost * 100)}% output`);
+      }
+    };
+  }
+  function createPerks(ctx2, def) {
+    const rows = perkRows(def.id);
+    if (!rows.length) return null;
+    const summary = h("summary", {});
+    const note = h("p", { class: "muted perk-note" });
+    const tiers = rows.map((row) => {
+      const t = { row, opts: {} };
+      t.head = h("p", { class: "perk-at" });
+      t.box = h("div", { class: "perk-opts", role: "group", "aria-label": `Level ${row.at} perk` });
+      for (const k of ["a", "b"]) {
+        const name = h("strong", {});
+        const text = h("span", { class: "perk-text" });
+        const b = h("button", {
+          class: "btn perk-opt",
+          type: "button",
+          "aria-pressed": "false",
+          onClick: () => {
+            const r = ctx2.run((s) => choosePerk(s, def.id, row.at, k));
+            if (r.ok) {
+              ctx2.announce(`${row[k].name} chosen.`);
+              ctx2.saveSoon();
+            } else ctx2.announce(r.error);
+          }
+        }, name, text);
+        t.opts[k] = { b, name, text };
+        t.box.append(b);
+      }
+      t.el = h("div", { class: "perk-tier" }, t.head, t.box);
+      return t;
+    });
+    const el = h("details", { class: "perks" }, summary, note, ...tiers.map((t) => t.el));
+    return {
+      el,
+      update(state2, level) {
+        const first = rows[0].at;
+        el.hidden = level <= 0;
+        if (level <= 0) return;
+        const chosen = rows.filter((r) => perkChoice(state2, def.id, r.at) && level >= r.at).length;
+        const open = rows.filter((r) => level >= r.at).length;
+        setText(summary, level < first ? `Perks open at level ${first}` : `Perks: ${chosen} of ${open} chosen${chosen < open ? " (choices waiting)" : ""}`);
+        setClass(el, "has-choice", level >= first && chosen < open);
+        const fee = respecFee(state2);
+        setText(note, "The first choice at each level is free. Changing one costs gold.");
+        for (const t of tiers) {
+          const locked = level < t.row.at;
+          const had = perkChoice(state2, def.id, t.row.at);
+          setText(t.head, locked ? `Level ${t.row.at} (locked)` : `Level ${t.row.at}`);
+          for (const k of ["a", "b"]) {
+            const o = t.opts[k];
+            const p = t.row[k];
+            const mine = had === k;
+            setText(o.name, p.name);
+            const price = had && !mine ? ` Change for ${fmt(fee, state2.settings.numberFormat)} gold.` : "";
+            setText(o.text, `${describePerk2(p)}.${price}`);
+            setAttr(o.b, "aria-pressed", mine ? "true" : "false");
+            setAttr(o.b, "disabled", locked || mine || had && state2.res.gold < fee);
+            setClass(o.b, "is-chosen", mine);
+          }
+        }
+      }
+    };
+  }
+  function createEdicts(ctx2) {
+    const list = DATA.engage.edicts.list;
+    const note = h("p", { class: "muted" });
+    const current = h("p", { class: "edict-now" });
+    const opts = {};
+    const box = h("div", { class: "edict-list", role: "group", "aria-label": "Edicts" }, list.map((e) => {
+      const name = h("strong", {});
+      const text = h("span", { class: "perk-text" });
+      const b = h("button", {
+        class: "btn perk-opt",
+        type: "button",
+        "aria-pressed": "false",
+        onClick: () => {
+          const r = ctx2.run((s) => setEdict(s, e.id));
+          if (r.ok) {
+            ctx2.announce(`${e.name} proclaimed.`);
+            ctx2.saveSoon();
+          } else ctx2.announce(r.error);
+        }
+      }, name, text);
+      opts[e.id] = { b, name, text };
+      return b;
+    }));
+    const lift = h("button", {
+      class: "btn btn-small",
+      type: "button",
+      onClick: () => {
+        const r = ctx2.run((s) => setEdict(s, null));
+        if (r.ok) ctx2.saveSoon();
+        else ctx2.announce(r.error);
+      }
+    }, "Lift the edict");
+    const el = h("section", { class: "card edicts", "aria-label": "Edicts" }, h("h2", { class: "h-sec" }, "Edict"), current, note, box, lift);
+    const effectText2 = (e) => {
+      const bits = Object.entries(e.res ?? {}).map(([id, m]) => `${m > 1 ? "+" : "\u2212"}${Math.round(Math.abs(m - 1) * 100)}% ${resName(id)}`);
+      if (e.costMult) bits.push(`${e.costMult > 1 ? "+" : "\u2212"}${Math.round(Math.abs(e.costMult - 1) * 100)}% building prices`);
+      if (e.questSpeed) bits.push(`+${Math.round(e.questSpeed * 100)}% quest speed`);
+      return bits.join(", ");
+    };
+    return {
+      el,
+      update(state2) {
+        const open = state2.town.townHall >= DATA.engage.edicts.townHall;
+        el.hidden = !open;
+        if (!open) return;
+        const cur = edictOf(state2);
+        const fee = edictSwapFee(state2);
+        setText(current, cur ? `In force: ${cur.name}.` : "No edict in force.");
+        setText(note, "One edict at a time. The first is free; changing it costs gold. It resets with a Rebuild.");
+        lift.hidden = !cur;
+        for (const e of list) {
+          const o = opts[e.id];
+          const mine = cur?.id === e.id;
+          setText(o.name, e.name);
+          setText(o.text, `${effectText2(e)}. ${e.text}${cur && !mine ? ` Costs ${fmt(fee, state2.settings.numberFormat)} gold.` : ""}`);
+          setAttr(o.b, "aria-pressed", mine ? "true" : "false");
+          setAttr(o.b, "disabled", mine || cur && state2.res.gold < fee);
+          setClass(o.b, "is-chosen", mine);
+        }
+      }
+    };
+  }
+  function createEventCard(ctx2) {
+    const buffs = h("ul", { class: "buffs", "aria-label": "Active boosts" });
+    const title = h("h2", { class: "h-sec" });
+    const text = h("p", {});
+    const timer = h("span", { class: "chip" });
+    const fill = h("span", { class: "xpfill" });
+    const bar = h("div", { class: "xpbar event-bar", "aria-hidden": "true" }, fill);
+    const choices = h("div", { class: "event-choices" });
+    const card = h(
+      "section",
+      { class: "card event-card", role: "region", "aria-label": "A decision for the outpost", hidden: true },
+      h("div", { class: "run-head" }, title, timer),
+      text,
+      bar,
+      choices
+    );
+    const el = h("div", { class: "event-wrap" }, card, buffs);
+    let shown = "";
+    let btns = [];
+    return {
+      el,
+      update(state2) {
+        const def = eventOf(state2);
+        card.hidden = !def;
+        const sig2 = def ? `${def.id}:${state2.events?.seq}` : "";
+        if (def && sig2 !== shown) {
+          shown = sig2;
+          setText(title, def.name);
+          setText(text, def.text);
+          btns = def.choices.map((c, i) => {
+            const label = h("strong", {});
+            const terms = h("span", { class: "perk-text" });
+            const b = h("button", {
+              class: "btn perk-opt",
+              type: "button",
+              onClick: () => {
+                const r = ctx2.run((s) => answerEvent(s, i));
+                if (r.ok) {
+                  ctx2.announce(`${def.name}: ${c.label}.`);
+                  ctx2.saveSoon();
+                } else ctx2.announce(r.error);
+              }
+            }, label, terms);
+            return { b, label, terms, c };
+          });
+          choices.replaceChildren(...btns.map((x) => x.b));
+          ctx2.announce(`${def.name}: a decision is waiting.`);
+        }
+        if (!def) shown = "";
+        if (def) {
+          const frac = state2.event.left / (state2.event.total || DATA.engage.events.window);
+          fill.style.width = `${Math.round(Math.max(0, Math.min(1, frac)) * 100)}%`;
+          setText(timer, `${Math.ceil(state2.event.left)}s`);
+          for (const x of btns) {
+            const t = choiceTerms(state2, x.c);
+            setText(x.label, x.c.label);
+            const bits = [];
+            if (t.cost) bits.push(`Costs ${fmt(t.cost.amount, state2.settings.numberFormat)} ${resName(t.cost.res)}`);
+            if (t.gain) bits.push(`gives ${fmt(t.gain.amount, state2.settings.numberFormat)} ${resName(t.gain.res)}`);
+            if (x.c.buff) bits.push(`${x.c.buff.output ? `+${Math.round(x.c.buff.output * 100)}% output` : `+${Math.round(x.c.buff.questSpeed * 100)}% quest speed`} for ${Math.round(x.c.buff.seconds / 60)} min`);
+            if (x.c.residents) bits.push(`${x.c.residents} residents settle`);
+            setText(x.terms, bits.length ? `${bits.join(", ")}.` : "No cost, nothing changes.");
+            setAttr(x.b, "disabled", t.cost && (state2.res[t.cost.res] ?? 0) < t.cost.amount);
+          }
+        }
+        const list = state2.buffs ?? [];
+        buffs.hidden = list.length === 0;
+        if (buffs.children.length !== list.length) buffs.replaceChildren(...list.map(() => h("li", { class: "chip buff" })));
+        list.forEach((b, i) => setText(buffs.children[i], `${b.name}: ${b.output ? `+${Math.round(b.output * 100)}% output` : `+${Math.round(b.questSpeed * 100)}% quest speed`}, ${fmtDuration(b.left)}`));
+      }
+    };
+  }
+
   // src/ui/town.js
   var BUY_CHOICES = [
     { value: 1, label: "1" },
     { value: 10, label: "10" },
     { value: "max", label: "Max" }
   ];
-  var maxWorkers = DATA.economy.workers.maxPerBuilding;
   var bonusPct = Math.round(DATA.economy.workers.bonusEach * 100);
   function effectText(state2, def, level, mult, mode) {
     const eco2 = DATA.economy;
@@ -12385,6 +13465,8 @@ html { overscroll-behavior-y: none; }
     const th = createTownHall(ctx2);
     const residents = createResidents();
     const defence = createDefence();
+    const rally = createRally();
+    const edicts = createEdicts(ctx2);
     const tributeLabel = h("span", {});
     const tributeBtn = h(
       "button",
@@ -12393,7 +13475,10 @@ html { overscroll-behavior-y: none; }
         type: "button",
         onClick: () => {
           const r = ctx2.run((s) => collectTribute(s));
-          if (r.ok) ctx2.pulse(tributeBtn);
+          if (r.ok) {
+            ctx2.pulse(tributeBtn);
+            if (r.rallied) ctx2.announce("Rally! Production is boosted for a few seconds.");
+          }
         }
       },
       icon("tribute"),
@@ -12447,6 +13532,7 @@ html { overscroll-behavior-y: none; }
         r.pipText = h("span", { class: "pip-text" });
         r.pipsRow = isWorkplace(def) ? h("p", { class: "b-pips" }, h("span", { class: "pips", "aria-hidden": "true" }, r.pips), r.pipText) : null;
         r.workers = isWorkplace(def) ? workerStepper(def) : null;
+        r.perks = isWorkplace(def) ? createPerks(ctx2, def) : null;
         r.costs = Object.keys(def.cost).map((id) => {
           const v = h("span", { class: "cost-v" });
           return { id, v, el: h("span", { class: `cost cost-${id}` }, icon(id), v, h("span", { class: "sr-only" }, DATA.resourceById[id].name)) };
@@ -12478,7 +13564,8 @@ html { overscroll-behavior-y: none; }
             h("p", { class: "b-blurb" }, def.blurb),
             r.prod,
             r.pipsRow,
-            r.workers?.el
+            r.workers?.el,
+            r.perks?.el
           ),
           h("div", { class: "b-buy" }, h("div", { class: "costs" }, r.costs.map((c) => c.el)), r.eta, r.btn)
         );
@@ -12495,6 +13582,7 @@ html { overscroll-behavior-y: none; }
       "aside",
       { class: "aside" },
       residents.el,
+      edicts.el,
       h("section", { class: "card" }, h("h2", { class: "h-sec" }, "Next doublings"), goals),
       h("section", { class: "card" }, h("h2", { class: "h-sec" }, "Recent events"), events)
     );
@@ -12504,7 +13592,7 @@ html { overscroll-behavior-y: none; }
       { class: "town-main" },
       th.el,
       defence.el,
-      h("div", { class: "toolbar" }, tributeBtn, h("div", { class: "buy-amount" }, h("span", { class: "toolbar-label", id: "buy-label" }, "Buy"), seg)),
+      h("div", { class: "toolbar" }, h("div", { class: "tribute-box" }, tributeBtn, rally.el), h("div", { class: "buy-amount" }, h("span", { class: "toolbar-label", id: "buy-label" }, "Buy"), seg)),
       ledger,
       further
     );
@@ -12517,7 +13605,9 @@ html { overscroll-behavior-y: none; }
       const eco2 = ecoFor(state2);
       const cap = levelCap(state2);
       const choice = state2.settings.buyAmount;
-      setText(tributeLabel, `Gather tribute +${fmt(eco2.tributeGold * mult, mode)} gold`);
+      setText(tributeLabel, `Gather tribute +${fmt(tributeGain(state2), mode)} gold`);
+      rally.update(state2);
+      edicts.update(state2);
       for (const c of BUY_CHOICES) {
         const on = choice === c.value;
         setAttr(buyButtons[c.value], "aria-checked", on ? "true" : "false");
@@ -12535,8 +13625,9 @@ html { overscroll-behavior-y: none; }
         const level = levelOf(state2, def.id);
         const room = Math.max(0, cap - level);
         const atLimit = room === 0;
-        const n = atLimit ? 1 : choice === "max" ? Math.max(1, maxAffordable(state2.res, def, level, eco2, room)) : Math.min(choice, room);
-        const cost = costOf(def, level, n, eco2);
+        const beco = ecoFor(state2, DATA, def.id);
+        const n = atLimit ? 1 : choice === "max" ? Math.max(1, maxAffordable(state2.res, def, level, beco, room)) : Math.min(choice, room);
+        const cost = costOf(def, level, n, beco);
         const ok = !atLimit && canAfford(state2.res, cost);
         setText(r.level, level > 0 ? `Level ${level} of ${cap}` : "Not built");
         setClass(r.level, "is-zero", level === 0);
@@ -12547,14 +13638,18 @@ html { overscroll-behavior-y: none; }
           setText(r.pipText, ms ? `Doubles at level ${ms.at}, ${ms.remaining} to go` : "Every doubling reached");
           if (ms && ms.at <= cap + eco2.levelsPerTownHall) goalList.push({ name: def.name, ...ms });
         }
+        r.perks?.update(state2, level);
         if (r.workers) {
           const w = workersAt(state2, def.id);
           const built = level > 0;
           r.workers.el.hidden = !built;
-          setText(r.workers.count, `${w} of ${maxWorkers}`);
-          setText(r.workers.bonus, w > 0 ? `+${w * bonusPct}% output` : `+${bonusPct}% each`);
+          const cap2 = workerCap(state2, def.id);
+          const wk = DATA.economy.workers;
+          const nextSlot = cap2 - wk.maxPerBuilding < wk.maxExtraSlots ? (cap2 - wk.maxPerBuilding + 1) * wk.levelsPerExtraSlot : null;
+          setText(r.workers.count, `${w} of ${cap2}`);
+          setText(r.workers.bonus, w > 0 ? `+${Math.round((workerMultiplier(state2, def.id) - 1) * 100)}% output` : `+${bonusPct}% each${nextSlot ? `, more slots at level ${nextSlot}` : ""}`);
           setAttr(r.workers.minus, "disabled", w <= 0);
-          setAttr(r.workers.plus, "disabled", w >= maxWorkers || freeResidents(state2) <= 0);
+          setAttr(r.workers.plus, "disabled", w >= cap2 || freeResidents(state2) <= 0);
         }
         r.costs.forEach((c) => {
           setText(c.v, fmt(cost[c.id], mode));
@@ -12690,6 +13785,7 @@ html { overscroll-behavior-y: none; }
     const textSelect = pick("set-text", "textSize", [["normal", "Normal"], ["large", "Larger"]]);
     const effectsSelect = pick("set-effects", "effects", [["on", "Show event notices and highlights"], ["off", "Keep it quiet"]]);
     const sceneSelect = pick("set-scene", "scene", [["on", "Show the town picture"], ["off", "Hide it"]]);
+    const eventsSelect = pick("set-events", "events", [["on", "Show them"], ["off", "Switch them off"]]);
     const tutorialBtn = h("button", { class: "btn", type: "button", id: "tutorial-again", onClick: () => ctx2.run((s) => setSetting(s, "tutorial", "on")) }, "Show the tutorial again");
     const saveStatus = h("p", { class: "note", id: "save-status", role: "status" });
     const exportBox = h("textarea", { id: "export-text", class: "save-text", readOnly: true, rows: 4, spellcheck: false, "aria-label": "Export string", placeholder: 'Press "Create export string" to fill this box.' });
@@ -12744,6 +13840,7 @@ html { overscroll-behavior-y: none; }
         h("div", { class: "field" }, h("label", { for: "set-motion" }, "Motion"), motionSelect),
         h("div", { class: "field" }, h("label", { for: "set-effects" }, "Feedback"), effectsSelect),
         h("div", { class: "field" }, h("label", { for: "set-scene" }, "Town picture"), sceneSelect),
+        h("div", { class: "field" }, h("label", { for: "set-events" }, "Timed decisions (caravans, omens)"), eventsSelect),
         h("div", { class: "row" }, tutorialBtn)
       ),
       h(
@@ -12793,7 +13890,7 @@ html { overscroll-behavior-y: none; }
         { class: "card" },
         h("h2", { class: "h-sec" }, "About"),
         h("p", { class: "muted" }, "Outpost of Azeroth is an unofficial, non-commercial fan project. Warcraft and its names belong to Blizzard Entertainment. This game uses none of Blizzard's art, audio or text; every picture is original."),
-        h("p", { class: "muted", id: "build-info" }, "Checkpoint 10: polish. Phone layout, theme and text size, a tutorial, the town picture and event notices.")
+        h("p", { class: "muted", id: "build-info" }, "Checkpoint 11: hands-on play. Rally meter, building perks, edicts, timed decisions and hero commands.")
       )
     );
     function update(state2) {
@@ -12801,7 +13898,7 @@ html { overscroll-behavior-y: none; }
       journal.update(state2);
       if (fmtSelect.value !== state2.settings.numberFormat) fmtSelect.value = state2.settings.numberFormat;
       if (motionSelect.value !== state2.settings.reducedMotion) motionSelect.value = state2.settings.reducedMotion;
-      for (const [sel, key] of [[themeSelect, "theme"], [textSelect, "textSize"], [effectsSelect, "effects"], [sceneSelect, "scene"]]) if (sel.value !== state2.settings[key]) sel.value = state2.settings[key];
+      for (const [sel, key] of [[themeSelect, "theme"], [textSelect, "textSize"], [effectsSelect, "effects"], [sceneSelect, "scene"], [eventsSelect, "events"]]) if (sel.value !== state2.settings[key]) sel.value = state2.settings[key];
       setAttr(tutorialBtn, "disabled", state2.settings.tutorial === "on");
       const t = ctx2.lastSave();
       if (!ctx2.storageOk()) setText(saveStatus, "This browser is not keeping a save. Use an export string to keep your progress.");
@@ -13618,6 +14715,15 @@ html { overscroll-behavior-y: none; }
       r.fill = r.bar.firstChild;
       r.odds = h("p", { class: "muted" });
       r.recall = h("button", { class: "btn btn-small btn-danger", type: "button", onClick: () => act((s) => recallQuest(s, run.id), () => "Party called back.") }, "Call back");
+      r.cmds = run.party.map((hid) => {
+        const b = h("button", {
+          class: "btn btn-small cmd",
+          type: "button",
+          onClick: () => act((s) => issueCommand(s, run.id, hid), (res) => `${res.command.name}.`)
+        });
+        return { id: hid, b };
+      });
+      r.cmdRow = h("div", { class: "row cmd-row", role: "group", "aria-label": "Hero commands" }, r.cmds.map((c) => c.b));
       r.heroBars = bars(run.party.length);
       r.heroList = h("ul", { class: "hpbars", "aria-label": "Party health" }, r.heroBars.map((b) => b.el));
       r.enemyList = h("ul", { class: "hpbars enemies", "aria-label": "Enemy health" });
@@ -13636,6 +14742,7 @@ html { overscroll-behavior-y: none; }
         h("p", { class: "b-blurb" }, `${run.party.length > 1 ? "Party" : "Hero"}: `, h("span", { class: "run-party" })),
         r.bar,
         r.odds,
+        r.cmdRow,
         r.watch,
         h("div", { class: "row" }, r.recall)
       );
@@ -13706,6 +14813,17 @@ html { overscroll-behavior-y: none; }
         setAttr(r.bar, "aria-valuenow", Math.round(frac * 100));
         setText(r.partyEl, run.party.map((id) => state2.heroes.find((x) => x.id === id)?.name ?? "?").join(" and "));
         setText(r.odds, `${pct2(run.chance)} chance of success.${run.potion ? ` Drinking ${DATA.potionById[run.potion].name}.` : ""}${run.order ? " On a standing order." : ""}`);
+        for (const c of r.cmds) {
+          const hero = state2.heroes.find((x) => x.id === c.id);
+          const cmd = hero && commandOf(hero);
+          c.b.hidden = !cmd;
+          if (!cmd) continue;
+          const wait = commandWait(state2, c.id);
+          setText(c.b, wait > 0 ? `${hero.name}: ${cmd.name}, resting ${Math.ceil(wait)}s` : `${hero.name}: ${cmd.name} (${cmd.text})`);
+          setAttr(c.b, "title", `${cmd.name} ${cmd.text}.`);
+          setAttr(c.b, "aria-label", `${hero.name}: ${cmd.name}, ${cmd.text}${wait > 0 ? `, resting ${Math.ceil(wait)} seconds` : ""}`);
+          setAttr(c.b, "disabled", wait > 0);
+        }
         updateWatch(state2, run, r, frac);
       }
     }
@@ -13928,7 +15046,7 @@ html { overscroll-behavior-y: none; }
         if (def && isLive(def) && def.unlockTownHall <= townHall) buildings[id] = Math.min(level, cap);
       }
     }
-    return { buildings, workers: {}, townHall, residents: 0, arrival: 0 };
+    return { buildings, workers: {}, townHall, residents: 0, arrival: 0, perks: {}, edict: null };
   }
   function startingResources(state2, data = DATA) {
     const res = {};
@@ -13962,6 +15080,7 @@ html { overscroll-behavior-y: none; }
       quests: { ...newQuests(data), history: q.history, seq: q.seq, orderSeq: q.orderSeq },
       alchemy: newAlchemy(),
       raids: newRaids(data),
+      ...newEngage(data),
       zones,
       heroes: state2.heroes.map((h2) => h2.injury > 0 ? { ...h2, injury: 0 } : h2),
       prestige: { ...state2.prestige, renown: state2.prestige.renown + pre.gain, renownTotal: total },
@@ -14173,6 +15292,7 @@ html { overscroll-behavior-y: none; }
       quests: { ...newQuests(data), history: q.history, seq: q.seq, orderSeq: q.orderSeq },
       alchemy: newAlchemy(),
       raids: newRaids(data),
+      ...newEngage(data),
       zones,
       heroes: [],
       items: [],
@@ -14417,14 +15537,14 @@ html { overscroll-behavior-y: none; }
       hallCard.hidden = !(state2.hall ?? []).length;
       epochCard.hidden = !showEpoch;
       sandsShop.el.hidden = !showSands;
-      const eligible2 = state2.heroes.filter((x) => x.level >= DATA.legacy.gain.minLevel);
+      const eligible3 = state2.heroes.filter((x) => x.level >= DATA.legacy.gain.minLevel);
       setText(retireIntro, `Heroes of level ${DATA.legacy.gain.minLevel} or more can retire into the Hall of Heroes. Their level and best gear tier turn into Legacy, which buys permanent talents and auras. Their gear returns to the bag, and an heir may take their place at the Tavern. Retirement is permanent.`);
-      const want = new Set(eligible2.map((x) => x.id));
+      const want = new Set(eligible3.map((x) => x.id));
       for (const [id, r] of retireRows) if (!want.has(id)) {
         r.el.remove();
         retireRows.delete(id);
       }
-      for (const hero of eligible2) {
+      for (const hero of eligible3) {
         let r = retireRows.get(hero.id);
         if (!r) {
           r = makeRetireRow(hero);
@@ -14444,7 +15564,7 @@ html { overscroll-behavior-y: none; }
         r.sure.hidden = !asking;
         setText(r.sureText, `Retire ${hero.name} for ${fmt5(p2.gain, mode)} Legacy? They leave the roster for good.`);
       }
-      retireEmpty.hidden = eligible2.length > 0;
+      retireEmpty.hidden = eligible3.length > 0;
       setText(retireEmpty, state2.heroes.length ? `Nobody has reached level ${DATA.legacy.gain.minLevel} yet.` : "You have no heroes.");
       if (confirmHero && !want.has(confirmHero)) confirmHero = null;
       setText(legacyBalance, `${fmt5(state2.prestige.legacy ?? 0, mode)} Legacy to spend`);
@@ -14868,6 +15988,7 @@ html { overscroll-behavior-y: none; }
     const tutorial = createTutorial(ctx2, { onGo: go });
     const scene = createScene();
     const toasts = createToasts();
+    const eventCard = createEventCard(ctx2);
     const panels = { town: town.el, heroes: heroes.el, quests: quests.el, zones: zones.el, rebuild: rebuild2.el, settings: settings.el };
     let active = "town";
     const kicker = h("p", { class: "kicker" }, "Elwynn Forest \xB7 Alliance frontier");
@@ -14901,6 +16022,7 @@ html { overscroll-behavior-y: none; }
       ),
       h("a", { class: "skip", href: "#panel-area" }, "Skip to the main content"),
       notice,
+      eventCard.el,
       tutorial.el,
       strip.el,
       tabs,
@@ -14926,6 +16048,7 @@ html { overscroll-behavior-y: none; }
       }
       for (const [id, el] of Object.entries(panels)) el.hidden = id !== active;
       tutorial.update(state2);
+      eventCard.update(state2);
       toasts.update(state2);
       scene.el.hidden = !(active === "town" && state2.settings.scene === "on");
       if (!scene.el.hidden) scene.update(state2);
@@ -14978,7 +16101,7 @@ html { overscroll-behavior-y: none; }
       { class: "card welcome", role: "region", "aria-label": "While you were away" },
       h("h2", { class: "h-sec" }, "While you were away"),
       h("p", {}, `The outpost ran for ${fmtDuration(report.elapsed)} and earned ${fmtDuration(report.credited)} of production.`),
-      reduced ? h("p", { class: "muted" }, report.beyondLimit ? "Time away counts in full for the first 2 hours, then at half to 12 hours, then at a tenth up to 7 days. Anything past 7 days is not counted." : "Time away counts in full for the first 2 hours, then at half to 12 hours, then at a tenth up to 7 days.") : null,
+      reduced ? h("p", { class: "muted" }, report.beyondLimit ? "Time away counts in full for the first 15 minutes, then at 40% to 2 hours, 15% to 12 hours and 5% up to 3 days. Anything past 3 days is not counted. Playing is worth more than waiting." : "Time away counts in full for the first 15 minutes, then at 40% to 2 hours, 15% to 12 hours and 5% up to 3 days. Playing is worth more than waiting.") : null,
       gains.length ? h("ul", { class: "gains" }, gains) : null,
       levels.length ? h("p", { class: "muted" }, "Heroes who trained while you were away:") : null,
       levels.length ? h("ul", { class: "gains" }, levels) : null,

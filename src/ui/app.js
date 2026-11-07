@@ -11,6 +11,7 @@ import { retireOpen } from '../engine/legacy.js';
 import { createTutorial } from './tutorial.js';
 import { createScene } from './scene.js';
 import { createToasts } from './toasts.js';
+import { createEventCard } from './engage.js';
 
 // Tabs appear as their systems unlock. Town, Heroes, Quests, Zones, Rebuild and Settings exist so far;
 // later checkpoints turn the others on by changing their `unlocked` rule.
@@ -35,6 +36,7 @@ export function createApp(root, ctx) {
   const tutorial = createTutorial(ctx, { onGo: go });
   const scene = createScene();
   const toasts = createToasts();
+  const eventCard = createEventCard(ctx);
   const panels = { town: town.el, heroes: heroes.el, quests: quests.el, zones: zones.el, rebuild: rebuild.el, settings: settings.el };
   let active = 'town';
 
@@ -62,6 +64,7 @@ export function createApp(root, ctx) {
       saveChip),
     h('a', { class: 'skip', href: '#panel-area' }, 'Skip to the main content'),
     notice,
+    eventCard.el,
     tutorial.el,
     strip.el,
     tabs,
@@ -90,6 +93,7 @@ export function createApp(root, ctx) {
     for (const [id, el] of Object.entries(panels)) el.hidden = id !== active;
 
     tutorial.update(state);
+    eventCard.update(state);
     toasts.update(state);
     scene.el.hidden = !(active === 'town' && state.settings.scene === 'on');
     if (!scene.el.hidden) scene.update(state);
